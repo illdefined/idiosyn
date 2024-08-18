@@ -1,0 +1,120 @@
+comment_char %
+escape_char /
+
+LC_IDENTIFICATION
+title      "Custom locale"
+source     ""
+address    ""
+contact    "Mikael Voss"
+email      ""
+language   "en"
+territory  "EU"
+revision   "0"
+date       "2022-10-12"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "i18n_ctype"
+
+translit_start
+include "translit_neutral";""
+translit_end
+
+translit_start
+include "translit_combining";""
+translit_end
+END LC_CTYPE
+
+LC_COLLATE
+copy "iso14651_t1"
+END LC_COLLATE
+
+LC_NUMERIC
+decimal_point   "."
+thousands_sep   "<U202F>"
+grouping        3;3
+END LC_NUMERIC
+
+LC_MONETARY
+int_curr_symbol     "EUR "
+currency_symbol     "<U20AC>"
+mon_decimal_point   "."
+mon_thousands_sep   "<U202F>"
+mon_grouping        3;3
+positive_sign       ""
+negative_sign       "-"
+int_frac_digits     2
+frac_digits         2
+p_cs_precedes       0
+p_sep_by_space      1
+n_cs_precedes       0
+n_sep_by_space      1
+p_sign_posn         1
+n_sign_posn         1
+END LC_MONETARY
+
+LC_TIME
+abday           "Sun";"Mon";"Tue";"Wed";"Thu";"Fri";"Sat"
+day             "Sunday";"Monday";"Tuesday";"Wednesday";"Thursday";"Friday";"Saturday"
+abmon           "Jan";"Feb";"Mar";"Apr";"May";"Jun";"Jul";"Aug";"Sep";"Oct";"Nov";"Dec"
+mon             "January";"February";"March";"April";"May";"June";/
+                "July";"August";"September";"October";"November";"December"
+week            7;19971201;4
+d_t_fmt         "%F %T %Z"
+date_fmt        "%F %T %Z"
+d_fmt           "%F"
+t_fmt           "%T"
+t_fmt_ampm      ""
+am_pm           "";""
+END LC_TIME
+
+LC_MESSAGES
+yesexpr   "^[+1Tty]"
+noexpr    "^[-0Ffn]"
+END LC_MESSAGES
+
+LC_PAPER
+% ISO A4
+height   297
+width    210
+END LC_PAPER
+
+LC_NAME
+name_fmt   "%p%t%g%m%t%f"
+% profession + primary + additionals + family
+END LC_NAME
+
+LC_ADDRESS
+postal_fmt   "%n%N%a%N%d%N%f%N%b%t%e%t%r%N%s%t%h%N%z%t%T%S%N%c%N"
+% person’s name
+% c/o person
+% department
+% firm
+% building + floor + room
+% street + number
+% postal code + town
+% state or provice
+% country
+END LC_ADDRESS
+
+LC_TELEPHONE
+tel_int_fmt   "+%c %a%t%l"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+% metric
+measurement 1
+END LC_MEASUREMENT

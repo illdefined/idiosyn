@@ -1,0 +1,7 @@
+# Hidden files
+.*
+!.git*
+
+# Nix
+/result
+/result-*
