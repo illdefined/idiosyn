@@ -52,6 +52,13 @@ in genAttrs [
     libXtSupport = false;
   };
 
+  imv = (prev.imv.overrideAttrs(prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      ++ [ final.libGL ];
+  })).override {
+    withWindowSystem = "wayland";
+  };
+
   libepoxy = (prev.libepoxy.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];

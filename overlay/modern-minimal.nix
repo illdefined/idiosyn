@@ -20,10 +20,6 @@
 
   firefox = final.wrapFirefox final.firefox-unwrapped { };
 
-  imv = prev.imv.override {
-    withWindowSystem = "wayland";
-  };
-
   mesa = prev.mesa.override {
     galliumDrivers = [
       "iris"
