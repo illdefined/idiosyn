@@ -103,7 +103,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     # Audio control
     pwvucontrol
 
-    evince
     inkscape
     obsidian
 
@@ -261,6 +260,18 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     scriptOpts = {
       autocrop.auto = false;
+    };
+  };
+
+  programs.sioyek = {
+    enable = true;
+    bindings = {
+      "command" = "-";
+
+      "move_up" = [ "<up>" "t" ];
+      "move_down" = [ "<down>" "n" ];
+      "move_left" = [ "<right>" "h" ];
+      "move_right" = [ "<left>" "r" ];
     };
   };
 
@@ -650,7 +661,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     enable = true;
     defaultApplications = {
       "default-web-browser" = [ "firefox.desktop" ];
-      "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      "application/pdf" = [ "sioyek.desktop" ];
     };
   };
 
