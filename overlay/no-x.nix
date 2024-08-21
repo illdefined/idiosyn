@@ -102,6 +102,10 @@ in genAttrs [
     buildInputs = remove prev.gtkmm2.dev prevAttrs.buildInputs;
   });
 
+  vim-full = prev.vim-full.override {
+    guiSupport = false;
+  };
+
   wayland = prev.wayland.override {
     # broken
     withDocumentation = false;
