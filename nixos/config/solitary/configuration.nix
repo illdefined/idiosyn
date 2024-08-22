@@ -40,7 +40,15 @@ in {
     inherit (self.packages.x86_64-linux) linux-hardened;
   in pkgs.linuxPackagesFor (linux-hardened.override {
     instSetArch = "x86-64-v3";
-    extraConfig = linux-hardened.profile.paravirt;
+    extraConfig = linux-hardened.profile.paravirt // (with self.lib.kernel; {
+      NR_CPUS = 8;
+
+      EXT4_FS = true;
+      EXT4_USE_FOR_EXT2 = true;
+      EXT4_FS_POSIX_ACL = true;
+      BTRFS_FS = true;
+      BTRFS_FS_POSIX_ACL = true;
+    });
   });
 
   environment.etc."machine-id".text = "1c97ae368741530de77aad42b5a6ae42";
