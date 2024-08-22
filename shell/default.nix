@@ -1,8 +1,6 @@
 { colmena, ... }: { mkShell, system }:
 
-let
-  inherit (colmena.packages.${system}) colmena;
-in mkShell {
-  packages = [ colmena ];
-  meta = { inherit (colmena.meta) platforms; };
+mkShell {
+  packages = [ colmena.packages.${system}.colmena ];
+  meta.platforms = colmena.packages.${system}.colmena.meta.platforms;
 }
