@@ -11,5 +11,6 @@ in glibcLocales.overrideAttrs (prevAttrs: {
 
   meta = prevAttrs.meta // {
     maintainers = with lib.maintainers; [ mvs ];
+    platforms = prevAttrs.meta.platforms or lib.platforms.linux;
   };
 })
