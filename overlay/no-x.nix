@@ -46,7 +46,14 @@ in genAttrs [
   gst_all_1 = prev.gst_all_1 // genAttrs [
     "gst-plugins-base"
     "gst-plugins-good"
-  ] (pkg: prev.gst_all_1.${pkg}.override { enableX11 = false; });
+  ] (pkg: prev.gst_all_1.${pkg}.override { enableX11 = false; }) // {
+    gst-vaapi = prev.gst_all_1.gst-vaapi.overrideAttrs (prevAttrs: {
+      mesonFlags = prevAttrs.mesonFlags or [ ] ++ [
+        (mesonEnable "x11" false)
+        (mesonEnable "glx" false)
+      ];
+    });
+  };
 
   imagemagick = prev.imagemagick.override {
     libX11Support = false;
