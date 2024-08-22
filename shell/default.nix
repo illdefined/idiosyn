@@ -1,6 +1,6 @@
-{ colmena, ... }: { mkShell, system }:
+{ colmena, ... }: { mkShell, system, lib }:
 
 mkShell {
   packages = [ colmena.packages.${system}.colmena ];
-  meta.platforms = colmena.packages.${system}.colmena.meta.platforms;
+  meta.platforms = lib.attrNames colmena.packages;
 }
