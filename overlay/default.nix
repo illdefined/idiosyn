@@ -6,8 +6,8 @@ nixpkgs.lib.composeManyExtensions [
   lix-module.overlays.default
   colmena.overlays.default
   rust-overlay.overlays.default
-#  self.overlays.no-x
-#  self.overlays.no-alsa
-#  self.overlays.no-jemalloc
-#  self.overlays.modern-minimal
+  self.overlays.no-x
+  self.overlays.no-alsa
+  self.overlays.no-jemalloc
+  self.overlays.modern-minimal
 ] final prev
