@@ -41,7 +41,11 @@ in genAttrs [
   };
 
   gd = prev.gd.override { withXorg = false; };
-  gjs = prev.gjs.override { installTests = false; };
+
+  gjs = prev.gjs.overrideAttrs (prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ]
+      ++ [ (mesonBool "skip_gtk_tests" true) ];
+  });
 
   gst_all_1 = prev.gst_all_1 // genAttrs [
     "gst-plugins-base"
