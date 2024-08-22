@@ -76,7 +76,6 @@
   };
 
   firmware = {
-    EFI_DXE_MEM_ATTRIBUTES = true;
     EFI_BOOTLOADER_CONTROL = true;
     RESET_ATTACK_MITIGATION = true;
     EFI_DISABLE_PCI_DMA = true;
