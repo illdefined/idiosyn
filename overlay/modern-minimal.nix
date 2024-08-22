@@ -20,6 +20,13 @@
 
   firefox = final.wrapFirefox final.firefox-unwrapped { };
 
+  gst_all_1 = prev.gst_all_1 // {
+    gst-plugins-bad = prev.gst_all_1.gst-plugins-bad.overrideAttrs (prevAttrs: {
+      mesonFlags = prevAttrs.mesonFlags or [ ]
+        ++ [ "-Dcurl-ssh2=disabled" ];
+    });
+  };
+
   mesa = prev.mesa.override {
     galliumDrivers = [
       "iris"
