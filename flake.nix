@@ -94,7 +94,8 @@
 
     packages = eachFlakeSystem (system: let pkgs = self.legacyPackages.${system};
       in load ./package "package"
-      |> lib.mapAttrs (name: pkg: self.legacyPackages.${system}.callPackage pkg { }));
+      |> lib.mapAttrs (name: pkg: self.legacyPackages.${system}.callPackage pkg { })
+      |> lib.filterAttrs (name: pkg: lib.meta.availableOn { inherit system; } pkg));
 
     nixosModules = load ./nixos/module "module";
 
@@ -120,7 +121,8 @@
     homeConfigurations = load ./home/config "home";
 
     devShells = eachFlakeSystem (system: load ./shell "shell"
-      |> lib.mapAttrs (name: shell: self.legacyPackages.${system}.callPackage shell { }));
+      |> lib.mapAttrs (name: shell: self.legacyPackages.${system}.callPackage shell { })
+      |> lib.filterAttrs (name: shell: lib.meta.availableOn { inherit system; } shell));
 
     checks = eachFlakeSystem (system: {
       packages = self.packages.${system};
