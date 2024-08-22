@@ -228,6 +228,9 @@
     COMPAT_VDSO = false;
     COMPAT_32BIT_TIME = false;
 
+    # Required for BPF LSM instrumentation
+    PERF_EVENTS = true;
+
     DNOTIFY = false;
 
     bpf = {
