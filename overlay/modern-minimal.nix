@@ -60,6 +60,4 @@
     withHomed = false;
     withIptables = false;
   };
-
-  foo = null;
 }
