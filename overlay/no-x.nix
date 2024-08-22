@@ -85,6 +85,14 @@ in genAttrs [
       ++ [ (mesonBool "tests" false) ];
   });
 
+  libshumate = prev.libshumate.overrideAttrs (prevAttrs: {
+    postPatch = prevAttrs.postPatch or "" + ''
+      sed -E -i \
+        "/^[[:space:]]*'(map|marker(-layer)?)':/d" \
+        tests/meson.build
+    '';
+  });
+
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ] ++ [
       (mesonEnable "xlib-lease" false)
