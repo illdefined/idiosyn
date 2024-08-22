@@ -41,6 +41,7 @@ in genAttrs [
   };
 
   gd = prev.gd.override { withXorg = false; };
+  gjs = prev.gjs.override { installTests = false; };
 
   gst_all_1 = prev.gst_all_1 // genAttrs [
     "gst-plugins-base"
