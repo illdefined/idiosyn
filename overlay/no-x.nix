@@ -100,6 +100,7 @@ in genAttrs [
 
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
     buildInputs = remove prev.gtkmm2.dev prevAttrs.buildInputs;
+    configureFlags = remove "--with-gtkmm" prevAttrs.configureFlags;
   });
 
   vim-full = prev.vim-full.override {
