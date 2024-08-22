@@ -1,4 +1,8 @@
-{ nixpkgs, ... }: final: prev: {
+{ nixpkgs, ... }: final: prev:
+
+let
+  inherit (nixpkgs.lib.lists) remove;
+in {
   curl = prev.curl.override {
     gssSupport = false;
     scpSupport = false;
@@ -27,7 +31,9 @@
     });
   };
 
-  mesa = prev.mesa.override {
+  mesa = (prev.mesa.overrideAttrs (prevAttrs: {
+    outputs = remove "spirv2dxil" prevAttrs.outputs;
+  })).override {
     galliumDrivers = [
       "iris"
       "kmsro"
