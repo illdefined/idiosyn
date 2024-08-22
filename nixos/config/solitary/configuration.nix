@@ -10,20 +10,19 @@ with lib; let
   };
 
   security-txt = pkgs.writeText "security.txt" ''
-    -----BEGIN PGP SIGNED MESSAGE-----
-    Hash: SHA512
-
+    -----BEGIN SSH SIGNED MESSAGE-----
     Canonical: https://solitary.social/.well-known/security.txt
     Contact: mailto:mvs@nya.yt
-    Encryption: openpgp4fpr:950623eb2f52402e0cf56ccbee49e25700058dd6
+    Encryption: data:application/x-age-public-key,age1dexxdduwl37hsfdxde6le0satatrfv4geva0cxt8qqw3n46vgavsanuewp
     Preferred-Languages: en, de
-    -----BEGIN PGP SIGNATURE-----
-
-    iHUEARYKAB0WIQRbjUmg6ccaTk940M7ZkbGDPEZ7AwUCYz2XrwAKCRDZkbGDPEZ7
-    A4w5AQD3Mzb5Bi8CERe3j3NjQhgeEkMVBcfM3RumuWdjs6i+LgD9HHuY3Bp6ljtR
-    LnLJRZt4Q8CYKoPaYkSO0vBaYKmUnwY=
-    =iQpI
-    -----END PGP SIGNATURE-----
+    -----END SSH SIGNED MESSAGE-----
+    -----BEGIN SSH SIGNATURE-----
+    U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgJzM8dH
+    Bj0wDAMaVwHRCAw4mNyksmFVTdyi+tb1EFLrYAAAAEc3NoOgAAAARmaWxlAAAAAAAAAAZz
+    aGE1MTIAAABnAAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAQNoPCgqiDsNs8+
+    PyhjKdWF3P0TkA3gXH9fRSCRJvlMTz5hlhusz6ipEnKb8q/fYIwiuPsIJQseevg1kFZTe3
+    vAoBAAADlA==
+    -----END SSH SIGNATURE-----
   '';
 in {
   imports = with self.nixosModules; [
