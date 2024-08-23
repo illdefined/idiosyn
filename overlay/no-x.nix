@@ -1,6 +1,7 @@
-{ nixpkgs, ... }: final: prev: 
+{ self, nixpkgs, ... }: final: prev:
 
 let
+  inherit (final) system;
   inherit (nixpkgs.lib.attrsets) genAttrs;
   inherit (nixpkgs.lib.lists) remove toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
@@ -33,6 +34,8 @@ in genAttrs [
 ] (pkg: prev.${pkg}.override { enableXWayland = false; })
 
 // {
+  xvfb-run = self.packages.${system}.wayland-headless;
+
   beam = prev.beam_nox;
   graphviz = prev.graphviz-nox;
 
@@ -41,11 +44,6 @@ in genAttrs [
   };
 
   gd = prev.gd.override { withXorg = false; };
-
-  gjs = prev.gjs.overrideAttrs (prevAttrs: {
-    mesonFlags = prevAttrs.mesonFlags or [ ]
-      ++ [ (mesonBool "skip_gtk_tests" true) ];
-  });
 
   gst_all_1 = prev.gst_all_1 // genAttrs [
     "gst-plugins-base"
@@ -83,14 +81,6 @@ in genAttrs [
   libgnomekbd = prev.libgnomekbd.overrideAttrs (prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ]
       ++ [ (mesonBool "tests" false) ];
-  });
-
-  libshumate = prev.libshumate.overrideAttrs (prevAttrs: {
-    postPatch = prevAttrs.postPatch or "" + ''
-      sed -E -i \
-        "/^[[:space:]]*'(map|marker(-layer)?)':/d" \
-        tests/meson.build
-    '';
   });
 
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
