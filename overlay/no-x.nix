@@ -69,6 +69,11 @@ in genAttrs [
     withWindowSystem = "wayland";
   };
 
+  inkscape = prev.inkscape.overrideAttrs (prevAttrs: {
+    cmakeFlags = prevAttrs.cmakeFlags or [ ]
+      ++ [ "-DWITH_X11:BOOL=OFF" ];
+  });
+
   libepoxy = (prev.libepoxy.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];
