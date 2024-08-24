@@ -1,7 +1,8 @@
 { nixpkgs, ... }:
 
 let
-  inherit (builtins) any filter isList isString stringLength;
+  inherit (builtins) filter isList isString stringLength;
+  inherit (nixpkgs.lib.lists) subtractLists;
   inherit (nixpkgs.lib.strings) addContextFrom;
 
   split = strOrList:
@@ -15,7 +16,7 @@ let
     else toString list;
 in {
   remove = rem: strOrList: split strOrList
-    |> filter (flag: !any (elem: flag == elem) rem)
+    |> subtractLists rem
     |> remerge strOrList;
 
   subst = sub: strOrList: split strOrList
