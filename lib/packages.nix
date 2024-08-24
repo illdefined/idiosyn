@@ -1,9 +1,9 @@
 { nixpkgs, ... }:
 
 let
-  inherit (builtins) any filter;
+  inherit (builtins) elem filter;
   inherit (nixpkgs.lib.strings) getName;
 in {
   remove = nameList: pkgList:
-    filter (pkg: !any (elem: getName pkg == elem) nameList) pkgList;
+    filter (pkg: !elem (getName pkg) nameList) pkgList;
 }
