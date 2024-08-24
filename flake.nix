@@ -74,28 +74,25 @@
             in import "${base}/${path}" inputs;
         });
 
-    eachFlakeSystem = lib.genAttrs lib.systems.flakeExposed;
-    eachNixosSystem = lib.systems.flakeExposed
-      |> lib.systems.parse
-      |> builtins.filter (sys: sys.isLinux)
-      |> builtins.attrNames
-      |> lib.genAttrs;
+    eachSystem = fun: lib.mapAttrs fun self.lib.platforms;
   in {
     lib = load ./lib "lib" // {
       inherit load;
     };
 
     overlays = load ./overlay "overlay";
-    legacyPackages = eachFlakeSystem (system:
+    legacyPackages = eachSystem (system: platform:
       import nixpkgs {
-        inherit system;
+        localSystem = builtins.currentSystem or platform;
+        crossSystem = platform;
         overlays = [ self.overlays.default ];
       });
 
-    packages = eachFlakeSystem (system: let pkgs = self.legacyPackages.${system};
+    packages = eachSystem (system: platform:
+      let pkgs = self.legacyPackages.${system};
       in load ./package "package"
-      |> lib.mapAttrs (name: pkg: self.legacyPackages.${system}.callPackage pkg { })
-      |> lib.filterAttrs (name: pkg: lib.meta.availableOn { inherit system; } pkg));
+        |> lib.mapAttrs (name: pkg: self.legacyPackages.${system}.callPackage pkg { })
+        |> lib.filterAttrs (name: pkg: lib.meta.availableOn platform pkg));
 
     nixosModules = load ./nixos/module "module";
 
@@ -120,9 +117,9 @@
     homeModules = load ./home/module "module";
     homeConfigurations = load ./home/config "home";
 
-    devShells = eachFlakeSystem (system: load ./shell "shell"
+    devShells = eachSystem (system: platform: load ./shell "shell"
       |> lib.mapAttrs (name: shell: self.legacyPackages.${system}.callPackage shell { })
-      |> lib.filterAttrs (name: shell: lib.meta.availableOn { inherit system; } shell));
+      |> lib.filterAttrs (name: shell: lib.meta.availableOn platform shell));
 
     hydraJobs = {
       package = self.packages;
