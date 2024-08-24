@@ -94,6 +94,11 @@ in genAttrs [
 
   libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
     inherit (final') qt5;
+
+    kguiaddons = prev.kguiaddons.overrideAttrs (prevAttrs: {
+      cmakeFlags = prevAttrs.cmakeFlags or [ ]
+        ++ [ "-DWITH_X11:BOOL=OFF" ];
+    });
   });
 
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
