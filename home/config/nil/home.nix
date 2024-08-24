@@ -159,7 +159,9 @@ in {
     '';
   };
 
-  programs.git = {
+  programs.git = let
+    key = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=";
+  in {
     enable = true;
     #delta.enable = true;
 
@@ -172,7 +174,7 @@ in {
         fsync = "committed";
       };
 
-      user.signingKey = "key::sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo= primary";
+      user.signingKey = "key::${key}";
 
       init.defaultBranch = "main";
       pull.rebase = true;
@@ -181,7 +183,7 @@ in {
 
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = toString (pkgs.writeText "allowed-signers" ''
-        ${config.programs.git.userEmail} AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=
+        ${config.programs.git.userEmail} ${key}
       '');
       commit.gpgSign = true;
       tag.gpgSign = true;
