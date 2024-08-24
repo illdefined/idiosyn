@@ -5,6 +5,7 @@ let
   inherit (nixpkgs.lib.attrsets) genAttrs;
   inherit (nixpkgs.lib.lists) remove toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
+  inherit (self.lib) flags packages;
 in genAttrs [
   "SDL2"
   "cairo"
@@ -78,7 +79,7 @@ in genAttrs [
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];
     mesonFlags = prevAttrs.mesonFlags or [ ]
-      |> map (flag: if flag == "-Degl=no" then "-Degl=yes" else flag);
+      |> flags.subst { "-Degl=no" = "-Degl=yes"; };
   })).override {
     x11Support = false;
   };
@@ -114,8 +115,10 @@ in genAttrs [
   };
 
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
-    buildInputs = remove prev.gtkmm2.dev prevAttrs.buildInputs;
-    configureFlags = remove "--with-gtkmm" prevAttrs.configureFlags;
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> packages.remove [ "gtkmm" ];
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> flags.remove [ "--with-gtkmm" ];
   });
 
   vim-full = prev.vim-full.override {
