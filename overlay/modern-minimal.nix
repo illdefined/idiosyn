@@ -2,6 +2,9 @@
 
 let
   inherit (nixpkgs.lib.lists) remove;
+
+  final' = final;
+  prev' = prev;
 in {
   curl = prev.curl.override {
     gssSupport = false;
@@ -30,6 +33,10 @@ in {
         ++ [ "-Dcurl-ssh2=disabled" ];
     });
   };
+
+  libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
+    inherit (final') qt5;
+  });
 
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
     outputs = remove "spirv2dxil" prevAttrs.outputs;
@@ -67,6 +74,12 @@ in {
   mpv = final.mpv-unwrapped.wrapper {
     mpv = final.mpv-unwrapped;
   };
+
+  qt5 = prev.qt5.overrideScope (final: prev: {
+    qtbase = prev.qtbase.override {
+      mysqlSupport = false;
+    };
+  });
 
   systemd = prev.systemd.override {
     withApparmor = false;
