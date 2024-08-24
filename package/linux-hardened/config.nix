@@ -360,7 +360,6 @@
   io = {
     IOMMU_SUPPORT = true;
     IOMMU_DEFAULT_DMA_STRICT = true;
-    IRQ_REMAP = true;
     SWIOTLB_DYNAMIC = true;
   } // lib.optionalAttrs hostPlatform.isx86_64 {
     X86_X2APIC = true;
@@ -370,6 +369,7 @@
     INTEL_IOMMU_SVM = option true;
     INTEL_IOMMU_DEFAULT_ON = option true;
     INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON = option true;
+    IRQ_REMAP = true;
 
     IO_DELAY_NONE = true;
   } // lib.optionalAttrs hostPlatform.isAarch64 {
