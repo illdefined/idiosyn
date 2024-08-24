@@ -126,9 +126,9 @@
       shell = self.devShells;
 
       nixos = self.nixosConfigurations
-        |> lib.concatMapAttrs (host: config: {
-          ${config.pkgs.system} = {
-            ${host} = config.system.build.toplevel;
+        |> lib.concatMapAttrs (name: host: {
+          ${host.pkgs.system} = {
+            ${name} = host.config.system.build.toplevel;
           };
         });
     };
