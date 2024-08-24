@@ -124,19 +124,16 @@
       |> lib.mapAttrs (name: shell: self.legacyPackages.${system}.callPackage shell { })
       |> lib.filterAttrs (name: shell: lib.meta.availableOn { inherit system; } shell));
 
-    checks = eachFlakeSystem (system: {
-      packages = self.packages.${system};
-      devShells = self.devShells.${system};
-    }) // (self.nixosConfigurations
-      |> lib.mapAttrsToList (name: host: {
-          ${host.pkgs.system} = {
-            nixos = {
-              ${name} = host.config.system.build.toplevel;
-            };
-          };
-        })
-      |> lib.mergeAttrsList);
+    hydraJobs = {
+      package = self.packages;
+      shell = self.devShells;
 
-    hydraJobs = { inherit (self) checks; };
+      nixos = self.nixosConfigurations
+        |> lib.concatMapAttrs (host: config: {
+          ${config.pkgs.system} = {
+            ${host} = config.system.build.toplevel;
+          };
+        });
+    };
   };
 }
