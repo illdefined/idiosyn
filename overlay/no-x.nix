@@ -6,6 +6,9 @@ let
   inherit (nixpkgs.lib.lists) remove toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
   inherit (self.lib) flags packages;
+
+  final' = final;
+  prev' = prev;
 in genAttrs [
   "SDL2"
   "cairo"
@@ -87,6 +90,10 @@ in genAttrs [
   libgnomekbd = prev.libgnomekbd.overrideAttrs (prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ]
       ++ [ (mesonBool "tests" false) ];
+    });
+
+  libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
+    inherit (final') qt5;
   });
 
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
@@ -108,6 +115,22 @@ in genAttrs [
   mpv = final.mpv-unwrapped.wrapper {
     mpv = final.mpv-unwrapped;
   };
+
+  qt5 = prev.qt5.overrideScope (final: prev: {
+    qtbase = (prev.qtbase.overrideAttrs (prevAttrs: {
+      env = prevAttrs.env or { } // {
+        NIX_CFLAGS_COMPILE = prevAttrs.env.NIX_CFLAGS_COMPILE or ""
+          |> flags.remove [ "-DUSE_X11" ];
+      };
+
+      configureFlags = prevAttrs.configureFlags or [ ]
+        |> flags.remove [ "-qpa xcb" ]
+        |> flags.subst { "-xcb" = "-no-xcb"; };
+    })).override {
+      withGtk3 = false;
+      withQttranslation = false;
+    };
+  });
 
   w3m = prev.w3m.override {
     x11Support = false;
