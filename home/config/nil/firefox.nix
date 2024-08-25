@@ -243,4 +243,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       };
     };
   };
+
+  xdg.mimeApps.defaultApplications = {
+    default-web-browser = [ "firefox.desktop" ];
+  };
 }

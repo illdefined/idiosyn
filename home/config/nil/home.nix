@@ -4,6 +4,7 @@ let
 in {
   imports = [
     nur.hmModules.nur
+    self.homeModules.greedy
     self.homeModules.locale-en_EU
     nix-index-database.hmModules.nix-index
     stylix.homeManagerModules.stylix
@@ -11,8 +12,16 @@ in {
     niri.homeModules.config
     niri.homeModules.stylix
   ] ++ self.lib.mods [
+    ./gammarelay.nix
+    ./founts.nix
+    ./stylix.nix
+    ./desktop.nix
+    ./bar.nix
+    ./terminal.nix
     ./firefox.nix
-    ./wayland.nix
+    ./thunderbird.nix
+    ./sioyek.nix
+    ./texlive.nix
   ];
 
   home.stateVersion = "24.11";
