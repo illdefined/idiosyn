@@ -2,7 +2,7 @@
 let
   osConfig = args.osConfig or { };
 
-  busctl = osConfig.systemd.package + /bin/busctl;
+  brightnessctl = lib.getExe pkgs.brightnessctl;
   fish = lib.getExe osConfig.programs.fish.package;
   fuzzel = lib.getExe config.programs.fuzzel.package;
   kitty = lib.getExe config.programs.kitty.package;
@@ -11,8 +11,6 @@ let
   swaylock = lib.getExe config.programs.swaylock.package;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
-
-  busctl-gr = [ busctl "--user" "--" "call" "rs.wl-gammarelay" "/" "rs.wl.gammarelay" ];
 
   niri-each-output = let
     pkg = pkgs.writeShellApplication {
@@ -130,8 +128,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       XF86Explorer.action = spawn [ xdg-open "https:" ];
     } // lib.mapAttrs (n: v: v // { allow-when-locked = true; }) {
-      XF86MonBrightnessUp.action = spawn (busctl-gr ++ [ "UpdateBrightness" "d" "0.05" ]);
-      XF86MonBrightnessDown.action = spawn (busctl-gr ++ [ "UpdateBrightness" "d" "-0.05" ]);
+      XF86MonBrightnessUp.action = spawn [ brightnessctl "-e" "set" "+5%" ];
+      XF86MonBrightnessDown.action = spawn [ brightnessctl "-e" "set" "5%-" ];
       XF86AudioRaiseVolume.action = spawn [ wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "+2dB" ];
       XF86AudioLowerVolume.action = spawn [ wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "-2dB" ];
       XF86AudioMute.action = spawn [ wpctl "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle" ];
@@ -173,6 +171,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     ];
 
     timeouts = [
+      {
+        timeout = 210;
+        command = "${brightnessctl} --save -e set 20%-";
+        resumeCommand = "${brightnessctl} --restore";
+      }
       {
         timeout = 240;
         command = "${loginctl} lock-session";

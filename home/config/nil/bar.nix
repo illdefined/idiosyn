@@ -2,32 +2,15 @@
 let
   osConfig = args.osConfig or { };
 
+  brightnessctl = lib.getExe pkgs.brightnessctl;
   busctl = osConfig.systemd.package + /bin/busctl;
   gammarelay = lib.getExe pkgs.wl-gammarelay-rs;
   pwvucontrol = lib.getExe pkgs.pwvucontrol;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
 
   gr = cmd: "${busctl} --user -- ${cmd} rs.wl-gammarelay / rs.wl.gammarelay";
-  gr-get = gr "get-property";
   gr-set = gr "set-property";
   gr-call = gr "call";
-
-  gr-inv = let
-    pkg = pkgs.writeShellApplication {
-      name = "gammarelay-inverted";
-      text = ''
-        state="$(${gr-get} Inverted)";
-
-        if [[ "$state" == "b false" ]]; then
-          echo 󰹊
-        elif [[ "$state" == "b true" ]]; then
-          echo 󰌁
-        else
-          exit 1
-        fi
-      '';
-    };
-  in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.waybar = {
     enable = true;
@@ -61,10 +44,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           "disk"
           "battery"
           "idle_inhibitor"
-          "custom/gammarelay-temperature"
-          "custom/gammarelay-brightness"
-          "custom/gammarelay-gamma"
-          "custom/gammarelay-invert"
+          "backlight"
+          "custom/gammarelay"
           "mpris"
           "pulseaudio#sink"
           "pulseaudio#source"
@@ -123,37 +104,19 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           timeout = 15.0;
         };
 
-        "custom/gammarelay-temperature" = {
+        "backlight" = {
+          format = " {percent} %";
+          on-click-right = "${brightnessctl} set 100%";
+          on-scroll-up = "${brightnessctl} set +1%";
+          on-scroll-down = "${brightnessctl} set 1%-";
+        };
+
+        "custom/gammarelay" = {
           format = " {} K";
           exec = "${gammarelay} watch {t}";
           on-click-right = "${gr-set} Temperature q 6500";
           on-scroll-up = "${gr-call} UpdateTemperature n +100";
           on-scroll-down = "${gr-call} UpdateTemperature n -100";
-        };
-
-        "custom/gammarelay-brightness" = {
-          format = " {} %";
-          exec = "${gammarelay} watch {bp}";
-          on-click-right = "${gr-set} Brightness d 1";
-          on-scroll-up = "${gr-call} UpdateBrightness d +0.01";
-          on-scroll-down = "${gr-call} UpdateBrightness d -0.01";
-        };
-
-        "custom/gammarelay-gamma" = {
-          format = "γ {}";
-          exec = "${gammarelay} watch {g}";
-          on-click-right = "${gr-set} Gamma d 1";
-          on-scroll-up = "${gr-call} UpdateGamma d +0.01";
-          on-scroll-down = "${gr-call} UpdateGamma d -0.01";
-        };
-
-        "custom/gammarelay-invert" = {
-          exec = gr-inv;
-          exec-on-event = true;
-          interval = 60;
-
-          on-click = "${gr-call} ToggleInverted";
-          on-click-right = "${gr-set} Inverted b false";
         };
 
         battery = let
