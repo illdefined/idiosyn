@@ -126,6 +126,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "Mod+Ctrl+Print".action = screenshot-window;
       "Mod+Shift+Print".action = screenshot-screen;
 
+      "Mod+Shift+u".action = quit;
+
       XF86Explorer.action = spawn [ xdg-open "https:" ];
     } // lib.mapAttrs (n: v: v // { allow-when-locked = true; }) {
       XF86MonBrightnessUp.action = spawn [ brightnessctl "-e" "set" "+5%" ];
