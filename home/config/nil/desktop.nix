@@ -24,7 +24,7 @@ let
       text = ''
         niri msg --json outputs \
           | jq --raw-output0 '. | keys | .[]' \
-          | xargs -0 I {} niri msg output -- {} "$1"
+          | xargs -0 I {} -- niri msg output {} "$1"
       '';
     };
   in lib.getExe pkg;
