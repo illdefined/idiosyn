@@ -1,4 +1,4 @@
-{ self, nur, stylix, nix-index-database, ... }: { config, lib, pkgs, ... }@args:
+{ self, nur, stylix, nix-index-database, niri, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in {
@@ -7,6 +7,9 @@ in {
     self.homeModules.locale-en_EU
     nix-index-database.hmModules.nix-index
     stylix.homeManagerModules.stylix
+
+    niri.homeModules.config
+    niri.homeModules.stylix
   ] ++ self.lib.mods [
     ./firefox.nix
     ./wayland.nix

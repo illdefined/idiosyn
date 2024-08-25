@@ -17,6 +17,7 @@ let
   cmd = {
     brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
     fish = "${osConfig.programs.fish.package}/bin/fish";
+    fuzzel = "${config.programs.fuzzel.package}/bin/fuzzel";
     grim = "${pkgs.grim}/bin/grim -l 9";
     jq = "${config.programs.jq.package}/bin/jq";
     keepassxc = "${pkgs.keepassxc}/bin/keepassxc";
@@ -30,8 +31,6 @@ let
     pwvucontrol = "${pkgs.pwvucontrol}/bin/pwvucontrol";
     slurp = "${pkgs.slurp}/bin/slurp";
     swaylock = "${config.programs.swaylock.package}/bin/swaylock";
-    swaymsg = "${config.wayland.windowManager.sway.package}/bin/swaymsg";
-    tofi-drun = "${config.programs.tofi.package}/bin/tofi-drun";
     waybar = "${config.programs.waybar.package}/bin/waybar";
     wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
     wpctl = "${osConfig.services.pipewire.wireplumber.package}/bin/wpctl";
@@ -145,6 +144,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   programs.eza.extraOptions = lib.mkAfter [ "--hyperlink" ];
+
+  programs.fuzzel = {
+    enable = true;
+  };
 
   programs.imv.enable = true;
 
@@ -260,6 +263,82 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     scriptOpts = {
       autocrop.auto = false;
+    };
+  };
+
+  programs.niri = {
+    settings = {
+      prefer-no-csd = true;
+
+      input = {
+        keyboard = {
+          xkb = with config.home.keyboard; {
+            inherit layout;
+            options = lib.concatStringsSep "," options;
+          };
+        };
+
+        focus-follows-mouse.enable = true;
+
+        touchpad = {
+          dwt = true;
+          dwtp = true;
+        };
+      };
+
+      outputs = {
+        eDP-1 = {
+          scale = 1;
+          variable-refresh-rate = true;
+        };
+
+        DP-6 = {
+          mode = { width = 5120; height = 2160; };
+          scale = 1;
+          position = { x = 0; y = 0; };
+          variable-refresh-rate = true;
+        };
+      };
+
+      layout = {
+        border.enable = lib.mkForce false;
+        focus-ring = {
+          enable = true;
+          width = 1;
+        };
+
+        default-column-width.proportion = 1. / 3.;
+
+        gaps = 5;
+
+        preset-column-widths = [
+          { proportion = 1. / 3.; }
+          { proportion = 1. / 2.; }
+          { proportion = 2. / 3.; }
+        ];
+      };
+
+      binds = with config.lib.niri.actions; with cmd; lib.mkOptionDefault {
+        "Mod+Return".action = spawn "kitty";
+        "Mod+Shift+Return".action = spawn "${kitty} fish --private";
+        "Mod+e".action = spawn "${fuzzel}";
+
+        "Mod+Up".action = focus-window-or-workspace-up;
+        "Mod+Down".action = focus-window-or-workspace-down;
+        "Mod+Left".action = focus-column-left;
+        "Mod+Right".action = focus-column-right;
+
+        "Mod+Ctrl+Up".action = move-window-up-or-to-workspace-up;
+        "Mod+Ctrl+Down".action = move-window-up-or-to-workspace-up;
+        "Mod+Ctrl+Left".action = move-column-left;
+        "Mod+Ctrl+Right".action = move-column-right;
+
+        "Mod+WheelScrollUp".action = focus-window-up-or-column-left;
+        "Mod+WheelScrollDown".action = focus-window-down-or-column-right;
+
+        "Mod+g".action = consume-window-into-column;
+        "Mod+b".action = expel-window-from-column;
+      };
     };
   };
 
@@ -383,11 +462,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         position = "bottom";
 
         modules-left = [
-          "sway/workspaces"
           "tray"
         ];
 
-        modules-center = [ "sway/window" ];
+        modules-center = [ ];
 
         modules-right = [
           "network#down"
@@ -408,11 +486,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         ];
 
         ipc = true;
-
-        "sway/window" = {
-          format = "{title}";
-          on-click-right = with cmd; "${swaymsg} -t get_tree | jq -r '.. | select(.focused?) | .pid' | ${xargs} kill --";
-        };
 
         "network#down" = {
           format = "󰅀 {bandwidthDownBytes}";
@@ -653,11 +726,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         timeout = 240;
         command = "${loginctl} lock-session";
       }
-      {
-        timeout = 270;
-        command = "${swaymsg} output '*' dpms off";
-        resumeCommand = "${swaymsg} output '*' dpms on";
-      }
     ];
   };
 
@@ -718,128 +786,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       StopPropagatedFrom = [ "power-external.target" ];
     };
   });
-
-  wayland.windowManager.sway = {
-    enable = true;
-    checkConfig = false;
-    xwayland = false;
-
-    wrapperFeatures = {
-      base = true;
-      gtk = true;
-    };
-
-    systemd.variables = lib.mkAfter [ "PATH" ];
-
-    extraSessionCommands = let
-      env = {
-        WLR_RENDERER = "vulkan";
-        NIXOS_OZONE_WL = 1;
-      };
-    in env
-      |> lib.mapAttrsToList (n: v: "export ${lib.toShellVar n v}\n")
-      |> lib.concatStrings;
-
-    config = with cmd; {
-      input."*" = {
-        xkb_layout = "us,${config.home.keyboard.layout}";
-        xkb_options = lib.concatStringsSep ","
-          config.home.keyboard.options;
-        xkb_switch_layout = "1";
-      };
-
-      output = {
-        "*" = {
-          scale = "1";
-          background = "${./wallpaper.png} fill";
-          adaptive_sync = "on";
-        };
-
-        "Lenovo Group Limited P40w-20 V9084N0R" = {
-          resolution = "5120x2160";
-          position = "0 0";
-          subpixel = "rgb";
-        };
-
-        "LG Display 0x06AA Unknown" = {
-          position = "0 2160";
-          subpixel = "rgb";
-        };
-      };
-
-      bars = [
-        {
-          command = waybar;
-          fonts = lib.mkForce {
-            names = [ "monospace" ];
-            size = 11.0;
-          };
-        }
-      ];
-
-      gaps = {
-        inner = 4;
-        outer = null;
-      };
-
-      floating = {
-        border = 1;
-        titlebar = false;
-      };
-
-      window = {
-        border = 1;
-        titlebar = false;
-      };
-
-      bindkeysToCode = true;
-      modifier = "Mod4";
-      terminal = kitty;
-      menu = "${tofi-drun} | ${xargs} ${swaymsg} exec --";
-
-      keybindings = let
-        mod = config.wayland.windowManager.sway.config.modifier;
-      in lib.mkOptionDefault {
-        # Workspaces
-        "${mod}+Grave" = "workspace number 0";
-        "${mod}+Shift+Grave" = "move container to workspace number 0";
-
-        "${mod}+Shift+Return" = "exec ${kitty} ${fish} --private";
-
-        # Function keys
-        XF86MonBrightnessUp = "exec ${brightnessctl} -e set +5%";
-        XF86MonBrightnessDown = "exec ${brightnessctl} -e set 5%-";
-        XF86AudioRaiseVolume = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ +2dB";
-        XF86AudioLowerVolume = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ -2dB";
-        XF86AudioMute = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        XF86AudioMicMute = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-        XF86AudioNext = "exec ${playerctl} next";
-        XF86AudioPrev = "exec ${playerctl} previous";
-        XF86AudioPlay = "exec ${playerctl} play";
-        XF86AudioStop = "exec ${playerctl} pause";
-        XF86Explorer = "exec ${xdg-open} https:";
-
-        # Screenshots
-        "${mod}+Print" = "exec ${grim} -g - - | ${wl-copy}";
-        "${mod}+Shift+Print" = "exec ${slurp} | ${grim} -g - - | ${wl-copy}";
-        "${mod}+Ctrl+Print" = ''
-          exec ${swaymsg} -t get_tree \
-            | ${jq} -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' \
-            | ${grim} -g - - \
-            | ${wl-copy}
-        '';
-      };
-
-      startup = [
-        { command = "${swaymsg} input '*' xkb_switch_layout 1"; always = true; }
-        { command = "${keepassxc}"; }
-      ];
-    };
-
-    extraConfig = ''
-      force_display_urgency_hint 500
-    '';
-  };
 
   xdg.configFile."fontconfig/conf.d/80-fira-code.conf".text = ''
     <?xml version='1.0'?>
