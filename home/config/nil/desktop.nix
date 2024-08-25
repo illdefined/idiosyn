@@ -112,7 +112,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "Mod+Right".action = focus-column-right;
 
       "Mod+Ctrl+Up".action = move-window-up-or-to-workspace-up;
-      "Mod+Ctrl+Down".action = move-window-up-or-to-workspace-up;
+      "Mod+Ctrl+Down".action = move-window-down-or-to-workspace-down;
       "Mod+Ctrl+Left".action = move-column-left;
       "Mod+Ctrl+Right".action = move-column-right;
 
