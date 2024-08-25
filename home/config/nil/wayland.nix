@@ -655,8 +655,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       }
       {
         timeout = 270;
-        command = "${swaymsg} output '* dpms off'";
-        resumeCommand = "${swaymsg} output '* dpms on'";
+        command = "${swaymsg} output '*' dpms off";
+        resumeCommand = "${swaymsg} output '*' dpms on";
       }
     ];
   };
@@ -779,10 +779,18 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       gaps = {
         inner = 4;
-        outer = 4;
+        outer = null;
       };
 
-      window.titlebar = false;
+      floating = {
+        border = 1;
+        titlebar = false;
+      };
+
+      window = {
+        border = 1;
+        titlebar = false;
+      };
 
       bindkeysToCode = true;
       modifier = "Mod4";
@@ -827,6 +835,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         { command = "${keepassxc}"; }
       ];
     };
+
+    extraConfig = ''
+      force_display_urgency_hint 500
+    '';
   };
 
   xdg.configFile."fontconfig/conf.d/80-fira-code.conf".text = ''
