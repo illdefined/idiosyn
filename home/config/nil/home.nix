@@ -22,6 +22,7 @@ in {
     ./thunderbird.nix
     ./sioyek.nix
     ./texlive.nix
+    ./mpv.nix
   ];
 
   home.stateVersion = "24.11";
