@@ -14,6 +14,8 @@ let
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
+
     package = pkgs.waybar.override {
       cavaSupport = false;
       hyprlandSupport = false;
@@ -280,27 +282,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
-  systemd.user.services = {
-    waybar = {
-      Unit = {
-        PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
-        BindsTo = [ "tray.target" ];
-        Before = [ "tray.target" ];
-      };
-
-      Service = {
-        Type = "exec";
-        ExecStart = lib.getExe config.programs.waybar.package;
-      };
-    };
-  };
-
   systemd.user.targets = {
     tray = {
       Unit = {
-        PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
+        BindsTo = [ "waybar.service" ];
+        After = [ "waybar.service" ];
       };
     };
   };
