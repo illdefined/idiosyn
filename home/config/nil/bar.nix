@@ -22,6 +22,47 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       sndioSupport = false;
     };
 
+    style = pkgs.writeText "waybar-style.css"
+      (with config.lib.stylix.colors.withHashtag; ''
+        * {
+          font: 600 12pt sans-serif;
+        }
+
+        window, tooltip {
+          background: ${base00};
+          color: ${base05};
+        }
+
+        tooltip {
+          border-color: ${base0D};
+        }
+
+        label.module {
+          min-width: 5mm;
+          padding: 0 2mm;
+        }
+
+        #battery.5, #battery.10, #battery.15 {
+          color: ${red};
+        }
+
+        #battery.20, #battery.25, #battery.30 {
+          color: ${yellow};
+        }
+
+        #temperature.critical {
+          color: ${red};
+        }
+
+        #idle_inhibitor.activated {
+          color: ${yellow};
+        }
+
+        #pulseaudio.muted {
+          color: ${base03};
+        }
+      '') |> lib.mkForce;
+
     settings = {
       main = {
         layer = "top";
@@ -74,6 +115,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         memory = {
           format = " {percentage} %";
           tooltip-format = "{used:0.1f} / {total:0.1f} GiB";
+          states = {
+            warning = 96;
+            critical = 99;
+          };
         };
 
         "memory#swap" = {
