@@ -1,4 +1,4 @@
-{ ... }: { config, lib, pkgs, ... }@args:
+{ self, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
@@ -30,7 +30,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   home.packages = with pkgs; [
     lato
-    fira-code
+    (self.packages.${pkgs.system}.fira-code.override {
+      fontFeatures = [ "cv01" "cv06" "onum" "ss01" "ss03" "ss06" "ss07" "ss08" "zero" ];
+    })
     mplus-outline-fonts.githubRelease
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     noto-fonts
