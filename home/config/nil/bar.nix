@@ -177,7 +177,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         }) chr;
 
         mpris = {
-          format = "{status}";
+          format = "{status_icon}";
           status-icons = {
             playing = "";
             paused = "";
