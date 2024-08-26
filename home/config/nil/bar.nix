@@ -165,6 +165,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           };
 
           format-full = "󰚥 ${fmt}";
+          format-plugged = "󰚥 ${fmt}";
           format-time = "{H}:{M}";
           weighted-average = true;
         }
