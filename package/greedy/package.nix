@@ -11,8 +11,8 @@ stdenvNoCC.mkDerivation {
     xkbOptions = [
       "ctrl:nocaps"
       "altwin:alt_super_win"
-      "level3:ralt_switch"
-      "level5:rtctl_switch"
+      "lv3:ralt_switch"
+      "lv5:rtctl_switch"
       "compose:lwin-altgr"
       "compose:102"
       "nbsp:level3n"
