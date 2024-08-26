@@ -219,6 +219,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "Mod+Shift+U".action = quit;
       "Mod+Shift+C".action = power-off-monitors;
 
+      # Session lock
+      "Mod+Escape".action = spawn [ loginctl "lock-session" ];
+
       # Multimedia keys
       XF86Explorer.action = spawn [ xdg-open "https:" ];
     } // lib.mapAttrs (n: v: v // { allow-when-locked = true; }) {
