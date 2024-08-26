@@ -102,32 +102,104 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     binds = with config.lib.niri.actions; {
+      # Application spawning
       "Mod+Return".action = spawn [ kitty ];
       "Mod+Shift+Return".action = spawn [ kitty fish "--private" ];
-      "Mod+e".action = spawn [ fuzzel ];
+      "Mod+E".action = spawn [ fuzzel ];
 
-      "Mod+Up".action = focus-window-or-workspace-up;
-      "Mod+Down".action = focus-window-or-workspace-down;
+      # Window & column focus
       "Mod+Left".action = focus-column-left;
+      "Mod+Down".action = focus-window-down;
+      "Mod+Up".action = focus-window-up;
       "Mod+Right".action = focus-column-right;
+      "Mod+R".action = focus-column-left;
+      "Mod+N".action = focus-window-down;
+      "Mod+T".action = focus-window-up;
+      "Mod+H".action = focus-column-right;
 
-      "Mod+Ctrl+Up".action = move-window-up-or-to-workspace-up;
-      "Mod+Ctrl+Down".action = move-window-down-or-to-workspace-down;
+      # Window & column movement
       "Mod+Ctrl+Left".action = move-column-left;
+      "Mod+Ctrl+Down".action = move-window-down;
+      "Mod+Ctrl+Up".action = move-window-up;
       "Mod+Ctrl+Right".action = move-column-right;
+      "Mod+Ctrl+R".action = move-column-left;
+      "Mod+Ctrl+N".action = move-window-down;
+      "Mod+Ctrl+T".action = move-window-up;
+      "Mod+Ctrl+H".action = move-column-right;
 
-      "Mod+WheelScrollUp".action = focus-window-up-or-column-left;
-      "Mod+WheelScrollDown".action = focus-window-down-or-column-right;
+      # Consume & expel windows to / from columns
+      "Mod+G".action = consume-window-into-column;
+      "Mod+B".action = expel-window-from-column;
+      "Mod+Slash".action = consume-or-expel-window-left;
+      "Mod+At".action = consume-or-expel-window-right;
 
-      "Mod+g".action = consume-window-into-column;
-      "Mod+b".action = expel-window-from-column;
+      # Focus & move column front / back
+      "Mod+Home".action = focus-column-first;
+      "Mod+End".action = focus-column-last;
+      "Mod+Ctrl+Home".action = move-column-to-first;
+      "Mod+Ctrl+End".action = move-column-to-last;
 
+      # Monitor focus
+      "Mod+Shift+Left".action = focus-monitor-left;
+      "Mod+Shift+Down".action = focus-monitor-down;
+      "Mod+Shift+Up".action = focus-monitor-up;
+      "Mod+Shift+Right".action = focus-monitor-right;
+      "Mod+Shift+R".action = focus-monitor-left;
+      "Mod+Shift+N".action = focus-monitor-down;
+      "Mod+Shift+T".action = focus-monitor-up;
+      "Mod+Shift+H".action = focus-monitor-right;
+
+      # Moving columns between monitors
+      "Mod+Ctrl+Shift+Left".action = move-column-to-monitor-left;
+      "Mod+Ctrl+Shift+Down".action = move-column-to-monitor-down;
+      "Mod+Ctrl+Shift+Up".action = move-column-to-monitor-up;
+      "Mod+Ctrl+Shift+Right".action = move-column-to-monitor-right;
+      "Mod+Ctrl+Shift+R".action = move-column-to-monitor-left;
+      "Mod+Ctrl+Shift+N".action = move-column-to-monitor-down;
+      "Mod+Ctrl+Shift+T".action = move-column-to-monitor-up;
+      "Mod+Ctrl+Shift+H".action = move-column-to-monitor-right;
+
+      # Workspace focus
+      "Mod+Page_Down".action = focus-workspace-down;
+      "Mod+Page_Up".action = focus-workspace-up;
+      "Mod+L".action = focus-workspace-down;
+      "Mod+M".action = focus-workspace-up;
+
+      # Workspace movement
+      "Mod+Shift+Page_Down".action = move-workspace-down;
+      "Mod+Shift+Page_Up".action = move-workspace-up;
+      "Mod+Shift+L".action = move-workspace-down;
+      "Mod+Shift+M".action = move-workspace-up;
+
+      # Mouse wheel for workspace focus & movement
+      "Mod+WheelScrollDown" = { cooldown-ms = 150; action = focus-workspace-down; };
+      "Mod+WheelScrollUp" = { cooldown-ms = 150; action = focus-workspace-up; };
+      "Mod+Shift+WheelScrollDown".action = focus-column-right;
+      "Mod+Shift+WheelScrollUp".action = focus-column-left;
+
+      # Column & window size (rough)
+      "Mod+Y".action = switch-preset-column-width;
+      "Mod+Shift+Y".action = reset-window-height;
+      "Mod+I".action = maximize-column;
+      "Mod+Shift+I".action = fullscreen-window;
+
+      # Column & window size (fine)
+      "Mod+Exclam".action = set-column-width "-10%";
+      "Mod+Numbersign".action = set-column-width "-10%";
+      "Mod+Shift+Exclam".action = set-window-height "-10%";
+      "Mod+Shift+Numbersign".action = set-window-height "+10%";
+
+      # Screenshots
       "Mod+Print".action = screenshot;
       "Mod+Ctrl+Print".action = screenshot-window;
       "Mod+Shift+Print".action = screenshot-screen;
 
-      "Mod+Shift+u".action = quit;
+      # Window & compositor termination
+      "Mod+Shift+K".action = close-window;
+      "Mod+Shift+U".action = quit;
+      "Mod+Shift+C".action = power-off-monitors;
 
+      # Multimedia keys
       XF86Explorer.action = spawn [ xdg-open "https:" ];
     } // lib.mapAttrs (n: v: v // { allow-when-locked = true; }) {
       XF86MonBrightnessUp.action = spawn [ brightnessctl "-e" "set" "+5%" ];
