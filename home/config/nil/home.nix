@@ -23,6 +23,7 @@ in {
     ./sioyek.nix
     ./texlive.nix
     ./mpv.nix
+    ./music.nix
   ];
 
   home.stateVersion = "24.11";
