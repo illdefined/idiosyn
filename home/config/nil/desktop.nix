@@ -88,6 +88,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       focus-ring = {
         enable = true;
         width = 1;
+
+        active = {
+          color = config.lib.stylix.colors.withHashtag.base0D;
+        };
+
+        inactive = {
+          color = config.lib.stylix.colors.withHashtag.base03;
+        };
       };
 
       default-column-width.proportion = 1. / 3.;
