@@ -109,6 +109,18 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       ];
     };
 
+    window-rules = [
+      {
+        clip-to-geometry = true;
+        geometry-corner-radius = {
+          top-left = 4.0;
+          top-right = 4.0;
+          bottom-left = 4.0;
+          bottom-right = 4.0;
+        };
+      }
+    ];
+
     binds = with config.lib.niri.actions; {
       # Application spawning
       "Mod+Return".action = spawn [ kitty ];
