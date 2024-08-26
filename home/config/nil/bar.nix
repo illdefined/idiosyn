@@ -26,6 +26,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       main = {
         layer = "top";
         position = "bottom";
+        height = 32;
 
         modules-left = [
           "tray"
