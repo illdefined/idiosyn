@@ -52,6 +52,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   programs.niri.settings = {
     prefer-no-csd = true;
+    screenshot-path = "~/tmp/%Y-%m-%d %H:%M:%S.png";
 
     input = {
       keyboard = {
