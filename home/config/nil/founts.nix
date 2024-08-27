@@ -30,9 +30,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   home.packages = with pkgs; [
     lato
-    (self.packages.${pkgs.system}.fira-code.override {
-      fontFeatures = [ "cv01" "cv06" "onum" "ss01" "ss03" "ss06" "ss07" "ss08" "zero" ];
-    })
+    self.packages.${pkgs.system}.fira-code
     mplus-outline-fonts.githubRelease
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     noto-fonts
