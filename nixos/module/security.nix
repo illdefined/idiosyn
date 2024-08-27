@@ -15,6 +15,10 @@
     execWheelOnly = true;
     wheelNeedsPassword = config.security.pam.services.sudo-rs.fprintAuth
       || config.security.pam.services.sudo-rs.sshAgentAuth;
+
+    extraConfig = ''
+      Defaults env_keep += SSH_AUTH_SOCK
+    '';
   };
 
   services.logind.killUserProcesses = true;
