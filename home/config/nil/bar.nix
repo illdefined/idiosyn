@@ -6,7 +6,9 @@ let
   busctl = osConfig.systemd.package + /bin/busctl;
   gammarelay = lib.getExe pkgs.wl-gammarelay-rs;
   pwvucontrol = lib.getExe pkgs.pwvucontrol;
+  rfkill = pkgs.util-linux + /bin/rfkill;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
+  wttrbar = pkgs.wttrbar + /bin/wttrbar;
 
   gr = cmd: "${busctl} --user -- ${cmd} rs.wl-gammarelay / rs.wl.gammarelay";
   gr-set = gr "set-property";
@@ -30,6 +32,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           font: 600 12pt sans-serif;
         }
 
+        window > box {
+          padding: 1.5mm 3mm;
+        }
+
         window, tooltip {
           background: ${base00};
           color: ${base05};
@@ -40,8 +46,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         }
 
         label.module {
+          padding: 0 3mm;
           min-width: 5mm;
-          padding: 0 2mm;
         }
 
         #battery.5, #battery.10, #battery.15 {
@@ -69,43 +75,80 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       main = {
         layer = "top";
         position = "bottom";
-        height = 32;
+        spacing = 0;
 
-        modules-left = [
-          "tray"
-        ];
-
-        modules-center = [ ];
-
+        modules-left = [ "tray" ];
+        modules-center = [ "mpris" ];
         modules-right = [
-          "network#down"
-          "network#up"
+          "idle_inhibitor"
+          "network"
           "bluetooth"
+          "temperature"
           "cpu"
           "memory"
-          "memory#swap"
-          "temperature"
           "disk"
-          "battery"
-          "idle_inhibitor"
           "backlight"
           "custom/gammarelay"
-          "mpris"
           "pulseaudio#sink"
           "pulseaudio#source"
+          "battery"
+          "custom/weather"
           "clock"
         ];
 
-        "network#down" = {
-          format = "󰅃 {bandwidthDownBytes}";
+        mpris = {
+          interval = 1;
+          format = "{status_icon} {dynamic} {player_icon}";
+          dynamic-order = [ "title" "artist" "position" "length" ];
+          dynamic-separator = " – ";
+          ellipsis = "…";
+
+          player-icons = {
+            default = "";
+            mopidy = "";
+            mpv = "";
+          };
+
+          status-icons = {
+            playing = "";
+            paused = "";
+            stopped = "";
+          };
         };
 
-        "network#up" = {
-          format = "󰅀 {bandwidthUpBytes}";
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = "󱎴";
+            deactivated = "󰷛";
+          };
+
+          timeout = 15.0;
+        };
+
+        "network" = {
+          interval = 10;
+          format = "{icon} 󰅀 {bandwidthDownBytes} 󰅃 {bandwidthUpBytes}";
+          format-icons = {
+            disconnected = "󰌙";
+            linked = "󰌚";
+            ethernet = "󰌘";
+            wifi = [ "󰤯" "󰤟" "󰤢" "󰤢" "󰤨" ];
+          };
+
+          tooltip-format = "{ifname}";
+          tooltip-format-wifi = "{essid} ({signalStrength} %)";
         };
 
         bluetooth = {
-          format-connected-battery = "󰂯 {device_battery_percentage} %";
+          format = "";
+          format-off = "󰂲";
+          format-on = "󰂯";
+          format-connected = "󰂱";
+          format-connected-battery = "󰥈 {device_battery_percentage} %";
+
+          on-click-right = "${rfkill} toggle bluetooth";
+
           tooltip-format-connected-battery = "{device_enumerate}";
           tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage} %";
         };
@@ -115,17 +158,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         };
 
         memory = {
-          format = " {percentage} %";
-          tooltip-format = "{used:0.1f} / {total:0.1f} GiB";
+          format = " {percentage} %  {swapPercentage} %";
+          tooltip-format = "{used:0.1f} / {total:0.1f} GiB\n{swapUsed:0.1f} / {swapTotal:0.1f} GiB";
           states = {
             warning = 96;
             critical = 99;
           };
-        };
-
-        "memory#swap" = {
-          format = " {swapPercentage} %";
-          tooltip-format = "{swapUsed:0.1f} / {swapTotal:0.1f} GiB";
         };
 
         temperature = let
@@ -142,96 +180,45 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           tooltip-format = "{used} / {total}";
         };
 
-        idle_inhibitor = {
-          format = "{icon}";
-          format-icons = {
-            activated = "󱎴";
-            deactivated = "󰷛";
-          };
+        "backlight" = let
+          fmt = "{percent} %";
+        in {
+          format = "{icon} ${fmt}";
+          format-icons = [ "󰛩" "󱩎" "󱩐" "󱩐" "󱩑" "󱩒" "󱩓" "󱩔" "󱩕" "󱩖" "󰛨" ];
 
-          timeout = 15.0;
-        };
-
-        "backlight" = {
-          format = " {percent} %";
-          on-click-right = "${brightnessctl} set 100%";
+          on-click = "${brightnessctl} set 100%";
+          on-click-right = "${brightnessctl} set 5%";
           on-scroll-up = "${brightnessctl} set +1%";
           on-scroll-down = "${brightnessctl} set 1%-";
+
+          tooltip-format = fmt;
         };
 
-        "custom/gammarelay" = {
-          format = " {} K";
+        "custom/gammarelay" = let
+          fmt = "{} K";
+        in {
+          format = "󰖦 ${fmt}";
           exec = "${gammarelay} watch {t}";
-          on-click-right = "${gr-set} Temperature q 6500";
+
+          on-click = "${gr-set} Temperature q 6500";
+          on-click-right = "${gr-set} Temperature q 4500";
           on-scroll-up = "${gr-call} UpdateTemperature n +100";
           on-scroll-down = "${gr-call} UpdateTemperature n -100";
+
+          tooltip-format = fmt;
         };
 
-        battery = let
-          fmt = "{capacity} %";
-          dis = {
-            "5" = "󱃍";
-            "10" = "󰁺";
-            "20" = "󰁻";
-            "30" = "󰁼";
-            "40" = "󰁽";
-            "50" = "󰁿";
-            "60" = "󰁿";
-            "70" = "󰂀";
-            "80" = "󰂁";
-            "90" = "󰂂";
-            "100" = "󰁹";
+        battery = {
+          format = "{icon} {capacity} %";
+          format-icons = {
+            full = "󱟢";
+            plugged = "󰚥";
+            charging = [ "󰢟" "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
+            discharging = [ "󱃍" "󰁺" "󰁻" "󰁼" "󰁽" "󰁿" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
           };
 
-          chr = {
-            "5" = "󰢟";
-            "10" = "󰢜";
-            "20" = "󰂆";
-            "30" = "󰂇";
-            "40" = "󰂈";
-            "50" = "󰢝";
-            "60" = "󰂉";
-            "70" = "󰢞";
-            "80" = "󰂊";
-            "90" = "󰂋";
-            "100" = "󰂅";
-          };
-        in {
-          states = {
-            "5" = 5;
-            "10" = 10;
-            "20" = 20;
-            "30" = 30;
-            "40" = 40;
-            "50" = 50;
-            "60" = 60;
-            "70" = 70;
-            "80" = 80;
-            "90" = 90;
-            "100" = 100;
-          };
-
-          format-full = "󰚥 ${fmt}";
-          format-plugged = "󰚥 ${fmt}";
           format-time = "{H}:{M}";
           weighted-average = true;
-        }
-        // lib.mapAttrs' (state: icon: {
-          name = "format-discharging-${state}";
-          value = "${icon} ${fmt}";
-        }) dis
-        // lib.mapAttrs' (state: icon: {
-          name = "format-charging-${state}";
-          value = "${icon} ${fmt}";
-        }) chr;
-
-        mpris = {
-          format = "{status_icon}";
-          status-icons = {
-            playing = "";
-            paused = "";
-            stopped = "";
-          };
         };
 
         "pulseaudio#sink" = let
@@ -265,9 +252,17 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           on-scroll-down = "${wpctl} set-volume @DEFAULT_AUDIO_SOURCE@ 1%-";
         };
 
+        "custom/weather" = {
+          exec = "${wttrbar} --hide-conditions --custom-indicator '{ICON} {temp_C} °C'";
+          return-type = "json";
+          interval = 900;
+        };
+
         clock = {
-          format = " {:%H:%M %Z}";
-          format-alt = "󰃭 {:%Y-%m-%d}";
+          interval = 1;
+          format = " {:%H:%M:%S %Z}";
+          format-alt = "󰃭 {:%Y-%m-%d}";
+
           tooltip-format = "<tt><small>{calendar}</small></tt>";
           calendar = {
             mode = "month";
@@ -276,6 +271,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
             format = {
               weeks = "{:%W}";
             };
+          };
+
+          actions = {
+            on-scroll-up = "shift_up";
+            on-scroll-down = "shift_down";
           };
         };
       };
