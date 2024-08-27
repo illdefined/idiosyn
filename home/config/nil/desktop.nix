@@ -28,6 +28,20 @@ let
       '';
     };
   in lib.getExe pkg;
+
+  askpass = let
+    pkg = pkgs.writeShellApplication {
+      name = "fuzzel-askpass";
+      text = ''
+        exec ${fuzzel} \
+          --font=monospace \
+          --prompt="󰣀 " \
+          --password \
+          --lines=0 \
+          --dmenu
+      '';
+    };
+  in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
     calibre
@@ -240,6 +254,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     environment = {
       NIXOS_OZONE_WL = "1";
+      SSH_ASKPASS = askpass;
+      SSH_ASKPASS_REQUIRE = "force";
       TERMINAL = kitty;
     };
   };
