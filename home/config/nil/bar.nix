@@ -50,12 +50,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           min-width: 5mm;
         }
 
-        #battery.5, #battery.10, #battery.15 {
-          color: ${red};
+        #battery.warning {
+          color: ${yellow};
         }
 
-        #battery.20, #battery.25, #battery.30 {
-          color: ${yellow};
+        #battery.critical {
+          color: ${red};
         }
 
         #temperature.critical {
@@ -209,6 +209,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         };
 
         battery = {
+          states = {
+            warning = 25;
+            critical = 15;
+          };
+
           format = "{icon} {capacity} %";
           format-icons = {
             full = "󱟢";
