@@ -126,7 +126,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           timeout = 15.0;
         };
 
-        "network" = {
+        network = {
           interval = 10;
           format = "{icon} 󰅀 {bandwidthDownBytes} 󰅃 {bandwidthUpBytes}";
           format-icons = {
