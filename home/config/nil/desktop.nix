@@ -45,7 +45,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     enable = true;
     settings = {
       main = {
-        prompt = "❯  ";
+        prompt = "❯ ";
       };
     };
   };
