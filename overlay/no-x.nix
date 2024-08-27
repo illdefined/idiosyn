@@ -49,13 +49,6 @@ in genAttrs [
 
   gd = prev.gd.override { withXorg = false; };
 
-  gnome = prev.gnome.overrideScope (final: prev: {
-    gnome-settings-daemon = prev.gnome-settings-daemon.overrideAttrs (prevAttrs: {
-      buildInputs = prevAttrs.buildInputs
-        |> packages.remove [ "libgnomekbd" ];
-    });
-  });
-
   gst_all_1 = prev.gst_all_1 // genAttrs [
     "gst-plugins-base"
     "gst-plugins-good"
@@ -93,6 +86,11 @@ in genAttrs [
   })).override {
     x11Support = false;
   };
+
+  libgnomekbd = prev.libgnomekbd.overrideAttrs (prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ]
+      ++ [ (mesonBool "tests" false) ];
+    });
 
   libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
     inherit (final') qt5;
