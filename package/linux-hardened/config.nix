@@ -33,6 +33,7 @@
 
     EFI = true;
     EFI_STUB = true;
+    EFI_ZBOOT = option true;
 
     DEVTMPFS = true;
     DEVTMPFS_MOUNT = true;
