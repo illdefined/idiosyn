@@ -63,6 +63,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     sizes = {
       terminal = 11;
+      popups = 13;
     };
   };
 
