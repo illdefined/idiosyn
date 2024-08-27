@@ -136,12 +136,30 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           bottom-right = 4.0;
         };
       }
+      {
+        matches = [
+          { app-id = ''^notifications$''; }
+        ];
+
+        block-out-from = "screencast";
+      }
+      {
+        matches = [
+          { app-id = ''^firefox\.private$''; }
+          { app-id = ''^kitty\.private$''; }
+          { app-id = ''^org\.gnome\.Fractal$''; }
+          { app-id = ''^org\.keepassxc\.KeePassXC$''; }
+          { app-id = ''^signal$''; }
+        ];
+
+        block-out-from = "screen-capture";
+      }
     ];
 
     binds = with config.lib.niri.actions; {
       # Application spawning
       "Mod+Return".action = spawn [ kitty ];
-      "Mod+Shift+Return".action = spawn [ kitty fish "--private" ];
+      "Mod+Shift+Return".action = spawn [ kitty "--app-id" "private" fish "--private" ];
       "Mod+E".action = spawn [ fuzzel ];
 
       # Window & column focus
