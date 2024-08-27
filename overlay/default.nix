@@ -11,4 +11,5 @@ nixpkgs.lib.composeManyExtensions [
   self.overlays.no-alsa
   self.overlays.no-jemalloc
   self.overlays.modern-minimal
+  self.overlays.fixes
 ] final prev
