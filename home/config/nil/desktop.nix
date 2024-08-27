@@ -67,6 +67,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   programs.niri.settings = {
     prefer-no-csd = true;
+    hotkey-overlay.skip-at-startup = true;
     screenshot-path = "~/tmp/%Y-%m-%d %H:%M:%S.png";
 
     input = {
