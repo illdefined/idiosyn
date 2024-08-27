@@ -9,6 +9,7 @@ let
   loginctl = osConfig.systemd.package + /bin/loginctl;
   playerctl = config.services.playerctld.package + /bin/playerctl;
   swaylock = lib.getExe config.programs.swaylock.package;
+  systemctl = osConfig.systemd.package + /bin/systemctl;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 
@@ -258,6 +259,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       SSH_ASKPASS_REQUIRE = "force";
       TERMINAL = kitty;
     };
+
+    spawn-at-startup = [
+      { command = [ systemctl "--user" "start" "swayidle.service" ]; }
+      { command = [ systemctl "--user" "start" "waybar.service" ]; }
+    ];
   };
 
   programs.swaylock = {
