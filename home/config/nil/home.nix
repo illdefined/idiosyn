@@ -43,7 +43,7 @@ in {
     (lib.meta.setPrio 0 uutils-coreutils-noprefix)
 
     # Text manipulation
-    #delta
+    delta
     sd
     skim
 
@@ -177,7 +177,7 @@ in {
     key = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=";
   in {
     enable = true;
-    #delta.enable = true;
+    delta.enable = true;
 
     userName = "Mikael Voss";
     userEmail = "mvs@nyantec.com";
