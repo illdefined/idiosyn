@@ -263,9 +263,10 @@
     SMP = true;
     PREEMPT_DYNAMIC = false;
 
-    SCHED_CORE = true;
-    SCHED_CLUSTER = true;
     SCHED_MC = true;
+    SCHED_CLUSTER = true;
+    SCHED_SMT = option true;
+    SCHED_CORE = option true;
     SCHED_AUTOGROUP = true;
 
     RCU_NOCB_CPU_DEFAULT_ALL = true;
