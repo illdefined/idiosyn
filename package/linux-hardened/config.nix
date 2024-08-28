@@ -117,7 +117,6 @@
     # Kernel memory base
     RELOCATABLE = true;
     RANDOMIZE_BASE = true;
-    RANDOMIZE_MEMORY = true;
 
     # Stack protection
     STACKPROTECTOR = true;
@@ -193,6 +192,8 @@
   } // lib.optionalAttrs hostPlatform.isx86_64 {
     X86_UMIP = true;
     X86_USER_SHADOW_STACK = true;
+
+    RANDOMIZE_MEMORY = true;
 
     STRICT_SIGALTSTACK_SIZE = true;
   };
