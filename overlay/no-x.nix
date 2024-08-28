@@ -78,6 +78,13 @@ in genAttrs [
       ++ [ "-DWITH_X11:BOOL=OFF" ];
   });
 
+  keepassxc = (prev.keepassxc.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs
+      |> packages.remove [ "kio" ];
+  })).override {
+    withKeePassX11 = false;
+  };
+
   libepoxy = (prev.libepoxy.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];
