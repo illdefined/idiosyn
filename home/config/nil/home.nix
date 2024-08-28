@@ -15,6 +15,7 @@ in {
     ./gammarelay.nix
     ./founts.nix
     ./stylix.nix
+    ./editor.nix
     ./desktop.nix
     ./bar.nix
     ./terminal.nix
@@ -201,40 +202,6 @@ in {
       '');
       commit.gpgSign = true;
       tag.gpgSign = true;
-    };
-  };
-
-  programs.helix = {
-    enable = true;
-    defaultEditor = true;
-    settings = {
-      editor.auto-pairs = {
-        "“" = "”";
-        "‘" = "’";
-        "„" = "“";
-        "‚" = "‘";
-      };
-
-      editor.whitespace.render = {
-        nbsp = "all";
-        nnbsp = "all";
-        tab = "all";
-      };
-
-      editor.whitespace.characters = {
-        nbsp = "␣";
-        nnbsp = "⍽";
-        tab = "»";
-        tabpad = "·";
-      };
-
-      keys.normal = {
-        minus = "command_mode";
-        r = "move_char_left";
-        n = "move_visual_line_down";
-        t = "move_visual_line_up";
-        h = "move_char_right";
-      };
     };
   };
 
