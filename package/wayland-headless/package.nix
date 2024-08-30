@@ -1,14 +1,15 @@
-{ ... }: { stdenvNoCC, lib, shellcheck-minimal, runtimeShell, cage }:
+{ ... }: { stdenvNoCC, hostPlatform, lib, shellcheck-minimal, runtimeShell, cage }:
 
-stdenvNoCC.mkDerivation {
+stdenvNoCC.mkDerivation (finalAttrs: {
   name = "wayland-headless";
 
-  nativeInstallCheckInputs = [ shellcheck-minimal ];
+  nativeInstallCheckInputs = lib.optionals
+    finalAttrs.doInstallCheck [ shellcheck-minimal ];
 
   dontUnpack = true;
   dontConfigure = true;
   dontBuild = true;
-  doInstallCheck = true;
+  doInstallCheck = !hostPlatform.isRiscV64;
 
   installPhase = ''
     mkdir -p "$out/bin"
@@ -33,4 +34,4 @@ stdenvNoCC.mkDerivation {
   meta = {
     inherit (cage.meta) platforms;
   };
-}
+})
