@@ -39,20 +39,20 @@
         L = "move_next_long_word_end";
 
         z = "replace";
-        Z = "zeplace_with_yanked";
+        Z = "replace_with_yanked";
 
         s = "paste_after";
         S = "paste_before";
 
         x = "extend_line_below";
         X = "extend_to_line_bounds";
-        Alt-X = "shrink_to_link_bounds";
+        A-X = "shrink_to_line_bounds";
 
         e = "change_selection";
-        Alt-e = "change_selection_noyank";
+        A-e = "change_selection_noyank";
 
         N = "join_selections";
-        Alt-N = "join_selections_space";
+        A-N = "join_selections_space";
 
         semicolon = "search_next";
         colon = "search_prev";
