@@ -22,6 +22,7 @@
   bc,
   openssl,
   zstd,
+  hexdump,
 
   elfutils,
   kmod,
@@ -90,6 +91,7 @@ in stdenv.mkDerivation (finalAttrs: {
     python3
     perl
     openssl
+    hexdump
 
     zstd
   ];
