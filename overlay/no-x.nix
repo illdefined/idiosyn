@@ -5,7 +5,7 @@ let
   inherit (nixpkgs.lib.attrsets) genAttrs;
   inherit (nixpkgs.lib.lists) remove toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
-  inherit (self.lib) flags packages;
+  inherit (self.lib) substituteFlags packages;
 
   final' = final;
   prev' = prev;
@@ -89,7 +89,7 @@ in genAttrs [
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];
     mesonFlags = prevAttrs.mesonFlags or [ ]
-      |> flags.subst { "-Degl=no" = "-Degl=yes"; };
+      |> substituteFlags { "-Degl=.*" = "-Degl=yes"; };
   })).override {
     x11Support = false;
   };
@@ -132,12 +132,14 @@ in genAttrs [
     qtbase = (prev.qtbase.overrideAttrs (prevAttrs: {
       env = prevAttrs.env or { } // {
         NIX_CFLAGS_COMPILE = prevAttrs.env.NIX_CFLAGS_COMPILE or ""
-          |> flags.remove [ "-DUSE_X11" ];
+          |> substituteFlags { "-DUSE_X11" = null; };
       };
 
       configureFlags = prevAttrs.configureFlags or [ ]
-        |> flags.remove [ "-qpa xcb" ]
-        |> flags.subst { "-xcb" = "-no-xcb"; };
+        |> substituteFlags {
+          "-qpa .*" = null;
+          "-xcb" = "-no-xcb";
+        };
     })).override {
       withGtk3 = false;
       withQttranslation = false;
@@ -153,7 +155,7 @@ in genAttrs [
     buildInputs = prevAttrs.buildInputs or [ ]
       |> packages.remove [ "gtkmm" ];
     configureFlags = prevAttrs.configureFlags or [ ]
-      |> flags.remove [ "--with-gtkmm" ];
+      |> substituteFlags { "--with-gtkmm" = null; };
   });
 
   vim-full = prev.vim-full.override {
