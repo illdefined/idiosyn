@@ -43,6 +43,15 @@ in genAttrs [
   beam = prev.beam_nox;
   graphviz = prev.graphviz-nox;
 
+  firefox-unwrapped = prev.firefox-unwrapped.overrideAttrs (prevAttrs: {
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> substituteFlags {
+        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
+      };
+  });
+
+  firefox = final.wrapFirefox final.firefox-unwrapped { };
+
   gammastep = prev.gammastep.override {
     withRandr = false;
   };
