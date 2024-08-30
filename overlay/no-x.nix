@@ -160,6 +160,15 @@ in genAttrs [
     imlib2 = final.imlib2;
   };
 
+  thunderbird-unwrapped = prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> substituteFlags {
+        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
+      };
+  });
+
+  thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
+
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       |> packages.remove [ "gtkmm" ];
