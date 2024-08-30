@@ -32,6 +32,9 @@
 
     # Enable transparent hugepages
     "transparent_hugepage=always"
+
+    # Suspend USB devices without delay
+    "usbcore.autosuspend=0"
   ];
 
   boot.kernel.sysctl = {
