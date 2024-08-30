@@ -11,7 +11,7 @@ in {
     doCheck = false;
   });
 
-  python3 = prev.python3.override {
+  python312 = prev.python312.override {
     packageOverrides = final: prev: {
       psutil = prev.psutil.overrideAttrs ({
         doCheck = false;
