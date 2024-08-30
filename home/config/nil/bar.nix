@@ -66,7 +66,15 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           color: ${yellow};
         }
 
-        #pulseaudio.muted {
+        #pulseaudio.sink.muted {
+          color: ${base03};
+        }
+
+        #pulseaudio.source {
+          color: ${yellow};
+        }
+
+        #pulseaudio.source.source-muted {
           color: ${base03};
         }
       '') |> lib.mkForce;
@@ -231,17 +239,19 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         in {
           format = "{icon} ${fmt}";
           format-bluetooth = "󰂰 ${fmt}";
-          format-muted = " ${fmt}";
+          format-muted = "󰖁 ${fmt}";
 
           format-icons = {
             headphone = "";
-            default = [ "" "" ];
+            default = [ "󰕿" "󰖀" "󰕾" ];
           };
 
-          on-click = pwvucontrol;
-          on-click-right = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          on-click = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          on-click-right = pwvucontrol;
           on-scroll-up = "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 1%+";
           on-scroll-down = "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 1%-";
+
+          max-volume = 100;
         };
 
         "pulseaudio#source" = let
@@ -251,8 +261,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           format-source = "󰍬 ${fmt}";
           format-source-muted = "󰍭 ${fmt}";
 
-          on-click = pwvucontrol;
-          on-click-right = "${wpctl} set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          on-click = "${wpctl} set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          on-click-right = pwvucontrol;
           on-scroll-up = "${wpctl} set-volume @DEFAULT_AUDIO_SOURCE@ 1%+";
           on-scroll-down = "${wpctl} set-volume @DEFAULT_AUDIO_SOURCE@ 1%-";
         };
