@@ -155,11 +155,6 @@ in genAttrs [
     };
   });
 
-  w3m = prev.w3m.override {
-    x11Support = false;
-    imlib2 = final.imlib2;
-  };
-
   thunderbird-unwrapped = prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
     configureFlags = prevAttrs.configureFlags or [ ]
       |> substituteFlags {
@@ -168,6 +163,11 @@ in genAttrs [
   });
 
   thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
+
+  w3m = prev.w3m.override {
+    x11Support = false;
+    imlib2 = final.imlib2;
+  };
 
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
