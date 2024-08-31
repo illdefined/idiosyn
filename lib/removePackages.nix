@@ -1,8 +1,10 @@
 { nixpkgs, ... }:
 
 let
-  inherit (builtins) elem filter;
+  inherit (builtins) match filter foldl';
   inherit (nixpkgs.lib.strings) getName;
-in pkgOrNameList: pkgList:
-  let nameList = map (pkg: getName pkg) pkgOrNameList;
-  in filter (pkg: !elem (getName pkg) nameList) pkgList
+
+  fold = name: acc: regex:
+    if acc == false then false
+    else match regex name == null;
+in regexList: filter (pkg: foldl' (getName pkg |> fold) true regexList)
