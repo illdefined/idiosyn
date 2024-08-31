@@ -54,8 +54,8 @@
         N = "join_selections";
         A-N = "join_selections_space";
 
-        semicolon = "search_next";
-        colon = "search_prev";
+        ";" = "search_next";
+        ":" = "search_prev";
       };
     };
   };
