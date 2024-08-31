@@ -50,7 +50,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     inkscape
     jellyfin-mpv-shim
     keepassxc
-    libreoffice-fresh
     obsidian
     restic
     signal-desktop
