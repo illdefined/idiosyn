@@ -50,6 +50,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           min-width: 5mm;
         }
 
+        #tray > * > * {
+          padding: 0 1.5mm;
+        }
+
         #battery.warning {
           color: ${yellow};
         }
@@ -103,6 +107,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           "custom/weather"
           "clock"
         ];
+
+        tray.spacing = 0;
 
         mpris = {
           interval = 1;
