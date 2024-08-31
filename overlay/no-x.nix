@@ -108,11 +108,14 @@ in genAttrs [
       ++ [ (mesonBool "tests" false) ];
     });
 
+  libreoffice-fresh = prev.libreoffice-fresh.override {
+    unwrapped = prev.libreoffice-fresh.unwrapped.overrideAttrs (prevAttrs: {
+      configureFlags = prevAttrs.configureFlags or [ ]
+        ++ [ "--without-x" ];
+    });
+  };
 
-  libreoffice-unwrapped = prev.libreoffice-unwrapped.overrideAttrs (prevAttrs: {
-    configureFlags = prevAttrs.configureFlags or [ ]
-      ++ [ "--without-x" ];
-  });
+  libreoffice-fresh-unwrapped = final.libreoffice-fresh.unwrapped;
 
   libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
     inherit (final') qt5;
