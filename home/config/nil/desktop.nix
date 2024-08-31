@@ -327,10 +327,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     ];
   };
 
-  services.syncthing = {
-    enable = true;
-    tray.enable = true;
-  };
+  services.syncthing.enable = true;
 
   xdg.mimeApps.enable = true;
 
