@@ -273,6 +273,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     environment = {
+      ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       NIXOS_OZONE_WL = "1";
       SSH_ASKPASS = askpass;
       SSH_ASKPASS_REQUIRE = "force";
