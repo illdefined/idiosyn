@@ -5,7 +5,7 @@ let
   inherit (nixpkgs.lib.attrsets) genAttrs;
   inherit (nixpkgs.lib.lists) remove toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
-  inherit (self.lib) substituteFlags packages;
+  inherit (self.lib) substituteFlags removePackages;
 
   final' = final;
   prev' = prev;
@@ -92,7 +92,7 @@ in genAttrs [
 
   keepassxc = (prev.keepassxc.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs
-      |> packages.remove [ "kio" ];
+      |> removePackages [ "kio" ];
   })).override {
     withKeePassX11 = false;
   };
@@ -183,7 +183,7 @@ in genAttrs [
 
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
-      |> packages.remove [ "gtkmm" ];
+      |> removePackages [ "gtkmm" ];
     configureFlags = prevAttrs.configureFlags or [ ]
       |> substituteFlags { "--with-gtkmm" = null; };
   });
