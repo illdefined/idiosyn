@@ -45,7 +45,9 @@ let
   in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
+    abiword
     calibre
+    claws-mail
     fractal
     inkscape
     jellyfin-mpv-shim
