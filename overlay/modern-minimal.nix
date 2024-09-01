@@ -57,6 +57,22 @@ in genAttrs [
     zstdSupport = true;
   };
 
+  evolution = prev.evolution.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libcanberra" ];
+
+    cmakeFlags = prevAttrs.cmakeFlags or [ ]
+      ++ [ "-DENABLE_CANBERRA:BOOL=OFF" ];
+    });
+
+  evolution-data-server = prev.evolution-data-server.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libcanberra" ];
+
+    cmakeFlags = prevAttrs.cmakeFlags or [ ]
+      |> substituteFlags { "-DENABLE_CANBERRA[:=].*" = "-DENABLE_CANBERRA:BOOL=OFF"; };
+  });
+
   ffmpeg = prev.ffmpeg.override {
     ffmpegVariant = "headless";
     withAlsa = false;
