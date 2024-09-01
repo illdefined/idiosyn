@@ -14,8 +14,11 @@ in {
         doInstallCheck = false;
       });
     } // optionalAttrs hostPlatform.isRiscV64 {
-      psutil = prev.psutil.overrideAttrs ({
-        doCheck = false;
+      psutil = prev.psutil.overrideAttrs (prevAttrs: {
+        disabledTests = prevAttrs.disabledTests or [ ] ++ [
+          "net_if_addrs"
+          "net_if_stats"
+        ];
       });
     };
   };
