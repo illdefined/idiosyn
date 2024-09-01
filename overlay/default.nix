@@ -7,9 +7,6 @@ nixpkgs.lib.composeManyExtensions [
   colmena.overlays.default
   rust-overlay.overlays.default
   niri.overlays.niri
-  self.overlays.no-x
-  self.overlays.no-alsa
-  self.overlays.no-jemalloc
   self.overlays.modern-minimal
   self.overlays.fixes
 ] final prev

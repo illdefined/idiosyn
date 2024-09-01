@@ -1,11 +1,56 @@
-{ nixpkgs, ... }: final: prev:
+{ self, nixpkgs, ... }: final: prev:
 
 let
+  inherit (final) system;
+  inherit (nixpkgs.lib.attrsets) genAttrs;
   inherit (nixpkgs.lib.lists) remove;
+  inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
+  inherit (self.lib) substituteFlags removePackages;
 
   final' = final;
   prev' = prev;
-in {
+
+in genAttrs [
+  "cairo"
+  "dbus"
+  "ghostscript"
+  "gobject-introspection"
+  "gtk3"
+  "gtk4"
+  "imlib2"
+  "libcaca"
+  "pango"
+  "pipewire"
+] (pkg: prev.${pkg}.override { x11Support = false; })
+
+// genAttrs [
+  "intel-media-driver"
+  "mupdf"
+] (pkg: prev.${pkg}.override { enableX11 = false; })
+
+// genAttrs [
+  "hyprland"
+  "sway"
+  "sway-unwrapped"
+  "swayfx"
+  "swayfx-unwrapped"
+  "wlroots"
+] (pkg: prev.${pkg}.override { enableXWayland = false; })
+
+// {
+  xvfb-run = self.packages.${system}.wayland-headless;
+
+  beam = prev.beam_nox;
+  graphviz = prev.graphviz-nox;
+  jdk8 = prev.jdk8_headless;
+  jre8 = prev.jre8_headless;
+  openjdk8 = prev.openjdk_headless;
+
+  SDL2 = prev.SDL2.override {
+    alsaSupport = false;
+    x11Support = false;
+  };
+
   curl = prev.curl.override {
     gssSupport = false;
     scpSupport = false;
@@ -18,7 +63,15 @@ in {
     withSsh = false;
   };
 
-  firefox-unwrapped = prev.firefox-unwrapped.override {
+  firefox-unwrapped = (prev.firefox-unwrapped.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      ++ [ final.alsa-lib ];
+
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> substituteFlags {
+        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
+      };
+  })).override {
     alsaSupport = false;
     gssSupport = false;
     jemallocSupport = false;
@@ -27,19 +80,89 @@ in {
 
   firefox = final.wrapFirefox final.firefox-unwrapped { };
 
-  gst_all_1 = prev.gst_all_1 // {
+  gammastep = prev.gammastep.override {
+    withRandr = false;
+  };
+
+  gd = prev.gd.override { withXorg = false; };
+
+  gst_all_1 = prev.gst_all_1 // (genAttrs [
+    "gst-plugins-base"
+    "gst-plugins-good"
+  ] (pkg: prev.gst_all_1.${pkg}.override { enableX11 = false; }) // {
+    gst-vaapi = prev.gst_all_1.gst-vaapi.overrideAttrs (prevAttrs: {
+      mesonFlags = prevAttrs.mesonFlags or [ ] ++ [
+        (mesonEnable "x11" false)
+        (mesonEnable "glx" false)
+      ];
+    });
+  }) // {
     gst-plugins-bad = prev.gst_all_1.gst-plugins-bad.overrideAttrs (prevAttrs: {
       mesonFlags = prevAttrs.mesonFlags or [ ]
         ++ [ "-Dcurl-ssh2=disabled" ];
     });
   };
 
+  imagemagick = prev.imagemagick.override {
+    libX11Support = false;
+    libXtSupport = false;
+  };
+
+  imv = (prev.imv.overrideAttrs(prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      ++ [ final.libGL ];
+  })).override {
+    withWindowSystem = "wayland";
+  };
+
+  inkscape = prev.inkscape.overrideAttrs (prevAttrs: {
+    cmakeFlags = prevAttrs.cmakeFlags or [ ]
+      ++ [ "-DWITH_X11:BOOL=OFF" ];
+  });
+
+  keepassxc = (prev.keepassxc.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs
+      |> removePackages [ "kio" ];
+  })).override {
+    withKeePassX11 = false;
+  };
+
+  libcanberra = prev.libcanberra.override {
+    withAlsa = false;
+    gtkSupport = null;
+  };
+
+  libepoxy = (prev.libepoxy.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      ++ [ final.libGL ];
+    mesonFlags = prevAttrs.mesonFlags or [ ]
+      |> substituteFlags { "-Degl=.*" = "-Degl=yes"; };
+  })).override {
+    x11Support = false;
+  };
+
+  libgnomekbd = prev.libgnomekbd.overrideAttrs (prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ]
+      ++ [ (mesonBool "tests" false) ];
+    });
+
   libsForQt5 = prev.libsForQt5.overrideScope (final: prev: {
     inherit (final') qt5;
+
+    kguiaddons = prev.kguiaddons.overrideAttrs (prevAttrs: {
+      cmakeFlags = prevAttrs.cmakeFlags or [ ]
+        ++ [ "-DWITH_X11:BOOL=OFF" ];
+    });
   });
 
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
     outputs = remove "spirv2dxil" prevAttrs.outputs;
+
+    mesonFlags = prevAttrs.mesonFlags or [ ] ++ [
+      (mesonEnable "xlib-lease" false)
+      (mesonEnable "glx" false)
+      (mesonEnable "gallium-vdpau" false)
+    ];
   })).override {
     galliumDrivers = [
       "iris"
@@ -76,8 +199,21 @@ in {
   };
 
   qt5 = prev.qt5.overrideScope (final: prev: {
-    qtbase = prev.qtbase.override {
+    qtbase = (prev.qtbase.overrideAttrs (prevAttrs: {
+      env = prevAttrs.env or { } // {
+        NIX_CFLAGS_COMPILE = prevAttrs.env.NIX_CFLAGS_COMPILE or ""
+          |> substituteFlags { "-DUSE_X11" = null; };
+      };
+
+      configureFlags = prevAttrs.configureFlags or [ ]
+        |> substituteFlags {
+          "-qpa .*" = null;
+          "-xcb" = "-no-xcb";
+        };
+    })).override {
       mysqlSupport = false;
+      withGtk3 = false;
+      withQttranslation = false;
     };
   });
 
@@ -85,5 +221,35 @@ in {
     withApparmor = false;
     withHomed = false;
     withIptables = false;
+  };
+
+  thunderbird-unwrapped = prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> substituteFlags {
+        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
+      };
+  });
+
+  thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
+
+  w3m = prev.w3m.override {
+    x11Support = false;
+    imlib2 = final.imlib2;
+  };
+
+  utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "gtkmm" ];
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> substituteFlags { "--with-gtkmm" = null; };
+  });
+
+  vim-full = prev.vim-full.override {
+    guiSupport = false;
+  };
+
+  wayland = prev.wayland.override {
+    # broken
+    withDocumentation = false;
   };
 }
