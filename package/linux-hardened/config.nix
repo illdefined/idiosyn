@@ -474,12 +474,14 @@
     NF_LOG_SYSLOG = true;
 
     NF_CONNTRACK = true;
+    NF_NAT = true;
     NF_TABLES = true;
     NF_TABLES_INET = true;
     NFT_CT = true;
     NFT_CONNLIMIT = true;
     NFT_LIMIT = true;
     NFT_LOG = true;
+    NFT_NAT = true;
     NFT_REJECT = true;
     NFT_FIB_INET = true;
     NF_TABLES_IPV4 = true;
