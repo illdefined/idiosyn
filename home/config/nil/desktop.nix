@@ -47,7 +47,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
     abiword
     calibre
-    claws-mail
+    evolution
     fractal
     inkscape
     jellyfin-mpv-shim
