@@ -33,4 +33,8 @@ in {
   libuv = prev.libuv.overrideAttrs ({
     doCheck = false;
   });
+
+  xdg-utils = prev.xdg-utils.override {
+    procmail = final.emptyDirectory;
+  };
 })
