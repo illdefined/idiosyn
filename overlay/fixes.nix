@@ -23,6 +23,13 @@ in {
     };
   };
 } // optionalAttrs hostPlatform.isRiscV64 ({
+  boehmgc = prev.boehmgc.overrideAttrs (prevAttrs: {
+    postPatch = prevAttrs.postPatch or "" + ''
+      sed -E -i '/^TESTS \+= gctest/d' \
+        tests/tests.am
+    '';
+  });
+
   libuv = prev.libuv.overrideAttrs ({
     doCheck = false;
   });
