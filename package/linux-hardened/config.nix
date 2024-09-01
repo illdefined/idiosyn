@@ -451,6 +451,9 @@
     XDP_SOCKETS_DIAG = true;
     INET = true;
     SYN_COOKIES = true;
+    INET_AH = true;
+    INET_ESP = true;
+
     INET_DIAG = true;
     INET_UDP_DIAG = true;
     INET_RAW_DIAG = true;
@@ -464,6 +467,8 @@
     DEFAULT_BBR = true;
 
     IPV6 = true;
+    INET6_AH = true;
+    INET6_ESP = true;
 
     NETFILTER = true;
     NETFILTER_ADVANCED = true;
