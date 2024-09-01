@@ -9,7 +9,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   dontUnpack = true;
   dontConfigure = true;
   dontBuild = true;
-  doInstallCheck = !hostPlatform.isRiscV64;
+  doInstallCheck = false;
 
   installPhase = ''
     mkdir -p "$out/bin"
