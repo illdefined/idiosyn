@@ -57,6 +57,20 @@ in genAttrs [
     zstdSupport = true;
   };
 
+  electron = prev.electron.override {
+    electron-unwrapped = prev.electron.unwrapped.overrideAttrs (prevAttrs: {
+      gnFlags = prevAttrs.gnFlags or "" + ''
+        # Disable X11
+        ozone_platform_x11 = false
+
+        # Disable internal memory allocator
+        use_partition_alloc_as_malloc = false
+        enable_backup_ref_ptr_support = false
+        enable_pointer_compression_support = false
+      '';
+    });
+  };
+
   evolution = prev.evolution.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       |> removePackages [ "libcanberra" ];
@@ -182,7 +196,6 @@ in genAttrs [
   })).override {
     galliumDrivers = [
       "iris"
-      "kmsro"
       "nouveau"
       "radeonsi"
       "swrast"
