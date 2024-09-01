@@ -3,6 +3,7 @@ imports = [
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-extreme-gen4
   ] ++ (with self.nixosModules; [
     default
+    mimalloc
     physical
     portable
     graphical
