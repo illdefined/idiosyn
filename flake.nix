@@ -129,15 +129,18 @@
       |> lib.filterAttrs (name: shell: lib.meta.availableOn platform shell));
 
     hydraJobs = {
-      package = self.packages;
-      shell = self.devShells;
+      package = self.packages
+      |> lib.foldlAttrs (jobs: system: packages: lib.recursiveUpdate jobs
+        (lib.mapAttrs (name: package: { ${system} = package; }) packages)) { };
+
+      shell = self.devShells
+      |> lib.foldlAttrs (jobs: system: shells: lib.recursiveUpdate jobs
+        (lib.mapAttrs (name: shell: { ${system} = shell; }) shells)) { };
 
       nixos = self.nixosConfigurations
-        |> lib.concatMapAttrs (name: host: {
-          ${host.pkgs.system} = {
-            ${name} = host.config.system.build.toplevel;
-          };
-        });
+      |> lib.mapAttrs (name: host: {
+        ${host.pkgs.system} = host.config.system.build.toplevel;
+      });
     };
   };
 }
