@@ -32,10 +32,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           font: 600 12pt sans-serif;
         }
 
-        window > box {
-          padding: 1.5mm 3mm;
-        }
-
         window, tooltip {
           background: ${base00};
           color: ${base05};
@@ -45,13 +41,21 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           border-color: ${base0D};
         }
 
-        label.module {
+        #tray, #taskbar, .modules-center, .modules-right {
           padding: 0 3mm;
-          min-width: 5mm;
         }
 
-        #tray > * > * {
+        #tray image {
           padding: 0 1.5mm;
+        }
+
+        #taskbar button {
+          padding: 0 1.5mm;
+        }
+
+        .modules-right label.module {
+          padding: 1.5mm 3mm;
+          min-width: 5mm;
         }
 
         #battery.warning {
@@ -89,8 +93,13 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         position = "bottom";
         spacing = 0;
 
-        modules-left = [ "tray" ];
+        modules-left = [
+          "tray"
+          "wlr/taskbar"
+        ];
+
         modules-center = [ "mpris" ];
+
         modules-right = [
           "idle_inhibitor"
           "network"
@@ -109,6 +118,15 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         ];
 
         tray.spacing = 0;
+
+        "wlr/taskbar" = {
+          format = "{icon}";
+          icon-size = 16;
+          tooltip-format = "{title}";
+
+          on-click = "activate";
+          on-click-right = "close";
+        };
 
         mpris = {
           interval = 1;
