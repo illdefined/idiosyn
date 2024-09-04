@@ -3,6 +3,7 @@ let
   osConfig = args.osConfig or { };
 
   brightnessctl = lib.getExe pkgs.brightnessctl;
+  dbus-update = pkgs.dbus + /bin/dbus-update-activation-environment;
   fish = lib.getExe osConfig.programs.fish.package;
   fuzzel = lib.getExe config.programs.fuzzel.package;
   kitty = lib.getExe config.programs.kitty.package;
@@ -282,6 +283,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     spawn-at-startup = [
+      { command = [ dbus-update "--systemd"
+        "NIRI_SOCKET"
+        "WAYLAND_DISPLAY"
+        "XDG_CURRENT_DESKTOP"
+        "XDG_SESSION_TYPE"
+      ]; }
       { command = [ systemctl "--user" "start" "swayidle.service" ]; }
       { command = [ systemctl "--user" "start" "waybar.service" ]; }
     ];
