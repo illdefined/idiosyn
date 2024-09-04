@@ -230,7 +230,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
           format = "{icon} {capacity} %";
           format-icons = {
-            full = "󱟢";
+            full = "󰚥";
             plugged = "󰚥";
             charging = [ "󰢟" "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅" ];
             discharging = [ "󱃍" "󰁺" "󰁻" "󰁼" "󰁽" "󰁿" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
