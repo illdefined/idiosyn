@@ -326,7 +326,7 @@
     AMD_NUMA = option false;
     X86_64_ACPI_NUMA = true;
 
-    X86_INTEL_TSX_MODE_AUTO = true;
+    X86_INTEL_TSX_MODE_AUTO = option true;
 
     ADDRESS_MASKING = false;
   };
