@@ -171,6 +171,20 @@ in genAttrs [
     withKeePassX11 = false;
   };
 
+  kitty = prev.kitty.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libX.*" ];
+
+    postPatch = prevAttrs.postPatch or "" + ''
+      substituteInPlace setup.py \
+        --replace-fail "'x11 wayland'" "'wayland'" \
+        --replace-fail "'gl'" "'opengl'"
+
+      substituteInPlace kitty_tests/{check_build,glfw}.py \
+        --replace-fail "'x11'" "'wayland'"
+    '';
+  });
+
   libcanberra = prev.libcanberra.override {
     withAlsa = false;
     gtkSupport = null;
