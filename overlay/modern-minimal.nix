@@ -209,6 +209,19 @@ in genAttrs [
     });
   });
 
+  libxkbcommon = prev.libxkbcommon.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libxcb" ];
+
+    mesonFlags = prevAttrs.mesonFlags or [ ]
+      ++ [ (mesonBool "enable-x11" false ) ];
+
+    meta = prevAttrs.meta or { } // {
+      pkgConfigModules = prevAttrs.meta.pkgConfigModules or [ ]
+        |> remove "xkbcommon-x11";
+    };
+  });
+
   mesa = (prev.mesa.overrideAttrs (prevAttrs: {
     outputs = remove "spirv2dxil" prevAttrs.outputs;
 
