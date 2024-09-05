@@ -15,7 +15,6 @@ in genAttrs [
   "dbus"
   "ghostscript"
   "gobject-introspection"
-  "gtk3"
   "gtk4"
   "imlib2"
   "libcaca"
@@ -131,6 +130,14 @@ in genAttrs [
       mesonFlags = prevAttrs.mesonFlags or [ ]
         ++ [ "-Dcurl-ssh2=disabled" ];
     });
+  };
+
+  gtk3 = (prev.gtk3.overrideAttrs (prevAttrs: {
+    propagatedBuildInputs = prevAttrs.propagatedBuildInputs or [ ]
+      |> removePackages [ "libICE" "libSM" "libX.*" ];
+  })).override {
+    x11Support = false;
+    xineramaSupport = false;
   };
 
   imagemagick = prev.imagemagick.override {
