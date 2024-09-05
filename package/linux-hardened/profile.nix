@@ -43,7 +43,6 @@
 
   physical = {
     ACPI_BUTTON = true;
-    ACPI_VIDEO = true;
     ACPI_FAN = true;
     ACPI_TAD = true;
     ACPI_PROCESSOR_AGGREGATOR = true;
@@ -82,6 +81,7 @@
     SUSPEND = true;
     WQ_POWER_EFFICIENT_DEFAULT = true;
     ACPI_BATTERY = true;
+    ACPI_VIDEO = true;
 
     HOTPLUG_PCI_PCIE = true;
     HOTPLUG_PCI = true;
