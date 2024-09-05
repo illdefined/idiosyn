@@ -5,6 +5,7 @@
     checkJournalingFS = lib.mkDefault false;
     includeDefaultModules = lib.mkDefault false;
     luks.cryptoModules = lib.mkDefault [ ];
+    systemd.enable = lib.mkDefault true;
     verbose = lib.mkDefault false;
   };
 
