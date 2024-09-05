@@ -58,6 +58,7 @@
     USB_STORAGE = true;
     USB_UAS = true;
 
+    NEW_LEDS = true;
     LEDS_CLASS = true;
     LEDS_TRIGGERS = true;
     LEDS_TRIGGER_PANIC = true;
