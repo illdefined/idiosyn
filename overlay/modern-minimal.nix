@@ -185,6 +185,16 @@ in genAttrs [
     x11Support = false;
   };
 
+  libGL = prev.libGL.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libX.*" "xorgproto" ];
+
+    configureFlags = prevAttrs.configureFlags or [ ]
+      ++ [ "--disable-x11" ];
+
+    postFixup = null;
+  });
+
   libgnomekbd = prev.libgnomekbd.overrideAttrs (prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ]
       ++ [ (mesonBool "tests" false) ];
