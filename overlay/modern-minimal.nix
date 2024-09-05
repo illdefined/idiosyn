@@ -190,6 +190,12 @@ in genAttrs [
     gtkSupport = null;
   };
 
+  libcanberra-gtk3 = final.libcanberra.overrideAttrs (prevAttrs: {
+    passthru = prevAttrs.passthru or { } // {
+      gtkModule = final.emptyDirectory;
+    };
+  });
+
   libepoxy = (prev.libepoxy.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       ++ [ final.libGL ];
