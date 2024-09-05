@@ -1,4 +1,10 @@
 { self, ... }: { lib, config, pkgs, ... }: {
+  imports = with self.nixosModules; [
+    default
+    mimalloc
+    physical
+  ];
+
   boot.kernelPackages = let
     inherit (self.packages.x86_64-linux) linux-hardened;
   in pkgs.linuxPackagesFor (linux-hardened.override {
@@ -56,4 +62,12 @@
         CEPH_FS_POSIX_ACL = true;
       });
   });
+
+  ephemeral = {
+    device = "nodev";
+    boot = {
+      device = "nodev";
+      fsType = "vfat";
+    };
+  };
 }
