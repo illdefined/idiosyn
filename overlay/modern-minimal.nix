@@ -252,12 +252,14 @@ in genAttrs [
     withIptables = false;
   };
 
-  thunderbird-unwrapped = prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
+  thunderbird-unwrapped = (prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
     configureFlags = prevAttrs.configureFlags or [ ]
       |> substituteFlags {
         "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
       };
-  });
+  })).override {
+    jemallocSupport = false;
+  };
 
   thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
 
