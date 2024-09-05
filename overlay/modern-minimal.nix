@@ -15,7 +15,6 @@ in genAttrs [
   "dbus"
   "ghostscript"
   "gobject-introspection"
-  "gtk4"
   "imlib2"
   "libcaca"
   "pango"
@@ -134,6 +133,14 @@ in genAttrs [
 
   gtk3 = (prev.gtk3.overrideAttrs (prevAttrs: {
     propagatedBuildInputs = prevAttrs.propagatedBuildInputs or [ ]
+      |> removePackages [ "libICE" "libSM" "libX.*" ];
+  })).override {
+    x11Support = false;
+    xineramaSupport = false;
+  };
+
+  gtk4 = (prev.gtk4.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
       |> removePackages [ "libICE" "libSM" "libX.*" ];
   })).override {
     x11Support = false;
