@@ -2,6 +2,7 @@
   boot.consoleLogLevel = lib.mkDefault 3;
 
   boot.initrd = {
+    checkJournalingFS = lib.mkDefault false;
     includeDefaultModules = lib.mkDefault false;
     luks.cryptoModules = lib.mkDefault [ ];
     verbose = lib.mkDefault false;
