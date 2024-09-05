@@ -3,7 +3,7 @@
 let
   inherit (final) system;
   inherit (nixpkgs.lib.attrsets) genAttrs;
-  inherit (nixpkgs.lib.lists) remove;
+  inherit (nixpkgs.lib.lists) remove subtractLists;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
   inherit (self.lib) substituteFlags removePackages;
 
@@ -198,6 +198,16 @@ in genAttrs [
   })).override {
     x11Support = false;
   };
+
+  libva = prev.libva.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "libX.*" ];
+
+    meta = prevAttrs.meta or { } // {
+      pkgConfigModules = prevAttrs.meta.pkgConfigModules
+        |> subtractLists [ "libva-glx" "libva-x11" ];
+    };
+  });
 
   libGL = prev.libGL.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
