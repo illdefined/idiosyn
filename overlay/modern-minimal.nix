@@ -2,7 +2,7 @@
 
 let
   inherit (final) system;
-  inherit (nixpkgs.lib.attrsets) genAttrs;
+  inherit (nixpkgs.lib.attrsets) genAttrs mapAttrsToList;
   inherit (nixpkgs.lib.lists) remove subtractLists;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
   inherit (self.lib) substituteFlags removePackages;
@@ -311,6 +311,24 @@ in genAttrs [
       mysqlSupport = false;
       withGtk3 = false;
       withQttranslation = false;
+    };
+  });
+
+  qt6 = prev.qt6.overrideScope (final: prev: {
+    qtbase = (prev.qtbase.overrideAttrs (prevAttrs: {
+      buildInputs = prevAttrs.buildInputs or [ ]
+        |> removePackages [ "libX.*" "libxcb" "xcb.*" ];
+
+      cmakeFlags = prevAttrs.cmakeFlags ++ mapAttrsToList
+        (f: v: "-DQT_FEATURE_${f}:BOOL=${if v then "ON" else "OFF"}") {
+          xcb = false;
+          xlib = false;
+          vulkan = true;
+          wayland = true;
+        };
+    })).override {
+      postgresql = null;
+      qttranslations = null;
     };
   });
 
