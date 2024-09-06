@@ -303,6 +303,7 @@ in genAttrs [
 
       configureFlags = prevAttrs.configureFlags or [ ]
         |> substituteFlags {
+          "-opengl .*" = "-opengl es2";
           "-qpa .*" = null;
           "-xcb" = "-no-xcb";
         };
