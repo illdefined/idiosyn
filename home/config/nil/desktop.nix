@@ -141,6 +141,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       {
         matches = [
           { app-id = ''^notifications$''; }
+          { app-id = ''^mpv$''; }
         ];
 
         block-out-from = "screencast";
