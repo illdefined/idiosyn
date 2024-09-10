@@ -55,6 +55,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     keepassxc
     obsidian
     restic
+    simple-scan
     signal-desktop
   ];
 
