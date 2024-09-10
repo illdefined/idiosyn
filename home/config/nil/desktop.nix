@@ -224,6 +224,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "Mod+L".action = focus-workspace-down;
       "Mod+M".action = focus-workspace-up;
 
+      # Moving columns between workspaces
+      "Mod+Ctrl+Page_Down".action = move-column-to-workspace-down;
+      "Mod+Ctrl+Page_Up".action = move-column-to-workspace-up;
+      "Mod+Ctrl+L".action = move-column-to-workspace-down;
+      "Mod+Ctrl+M".action = move-column-to-workspace-up;
+
       # Workspace movement
       "Mod+Shift+Page_Down".action = move-workspace-down;
       "Mod+Shift+Page_Up".action = move-workspace-up;
@@ -233,8 +239,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       # Mouse wheel for workspace focus & movement
       "Mod+WheelScrollDown" = { cooldown-ms = 150; action = focus-workspace-down; };
       "Mod+WheelScrollUp" = { cooldown-ms = 150; action = focus-workspace-up; };
-      "Mod+Shift+WheelScrollDown".action = focus-column-right;
-      "Mod+Shift+WheelScrollUp".action = focus-column-left;
+      "Mod+Shift+WheelScrollDown" = { cooldown-ms = 150; action = focus-column-right; };
+      "Mod+Shift+WheelScrollUp" = { cooldown-ms = 150; action = focus-column-left; };
+      "Mod+Ctrl+WheelScrollDown" = { cooldown-ms = 150; action = move-column-to-workspace-down; };
+      "Mod+Ctrl+WheelScrollUp" = { cooldown-ms = 150; action = move-column-to-workspace-up; };
+      "Mod+Ctrl+Shift+WheelScrollDown" = { cooldown-ms = 150; action = move-column-right; };
+      "Mod+Ctrl+Shift+WheelScrollUp" = { cooldown-ms = 150; action = move-column-left; };
 
       # Column & window size (rough)
       "Mod+Y".action = switch-preset-column-width;
