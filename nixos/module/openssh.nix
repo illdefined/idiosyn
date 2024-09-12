@@ -34,6 +34,7 @@ in {
   };
 
   services.openssh = {
+    authorizedKeysInHomedir = false;
     hostKeys = lib.mkDefault [
       {
         path = "/etc/keys/ssh_host_ed25519_key";
