@@ -1,6 +1,6 @@
 { nixpkgs, ... }: final: prev: 
 let
-  inherit (nixpkgs.lib) optionalAttrs;
+  inherit (nixpkgs.lib) optionalAttrs toList;
   inherit (prev.stdenv) hostPlatform;
 in {
   redis = prev.redis.overrideAttrs ({
@@ -22,6 +22,13 @@ in {
       });
     };
   };
+
+  sioyek = prev.sioyek.overrideAttrs (prevAttrs: {
+    env = prevAttrs.env or { } // {
+      NIX_CFLAGS_COMPILE = toList prevAttrs.env.NIX_CFLAGS_COMPILE or [ ]
+        ++ [ "-DGL_CLAMP=GL_CLAMP_TO_EDGE" ] |> toString;
+    };
+  });
 } // optionalAttrs hostPlatform.isRiscV64 ({
   boehmgc = prev.boehmgc.overrideAttrs (prevAttrs: {
     postPatch = prevAttrs.postPatch or "" + ''
