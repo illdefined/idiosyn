@@ -30,6 +30,10 @@ in {
     '';
   });
 
+  libseccomp = prev.libseccomp.overrideAttrs ({
+    doCheck = false;
+  });
+
   libuv = prev.libuv.overrideAttrs ({
     doCheck = false;
   });
