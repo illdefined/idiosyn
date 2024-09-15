@@ -47,7 +47,6 @@ let
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
     calibre
-    evolution
     fractal
     inkscape
     jellyfin-mpv-shim
