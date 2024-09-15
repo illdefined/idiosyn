@@ -37,6 +37,10 @@ in {
     '';
   });
 
+  elfutils = prev.elfutils.overrideAttrs ({
+    doCheck = false;
+  });
+
   libseccomp = prev.libseccomp.overrideAttrs ({
     doCheck = false;
   });
