@@ -46,7 +46,6 @@ let
   in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
-    abiword
     calibre
     evolution
     fractal
@@ -56,7 +55,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     obsidian
     restic
     simple-scan
-    signal-desktop
   ];
 
   programs.fuzzel = {
