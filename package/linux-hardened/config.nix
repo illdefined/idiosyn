@@ -537,6 +537,10 @@
   };
 
   filesystem = {
+    EXT4_FS = true;
+    EXT4_USE_FOR_EXT2 = true;
+    EXT4_FS_POSIX_ACL = true;
+
     OVERLAY_FS = true;
     OVERLAY_FS_REDIRECT_DIR = true;
     OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW = false;

@@ -43,9 +43,6 @@ in {
     extraConfig = linux-hardened.profile.paravirt // (with self.lib.kernel; {
       NR_CPUS = 8;
 
-      EXT4_FS = true;
-      EXT4_USE_FOR_EXT2 = true;
-      EXT4_FS_POSIX_ACL = true;
       BTRFS_FS = true;
       BTRFS_FS_POSIX_ACL = true;
     });
