@@ -51,7 +51,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     inkscape
     jellyfin-mpv-shim
     keepassxc
-    obsidian
     restic
     simple-scan
   ];
