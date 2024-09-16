@@ -62,6 +62,8 @@ in {
 
     # Calculator
     fend
+
+    jaq
   ];
 
   home.sessionVariables = {
@@ -89,6 +91,7 @@ in {
 
   home.shellAliases = {
     icat = "kitten icat";
+    jq = "jaq";
   };
 
   home.preferXdgDirectories = true;
@@ -205,7 +208,6 @@ in {
     };
   };
 
-  programs.jq.enable = true;
   programs.man.generateCaches =
     osConfig.documentation.man.generateCaches or false;
   programs.ripgrep.enable = true;
