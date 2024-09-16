@@ -35,6 +35,8 @@
       ls = null;
       ll = null;
       l = null;
+
+      lsusb = "cyme --lsusb";
     };
 
     systemPackages = with pkgs; [
@@ -46,7 +48,7 @@
 
       # Hardware info
       pciutils
-      usbutils
+      cyme
     ];
   };
 
