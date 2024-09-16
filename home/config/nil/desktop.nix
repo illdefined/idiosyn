@@ -8,28 +8,12 @@ let
   fuzzel = lib.getExe config.programs.fuzzel.package;
   kitty = lib.getExe config.programs.kitty.package;
   loginctl = osConfig.systemd.package + /bin/loginctl;
+  niri = lib.getExe config.programs.niri.package;
   playerctl = config.services.playerctld.package + /bin/playerctl;
   swaylock = lib.getExe config.programs.swaylock.package;
   systemctl = osConfig.systemd.package + /bin/systemctl;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
-
-  niri-each-output = let
-    pkg = pkgs.writeShellApplication {
-      name = "niri-each-output";
-      runtimeInputs = [
-        config.programs.niri.package
-        pkgs.findutils
-        pkgs.jq
-      ];
-
-      text = ''
-        niri msg --json outputs \
-          | jq --raw-output0 '. | keys | .[]' \
-          | xargs -0 I {} -- niri msg output {} "$1"
-      '';
-    };
-  in lib.getExe pkg;
 
   askpass = let
     pkg = pkgs.writeShellApplication {
@@ -338,8 +322,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       }
       {
         timeout = 270;
-        command = "${niri-each-output} off";
-        resumeCommand = "${niri-each-output} on";
+        command = "${niri} msg action power-off-monitors";
       }
     ];
   };
