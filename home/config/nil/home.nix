@@ -309,6 +309,7 @@ in {
   services.ssh-agent.enable = true;
 
   systemd.user.tmpfiles.rules = [
+    "d %C 700 - - 90d"
     "d %t/ssh 700"
     "d %t/tmp 700 - - 24h"
   ];
