@@ -1,4 +1,4 @@
-{ self, nur, stylix, nix-index-database, niri, ... }: { config, lib, pkgs, ... }@args:
+{ self, nur, stylix, nix-index-database, niri, ripgrep-all, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in {
@@ -64,6 +64,8 @@ in {
     fend
 
     jaq
+
+    ripgrep-all.packages.${system}.default
   ];
 
   home.sessionVariables = {
