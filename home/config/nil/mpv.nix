@@ -9,9 +9,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       #access-references = false;
 
       # Video output
-      vo = "gpu";
-      #gpu-api = "vulkan";
-      hwdec = "vulkan,vaapi,auto-safe";
+      vo = "gpu-next";
+      gpu-api = "vulkan";
       vd-lavc-dr = true;
 
       scale = "ewa_lanczos4sharpest";
