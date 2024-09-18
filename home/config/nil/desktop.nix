@@ -273,17 +273,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       SSH_ASKPASS_REQUIRE = "force";
       TERMINAL = kitty;
     };
-
-    spawn-at-startup = [
-      { command = [ dbus-update "--systemd"
-        "NIRI_SOCKET"
-        "WAYLAND_DISPLAY"
-        "XDG_CURRENT_DESKTOP"
-        "XDG_SESSION_TYPE"
-      ]; }
-      { command = [ systemctl "--user" "start" "swayidle.service" ]; }
-      { command = [ systemctl "--user" "start" "waybar.service" ]; }
-    ];
   };
 
   programs.swaylock = {
@@ -328,6 +317,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   services.syncthing.enable = true;
+
+  systemd.user.services = {
+    swayidle = {
+      Unit = {
+        After = [ "graphical-session.target" ];
+      };
+    };
+  };
 
   xdg.mimeApps.enable = true;
 

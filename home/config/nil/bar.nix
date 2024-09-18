@@ -321,6 +321,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
+  systemd.user.services = {
+    waybar = {
+      Unit = {
+        After = [ "graphical-session.target" ];
+      };
+    };
+  };
+
   systemd.user.targets = {
     tray = {
       Unit = {
