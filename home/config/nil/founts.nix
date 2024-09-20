@@ -19,6 +19,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       monospace = [
         "Fira Code"
+        "Julia Mono"
         "M PLUS 1 Code"
         "Noto Sans Mono"
         "Symbols Nerd Font Mono"
@@ -29,6 +30,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   home.packages = with pkgs; [
+    julia-mono
     lato
     self.packages.${pkgs.system}.fira-code
     mplus-outline-fonts.githubRelease

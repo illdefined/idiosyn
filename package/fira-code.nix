@@ -16,8 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     install -D -m 0644 -t "$out/share/fonts" \
-      "ttf/Fira Code/"*.ttf \
-      "variable_ttf/Fira Code/"*.ttf
+      "variable_ttf/Fira Code/FiraCode-VF.ttf"
 
     runHook postInstall
   '';

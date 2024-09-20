@@ -154,7 +154,7 @@ in {
         end
 
         echo -n -s (set_color $user_colour --bold) $USER@ (prompt_hostname) \
-          (set_color blue --bold) ' ' (prompt_pwd) ' ❯ ' (set_color normal)
+          (set_color blue --bold) ' ' (prompt_pwd) ' › ' (set_color normal)
       '';
 
       fish_right_prompt = ''
