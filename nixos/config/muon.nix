@@ -281,26 +281,4 @@ imports = [
   users.users.nil.extraGroups = [
     "audio" "input" "uinput" "plugdev" "video" "render" "scanner" "nitrokey"
   ];
-
-  nix.distributedBuilds = true;
-  nix.buildMachines = [
-    {
-      hostName = "build-worker-03.nyantec.com";
-      maxJobs = 16;
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVHcVRZNzRjNWcxNURTTlBOTTJXZHI1akF3UzdCRmdYMVhSbmh0R09uSmMgcm9vdEBidWlsZC13b3JrZXItMDMK";
-      sshKey = "/etc/keys/nix-ssh";
-      sshUser = "nix-ssh";
-      supportedFeatures = [ "kvm" "nixos-test" "benchmark" "big-parallel" "gccarch-x86-64-v3" ];
-      system = "x86_64-linux";
-    }
-    {
-      hostName = "build-worker-04.nyantec.com";
-      maxJobs = 16;
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUNPcSs1SStubEFOMmxKb090b1hyWUVEdVovVE1QTWE0M3BJbGFibFlpZ0sgcm9vdEBidWlsZC13b3JrZXItMDQK";
-      sshKey = "/etc/keys/nix-ssh";
-      sshUser = "nix-ssh";
-      supportedFeatures = [ "kvm" "nixos-test" "benchmark" "big-parallel" "gccarch-x86-64-v3" ];
-      system = "x86_64-linux";
-    }
-  ];
 }
