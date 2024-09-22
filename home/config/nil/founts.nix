@@ -30,9 +30,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   home.packages = with pkgs; [
+    fira-code
     julia-mono
     lato
-    self.packages.${pkgs.system}.fira-code
     mplus-outline-fonts.githubRelease
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     noto-fonts
