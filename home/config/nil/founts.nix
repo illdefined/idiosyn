@@ -18,6 +18,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       serif = [ "Noto Serif" ];
 
       monospace = [
+        "idiosyn sans term"
         "Fira Code"
         "Julia Mono"
         "M PLUS 1 Code"
@@ -52,7 +53,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     monospace = {
-      package = pkgs.fira-code;
+      package = pkgs.iosevka.override {
+        set = "-idiosyn-sans-term";
+        privateBuildPlan = import ./iosevka.nix // {
+          family = "idiosyn sans term";
+          spacing = "term";
+        };
+      };
+
       name = "monospace";
     };
 

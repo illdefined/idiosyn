@@ -11,14 +11,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.kitty = {
     enable = true;
     theme = "Catppuccin-Mocha";
-    settings = let
-      regular = "family='Fira Code' features='+cv01 +cv06 +onum +ss01 +ss03 +ss06 +ss07 +ss08 +zero'";
-    in {
-      font_family = "${regular} style=Regular";
-      bold_font = "${regular} style=SemiBold";
-      italic_font = "Julia Mono";
-      bold_italic_font = "Julia Mono";
-
+    settings = {
       disable_ligatures = "cursor";
 
       cursor_blink_interval = 0;
