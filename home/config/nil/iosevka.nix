@@ -39,7 +39,7 @@
     capital-x = "curly-serifless";
     capital-y = "curly-serifless";
     capital-z = "curly-serifless";
-    a = "single-storey-earless-rounded-serifless";
+    a = "single-storey-earless-corner-tailed";
     b = "toothless-corner-serifless";
     c = "serifless";
     d = "toothless-corner-serifless";
