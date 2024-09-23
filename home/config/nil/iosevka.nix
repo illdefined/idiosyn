@@ -57,7 +57,7 @@
     q = "earless-corner-straight-serifless";
     r = "earless-corner-serifless";
     s = "serifless";
-    t = "flat-hook-short-neck";
+    t = "flat-hook-asymmetric-short-neck";
     u = "toothless-corner-serifless";
     v = "curly-serifless";
     w = "curly-serifless";
