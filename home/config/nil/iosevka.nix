@@ -23,7 +23,7 @@
     capital-g = "toothless-corner-serifless-hooked";
     capital-h = "serifless";
     capital-i = "short-serifed";
-    capital-j = "serifless";
+    capital-j = "flat-hook-serifless";
     capital-k = "curly-serifless";
     capital-l = "serifless";
     capital-m = "slanted-sides-hanging-serifless";
