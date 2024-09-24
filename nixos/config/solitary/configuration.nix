@@ -384,7 +384,7 @@ in {
       http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-solitary path-media
       http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-media path-media
       http-request redirect code 308 location https://cache.solitary.social%[capture.req.uri] if host-solitary path-proxy
-      http-request set-path "/media%[path]" if host-media !path-media
+      http-request set-path "/media%[path]" if host-media !path-acme !path-media
 
       use_backend acme if path-acme
       use_backend security.txt if path-security.txt
