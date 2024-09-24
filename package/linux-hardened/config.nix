@@ -213,6 +213,7 @@
 
   interfaces = {
     SYSVIPC = true;
+    POSIX_MQUEUE = true;
     USELIB = false;
 
     UID16 = false;
