@@ -14,7 +14,6 @@
   hardware.graphics.enable = false;
 
   security.lockKernelModules = true;
-  security.pam.sshAgentAuth.enable = true;
   security.protectKernelImage = true;
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
