@@ -10,7 +10,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     settings = {
       disable_ligatures = "cursor";
 
