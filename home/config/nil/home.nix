@@ -347,6 +347,14 @@ in {
     configFile.text = ''
       $env.config = {
         show_banner: false
+
+        history: {
+          max_size: 131072
+          sync_on_enter: true
+          file_format: "sqlite"
+          isolation: true
+        }
+
         use_kitty_protocol: true
 
         keybindings: [
