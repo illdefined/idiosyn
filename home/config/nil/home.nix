@@ -341,6 +341,22 @@ in {
       $env.config = {
         show_banner: false
         use_kitty_protocol: true
+
+        keybindings: [
+          {
+            name: completion_menu
+            modifier: control
+            keycode: char_i
+            mode: [ emacs vi_normal vi_insert ]
+            event: {
+              until: [
+                { send: menu name: completion_menu }
+                { send: menunext }
+                { edit: complete }
+              ]
+            }
+          }
+        ]
       };
     '';
   };
