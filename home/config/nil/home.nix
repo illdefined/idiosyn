@@ -308,6 +308,7 @@ in {
       '' |> builtins.readFile;
     in ''
       load-env {
+        EDITOR: r#'${lib.getExe config.programs.helix.package}'#
         LS_COLORS: r#'${ls-colours}'#
 
         PROMPT_COMMAND: {
