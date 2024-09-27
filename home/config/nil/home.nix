@@ -302,8 +302,14 @@ in {
 
   programs.nushell = {
     enable = true;
-    envFile.text = ''
+    envFile.text = let
+      ls-colours = pkgs.runCommand "ls-colours" { } ''
+        ${lib.getExe pkgs.vivid} generate catppuccin-mocha >$out
+      '' |> builtins.readFile;
+    in ''
       load-env {
+        LS_COLORS: r#'${ls-colours}'#
+
         PROMPT_COMMAND: {
           let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
             null => $env.PWD
