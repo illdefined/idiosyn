@@ -30,12 +30,6 @@ in {
   home.stateVersion = "24.11";
   home.enableNixpkgsReleaseCheck = false;
 
-  home.activation = {
-    fish = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      run ${lib.getExe config.programs.fish.package} -c 'set -U fish_greeting'
-    '';
-  };
-
   home.packages = with pkgs; [
     # Terminfo
     kitty.terminfo
@@ -303,6 +297,51 @@ in {
 
       " command mode
       noremap - :
+    '';
+  };
+
+  programs.nushell = {
+    enable = true;
+    envFile.text = ''
+      load-env {
+        PROMPT_COMMAND: {
+          let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
+            null => $env.PWD
+            "" => '~'
+            $relative_pwd => ([~ $relative_pwd] | path join)
+          }
+
+          [
+            (if (is-admin) { ansi red_bold } else { ansi green_bold })
+            (sys host | get hostname)
+            (char space)
+            (ansi blue_bold)
+            ($dir | path split | last)
+            (ansi reset)
+            (char space)
+          ] | str join
+        }
+
+        PROMPT_COMMAND_RIGHT: {
+          let duration = $env.CMD_DURATION_MS | into int
+
+          if $duration >= 2000 {
+            [ (ansi light_red) ($duration | into duration --unit ms) ] | str join
+          }
+        }
+
+        PROMPT_INDICATOR: { "› " }
+
+        SSH_AUTH_SOCK: $"($env.XDG_RUNTIME_DIR)/ssh-agent"
+        TMPDIR: $"($env.XDG_RUNTIME_DIR)/tmp"
+      }
+    '';
+
+    configFile.text = ''
+      $env.config = {
+        show_banner: false
+        use_kitty_protocol: true
+      };
     '';
   };
 

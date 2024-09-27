@@ -14,7 +14,6 @@ in {
     (pkg: builtins.elem (lib.getName pkg) [ "obsidian" ]);
 
   programs.dconf.enable = lib.mkIf graphical true;
-  programs.fish.enable = true;
 
   services.udev.packages = [
     (pkgs.writeTextDir "/etc/udev/rules.d/98-user-power-supply.rules" ''
@@ -48,7 +47,7 @@ in {
 
   users.users.nil = {
     isNormalUser = true;
-    shell = config.programs.fish.package;
+    shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo= primary"
