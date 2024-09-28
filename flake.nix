@@ -115,6 +115,11 @@
       };
 
       defaults = { name, config, ... }: {
+        nixpkgs = {
+          buildPlatform = self.lib.platforms.x86_64-linux;
+          hostPlatform = self.lib.platforms.x86_64-linux;
+        };
+
         deployment = {
           allowLocalDeployment = true;
           targetHost = config.networking.fqdnOrHostName;
