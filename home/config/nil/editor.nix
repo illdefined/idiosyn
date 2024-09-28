@@ -3,24 +3,28 @@
     enable = true;
     defaultEditor = true;
     settings = {
-      editor.auto-pairs = {
-        "“" = "”";
-        "‘" = "’";
-        "„" = "“";
-        "‚" = "‘";
-      };
+      editor = {
+        auto-pairs = {
+          "“" = "”";
+          "‘" = "’";
+          "„" = "“";
+          "‚" = "‘";
+        };
 
-      editor.whitespace.render = {
-        nbsp = "all";
-        nnbsp = "all";
-        tab = "all";
-      };
+        whitespace = {
+          render = {
+            nbsp = "all";
+            nnbsp = "all";
+            tab = "all";
+          };
 
-      editor.whitespace.characters = {
-        nbsp = "␣";
-        nnbsp = "⍽";
-        tab = "»";
-        tabpad = "·";
+          characters = {
+            nbsp = "␣";
+            nnbsp = "⍽";
+            tab = "»";
+            tabpad = "·";
+          };
+        };
       };
 
       keys.normal = {
