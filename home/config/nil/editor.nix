@@ -8,6 +8,11 @@
       editor = {
         rulers = [ 80 120 ];
 
+        indent-guides = {
+          render = true;
+          character = "│";
+        };
+
         auto-pairs = {
           "“" = "”";
           "‘" = "’";
@@ -19,14 +24,11 @@
           render = {
             nbsp = "all";
             nnbsp = "all";
-            tab = "all";
           };
 
           characters = {
             nbsp = "␣";
             nnbsp = "⍽";
-            tab = "»";
-            tabpad = "·";
           };
         };
       };
