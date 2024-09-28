@@ -3,6 +3,8 @@
     enable = true;
     defaultEditor = true;
     settings = {
+      theme = lib.mkForce "catppuccin_mocha";
+
       editor = {
         rulers = [ 80 120 ];
 
