@@ -4,6 +4,8 @@
     defaultEditor = true;
     settings = {
       editor = {
+        rulers = [ 80 120 ];
+
         auto-pairs = {
           "“" = "”";
           "‘" = "’";
