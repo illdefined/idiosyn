@@ -120,6 +120,13 @@
           targetHost = config.networking.fqdnOrHostName;
           targetUser = null;
         };
+
+        nixpkgs = {
+          buildPlatform = self.lib.platforms.x86_64-linux;
+          hostPlatform = self.lib.platforms.x86_64-linux;
+          overlays = [ self.overlays.default ];
+          config.allowUnsupportedSystem = true;
+        };
       };
     };
 
