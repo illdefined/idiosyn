@@ -138,41 +138,6 @@ in {
 
   programs.fd.enable = true;
 
-  programs.fish = {
-    enable = true;
-    functions = {
-      fish_prompt = ''
-        set -l user_colour 'green'
-        if fish_is_root_user
-          set user_colour 'red'
-        end
-
-        echo -n -s (set_color $user_colour --bold) $USER@ (prompt_hostname) \
-          (set_color blue --bold) ' ' (prompt_pwd) ' › ' (set_color normal)
-      '';
-
-      fish_right_prompt = ''
-        set -l st $status
-
-        if test $st -ne 0
-          set_color red --bold
-          printf "%s " (sysexit $st)
-          set_color normal
-        end
-      '';
-
-      fish_title = "prompt_pwd";
-
-      sysexit = builtins.readFile ./sysexit.fish;
-    };
-
-    interactiveShellInit = ''
-      if type -q tabs
-        tabs -4
-      end
-    '';
-  };
-
   programs.git = let
     key = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=";
   in {

@@ -4,11 +4,11 @@ let
 
   brightnessctl = lib.getExe pkgs.brightnessctl;
   dbus-update = pkgs.dbus + /bin/dbus-update-activation-environment;
-  fish = lib.getExe osConfig.programs.fish.package;
   fuzzel = lib.getExe config.programs.fuzzel.package;
   kitty = lib.getExe config.programs.kitty.package;
   loginctl = osConfig.systemd.package + /bin/loginctl;
   niri = lib.getExe config.programs.niri.package;
+  nushell = lib.getExe config.programs.nushell.package;
   playerctl = config.services.playerctld.package + /bin/playerctl;
   swaylock = lib.getExe config.programs.swaylock.package;
   systemctl = osConfig.systemd.package + /bin/systemctl;
@@ -143,7 +143,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     binds = with config.lib.niri.actions; {
       # Application spawning
       "Mod+Return".action = spawn [ kitty ];
-      "Mod+Shift+Return".action = spawn [ kitty "--app-id" "private" fish "--private" ];
+      "Mod+Shift+Return".action = spawn [ kitty "--app-id" "private" nushell "--no-history" ];
       "Mod+E".action = spawn [ fuzzel ];
 
       # Window & column focus
