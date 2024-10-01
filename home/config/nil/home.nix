@@ -299,6 +299,29 @@ in {
             }
           }
         ]
+
+        hooks: {
+          command_not_found: {
+            |cmd_name| (
+              try {
+                let pkgs = (
+                  `${config.programs.nix-index.package}/bin/nix-locate`
+                  --top-level --type x --type s --no-group --whole-name --at-root --minimal
+                  $"/bin/($cmd_name)"
+                )
+
+                if ($pkgs | is-empty) {
+                  null
+                } else {
+                  $pkgs | split row "\n"
+                  | each {|pkg| $"  nixpkgs#($pkg)\n"}
+                  | prepend $"($cmd_name) is provided by:\n"
+                  | append "\n" | str join
+                }
+              }
+            )
+          }
+        }
       };
     '';
   };
