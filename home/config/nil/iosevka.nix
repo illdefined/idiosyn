@@ -150,7 +150,13 @@
     f = "flat-hook-tailed";
   };
 
-  ligations.inherits = "dlig";
+  ligations = {
+    inherits = "dlig";
+    disables = [
+      "brace-bar"
+      "brack-bar"
+    ];
+  };
 
   widths = {
     Condensed = {
