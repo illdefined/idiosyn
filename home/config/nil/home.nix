@@ -258,11 +258,10 @@ in {
         }
 
         PROMPT_COMMAND_RIGHT: {
-          let duration = $env.CMD_DURATION_MS | into int
-
-          if $duration >= 2000 {
-            [ (ansi light_red) ($duration | into duration --unit ms) ] | str join
-          }
+          [
+            (ansi light_red)
+            ($env.CMD_DURATION_MS | into int | into duration --unit ms)
+          ] | str join
         }
 
         PROMPT_INDICATOR: { "› " }
