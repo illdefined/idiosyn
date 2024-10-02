@@ -35,6 +35,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     inkscape
     jellyfin-mpv-shim
     keepassxc
+    man-pages
+    man-pages-posix
     restic
     simple-scan
   ];
