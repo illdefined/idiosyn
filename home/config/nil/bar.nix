@@ -26,66 +26,65 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       sndioSupport = false;
     };
 
-    style = pkgs.writeText "waybar-style.css"
-      (with config.lib.stylix.colors.withHashtag; ''
-        * {
-          font: 600 12pt sans-serif;
-        }
+    style = ''
+      * {
+        font: 600 12pt sans-serif;
+      }
 
-        window, tooltip {
-          background: ${base00};
-          color: ${base05};
-        }
+      window, tooltip {
+        background: @base;
+        color: @text;
+      }
 
-        tooltip {
-          border-color: ${base0D};
-        }
+      tooltip {
+        border-color: @blue;
+      }
 
-        #tray, #taskbar, .modules-center, .modules-right {
-          padding: 0 3mm;
-        }
+      #tray, #taskbar, .modules-center, .modules-right {
+        padding: 0 3mm;
+      }
 
-        #tray image {
-          padding: 0 1.5mm;
-        }
+      #tray image {
+        padding: 0 1.5mm;
+      }
 
-        #taskbar button {
-          padding: 0 1.5mm;
-        }
+      #taskbar button {
+        padding: 0 1.5mm;
+      }
 
-        .modules-right label.module {
-          padding: 1.5mm 3mm;
-          min-width: 5mm;
-        }
+      .modules-right label.module {
+        padding: 1.5mm 3mm;
+        min-width: 5mm;
+      }
 
-        #battery.warning {
-          color: ${yellow};
-        }
+      #battery.warning {
+        color: @yellow;
+      }
 
-        #battery.critical {
-          color: ${red};
-        }
+      #battery.critical {
+        color: @red;
+      }
 
-        #temperature.critical {
-          color: ${red};
-        }
+      #temperature.critical {
+        color: @red;
+      }
 
-        #idle_inhibitor.activated {
-          color: ${yellow};
-        }
+      #idle_inhibitor.activated {
+        color: @yellow;
+      }
 
-        #pulseaudio.sink.muted {
-          color: ${base03};
-        }
+      #pulseaudio.sink.muted {
+        color: @surface1;
+      }
 
-        #pulseaudio.source {
-          color: ${yellow};
-        }
+      #pulseaudio.source {
+        color: @yellow;
+      }
 
-        #pulseaudio.source.source-muted {
-          color: ${base03};
-        }
-      '') |> lib.mkForce;
+      #pulseaudio.source.source-muted {
+        color: @surface1;
+      }
+    '';
 
     settings = {
       main = {

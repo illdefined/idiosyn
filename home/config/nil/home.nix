@@ -1,4 +1,4 @@
-{ self, nur, stylix, nix-index-database, niri, ripgrep-all, ... }: { config, lib, pkgs, ... }@args:
+{ self, nur, catppuccin, nix-index-database, niri, ripgrep-all, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in {
@@ -7,14 +7,11 @@ in {
     self.homeModules.greedy
     self.homeModules.locale-en_EU
     nix-index-database.hmModules.nix-index
-    stylix.homeManagerModules.stylix
-
+    catppuccin.homeManagerModules.catppuccin
     niri.homeModules.config
-    niri.homeModules.stylix
   ] ++ self.lib.mods [
     ./gammarelay.nix
     ./founts.nix
-    ./stylix.nix
     ./editor.nix
     ./desktop.nix
     ./bar.nix
@@ -29,6 +26,11 @@ in {
 
   home.stateVersion = "24.11";
   home.enableNixpkgsReleaseCheck = false;
+
+  catppuccin = {
+    enable = true;
+    pointerCursor.enable = true;
+  };
 
   home.packages = with pkgs; [
     # Terminfo
@@ -111,30 +113,13 @@ in {
     };
   };
 
-  programs.bat = {
-    enable = true;
-    config = {
-      theme = lib.mkForce "Catppuccin Mocha";
-    };
-
-    themes."Catppuccin Mocha" = {
-      src = pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "bat";
-        rev = "d3feec47b16a8e99eabb34cdfbaa115541d374fc";
-        hash = "sha256-s0CHTihXlBMCKmbBBb8dUhfgOOQu9PBCQ+uviy7o47w=";
-      };
-
-      file = "themes/Catppuccin Mocha.tmTheme";
-    };
-  };
+  programs.bat.enable = true;
 
   programs.bottom = {
     enable = true;
     settings.flags = {
       group = true;
       battery = true;
-      color = "gruvbox";
       mem_as_value = true;
       network_use_binary_prefix = true;
       network_use_bytes = true;

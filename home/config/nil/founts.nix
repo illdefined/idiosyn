@@ -1,6 +1,16 @@
 { self, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
+
+  iosevka = pkgs.iosevka.override {
+    set = "-idiosyn-sans-term";
+    privateBuildPlan = import ./iosevka.nix // {
+      family = "idiosyn sans term";
+      spacing = "term";
+    };
+  };
+
+  nerdfonts = pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   fonts.fontconfig = {
     enable = true;
@@ -32,48 +42,15 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   home.packages = with pkgs; [
     fira-code
+    iosevka
     julia-mono
     lato
     mplus-outline-fonts.githubRelease
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+    nerdfonts
     noto-fonts
     noto-fonts-color-emoji
     unifont
   ];
-
-  stylix.fonts = {
-    sansSerif = {
-      package = pkgs.lato;
-      name = "sans-serif";
-    };
-
-    serif = {
-      package = pkgs.noto-fonts;
-      name = "serif";
-    };
-
-    monospace = {
-      package = pkgs.iosevka.override {
-        set = "-idiosyn-sans-term";
-        privateBuildPlan = import ./iosevka.nix // {
-          family = "idiosyn sans term";
-          spacing = "term";
-        };
-      };
-
-      name = "monospace";
-    };
-
-    emoji = {
-      package = pkgs.noto-fonts-color-emoji;
-      name = "emoji";
-    };
-
-    sizes = {
-      terminal = 11;
-      popups = 13;
-    };
-  };
 
   xdg.configFile."fontconfig/conf.d/80-fira-code.conf".source = ./fira-code.xml;
 }

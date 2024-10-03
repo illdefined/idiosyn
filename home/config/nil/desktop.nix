@@ -1,4 +1,4 @@
-{ ... }: { config, lib, pkgs, ... }@args:
+{ self, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 
@@ -20,7 +20,6 @@ let
       name = "fuzzel-askpass";
       text = ''
         exec ${fuzzel} \
-          --font=monospace \
           --prompt="󰣀 " \
           --password \
           --lines=0 \
@@ -41,10 +40,20 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     simple-scan
   ];
 
+  gtk = {
+    enable = true;
+    catppuccin = {
+      enable = true;
+      gnomeShellTheme = true;
+      icon.enable = true;
+    };
+  };
+
   programs.fuzzel = {
     enable = true;
     settings = {
       main = {
+        font = "monospace:size=10";
         prompt = "❯ ";
       };
     };
@@ -92,11 +101,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         width = 1;
 
         active = {
-          color = config.lib.stylix.colors.withHashtag.base0D;
+          color = self.lib.catppuccin.mocha.colors.blue.hex;
         };
 
         inactive = {
-          color = config.lib.stylix.colors.withHashtag.base03;
+          color = self.lib.catppuccin.mocha.colors.surface1.hex;
         };
       };
 

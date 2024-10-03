@@ -1,5 +1,7 @@
-{ self, ... }: { config, lib, pkgs, ... }: {
-  imports = with self.nixosModules; [
+{ self, catppuccin, ... }: { config, lib, pkgs, ... }: {
+  imports = [
+    catppuccin.nixosModules.catppuccin
+  ] ++ (with self.nixosModules; [
     broken
     btrfs
     clusters
@@ -16,10 +18,12 @@
     security
     users
     zram
-  ];
+  ]);
 
   #boot.initrd.systemd.enable = true;
   boot.tmp.useTmpfs = true;
+
+  catppuccin.enable = true;
 
   documentation = {
     dev.enable = true;

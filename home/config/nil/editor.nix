@@ -2,9 +2,8 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    catppuccin.useItalics = true;
     settings = {
-      theme = lib.mkForce "catppuccin_mocha";
-
       editor = {
         rulers = [ 80 120 ];
 
