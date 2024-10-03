@@ -1,6 +1,10 @@
 { self, nur, catppuccin, nix-index-database, niri, ripgrep-all, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
+
+  bat = lib.getExe config.programs.bat.package;
+  col = lib.getExe' pkgs.util-linux "col";
+  sh = lib.getExe self.packages.${pkgs.system}.hush;
 in {
   imports = [
     nur.hmModules.nur
@@ -207,6 +211,8 @@ in {
       load-env {
         EDITOR: r#'${lib.getExe config.programs.helix.package}'#
         LS_COLORS: r#'${ls-colours}'#
+        MANROFFOPT: `-c`
+        MANPAGER: `${sh} -c '${col} -bx | ${bat} -l man -p'`
 
         PROMPT_COMMAND: {
           let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
