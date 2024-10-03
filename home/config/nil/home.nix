@@ -34,6 +34,9 @@ in {
     # Terminfo
     kitty.terminfo
 
+    # Minimal POSIX shell
+    self.packages.${system}.hush
+
     # Core utilities
     (lib.meta.setPrio 0 uutils-coreutils-noprefix)
 
