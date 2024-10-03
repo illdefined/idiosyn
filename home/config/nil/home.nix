@@ -71,10 +71,6 @@ in {
     ripgrep-all.packages.${system}.default
   ];
 
-  home.sessionVariables = {
-    TMPDIR = "$XDG_RUNTIME_DIR/tmp";
-  };
-
   editorconfig = {
     enable = true;
     settings = {
@@ -92,11 +88,6 @@ in {
         indent_size = 2;
       };
     };
-  };
-
-  home.shellAliases = {
-    icat = "kitten icat";
-    jq = "jaq";
   };
 
   home.preferXdgDirectories = true;
