@@ -1,16 +1,17 @@
-{ self, nur, catppuccin, nix-index-database, niri, ripgrep-all, ... }: { config, lib, pkgs, ... }@args:
+{ self, nur, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
+{ config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 
   bat = lib.getExe config.programs.bat.package;
   col = lib.getExe' pkgs.util-linux "col";
+  nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
   sh = lib.getExe self.packages.${pkgs.system}.hush;
 in {
   imports = [
     nur.hmModules.nur
     self.homeModules.greedy
     self.homeModules.locale-en_EU
-    nix-index-database.hmModules.nix-index
     catppuccin.homeManagerModules.catppuccin
     niri.homeModules.config
   ] ++ self.lib.mods [
@@ -35,6 +36,9 @@ in {
     enable = true;
     pointerCursor.enable = true;
   };
+
+  home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
+    nix-index-database.packages.${pkgs.system}.nix-channel-index-programs;
 
   home.packages = with pkgs; [
     # Terminfo
@@ -69,6 +73,9 @@ in {
     jaq
 
     ripgrep-all.packages.${system}.default
+
+    # Required for Carapace nix completer
+    sqlite
   ];
 
   editorconfig = {
@@ -120,6 +127,8 @@ in {
       network_use_bytes = true;
     };
   };
+
+  programs.carapace.enable = true;
 
   programs.eza = {
     enable = true;
@@ -200,6 +209,7 @@ in {
       '' |> builtins.readFile;
     in ''
       load-env {
+        CARAPACE_BRIDGES: `bash`
         EDITOR: `${lib.getExe config.programs.helix.package}`
         LS_COLORS: `${ls-colours}`
         MANROFFOPT: `-c`
@@ -271,7 +281,8 @@ in {
             |cmd_name| (
               try {
                 let pkgs = (
-                  `${config.programs.nix-index.package}/bin/nix-locate`
+                  `${nix-locate}`
+                  --db `${nix-index-database.packages.${pkgs.system}.nix-index-database}`
                   --top-level --type x --type s --no-group --whole-name --at-root --minimal
                   $"/bin/($cmd_name)"
                 )
