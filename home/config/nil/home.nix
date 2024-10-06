@@ -200,8 +200,8 @@ in {
       '' |> builtins.readFile;
     in ''
       load-env {
-        EDITOR: r#'${lib.getExe config.programs.helix.package}'#
-        LS_COLORS: r#'${ls-colours}'#
+        EDITOR: `${lib.getExe config.programs.helix.package}`
+        LS_COLORS: `${ls-colours}`
         MANROFFOPT: `-c`
         MANPAGER: `${sh} -c '${col} -bx | ${bat} -l man -p'`
 
