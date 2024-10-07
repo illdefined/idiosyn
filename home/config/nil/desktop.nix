@@ -344,7 +344,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     configPackages = [ config.programs.niri.package ];
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
-      (xdg-desktop-portal-gtk.override { buildPortalsInGnome = false; })
+      xdg-desktop-portal-gtk
     ];
   };
 }
