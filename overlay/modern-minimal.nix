@@ -369,4 +369,9 @@ in genAttrs [
     # broken
     withDocumentation = false;
   };
+
+  xdg-desktop-portal-gtk = prev.xdg-desktop-portal-gtk.overrideAttrs (prevAttrs: {
+    buildInputs = prevAttrs.buildInputs or [ ]
+      |> removePackages [ "gnome-settings-daemon" ];
+  });
 }
