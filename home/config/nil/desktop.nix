@@ -153,7 +153,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     binds = with config.lib.niri.actions; {
       # Application spawning
-      "Mod+Return".action = spawn [ kitty ];
+      "Mod+Return".action = spawn [ kitty "--single-instance" ];
       "Mod+Shift+Return".action = spawn [ kitty "--app-id" "private" nushell "--no-history" ];
       "Mod+E".action = spawn [ fuzzel ];
 
