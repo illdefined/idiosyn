@@ -43,9 +43,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "ctrl+end" = "scroll_end";
       "ctrl+print_screen" = "show_scrollback";
 
-      "ctrl+equal" = "change_font_size all 0";
-      "ctrl+plus" = "change_font_size all +1";
-      "ctrl+minus" = "change_font_size all -1";
+      "ctrl+equal" = "change_font_size current 0";
+      "ctrl+plus" = "change_font_size current +1";
+      "ctrl+minus" = "change_font_size current -1";
 
       "ctrl+shift+u" = "kitten unicode_input";
     };
