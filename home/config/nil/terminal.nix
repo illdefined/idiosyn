@@ -42,6 +42,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "ctrl+home" = "scroll_home";
       "ctrl+end" = "scroll_end";
       "ctrl+print_screen" = "show_scrollback";
+      "ctrl+shift+delete" = "clear_terminal reset active";
 
       "ctrl+equal" = "change_font_size current 0";
       "ctrl+plus" = "change_font_size current +1";
