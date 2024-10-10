@@ -10,6 +10,11 @@ imports = [
     wireless
   ]);
 
+  boot.binfmt = {
+    emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+    preferStaticEmulators = true;
+  };
+
   boot.initrd = {
     luks.devices."luks-2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75".device = "/dev/disk/by-uuid/2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75";
     luks.devices."luks-ea77e674-847f-41b8-9e1d-8b6dd08710e6".device = "/dev/disk/by-uuid/ea77e674-847f-41b8-9e1d-8b6dd08710e6";
@@ -260,7 +265,7 @@ imports = [
         protocol = null;
         maxJobs = 2;
         speedFactor = 12;
-        systems = [ "x86_64-linux" ];
+        systems = [ "x86_64-linux" "aarch64-linux" "riscv64-linux" ];
         supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
       }
       {
