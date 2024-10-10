@@ -252,7 +252,80 @@ imports = [
     { from = 6001; to = 6011; }
   ];
 
-  programs.ssh.knownHosts."zh1830.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
+  nix = {
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        hostName = "localhost";
+        protocol = null;
+        maxJobs = 2;
+        speedFactor = 12;
+        systems = [ "x86_64-linux" ];
+        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
+      }
+      {
+        hostName = "integra.kyouma.net";
+        protocol = "ssh-ng";
+        sshUser = "nix-ssh";
+        maxJobs = 2;
+        speedFactor = 4;
+        systems = [ "aarch64-linux" ];
+        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        sshKey = "/etc/keys/nix-ssh";
+      }
+    ] ++ lib.forEach [ "01" "02" "03" "04" "05" "06" "07" "08" ] (num: {
+      hostName = "build-worker-${num}";
+      protocol = "ssh-ng";
+      sshUser = "root";
+      maxJobs = 4;
+      speedFactor = 16;
+      systems = [ "x86_64-linux" "i686-linux" ];
+      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
+      sshKey = "/etc/keys/nix-ssh";
+    });
+  };
+
+  programs.ssh = {
+    knownHosts = {
+      "[build-worker-kyoumanet.fly.dev]:2201".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDL2M97UBHg9aUfjDUxzmzg1r0ga0m3/stummBVwuEAB";
+      "[build-worker-kyoumanet.fly.dev]:2202".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTwVKL0P0chPM2Gz23rbT94844+w1CGJdCaZdzfjThz";
+      "[build-worker-kyoumanet.fly.dev]:2203".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjy2eZGJQeAYy0+fLgW9jiS0jVY2LInY0NDMnzCvvKp";
+      "[build-worker-kyoumanet.fly.dev]:2204".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN72OyD9LYy4hq0WZ7ie5RPV+G54UreEJiA/RubjGoe9";
+      "[build-worker-kyoumanet.fly.dev]:2205".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICNh1o1I98XrI2XmOI6Q0aHPfyLCIQwKkKOxGUUeXL9v";
+      "[build-worker-kyoumanet.fly.dev]:2206".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGf0kxGgwOG9KhUhvxxTSiQC5YikrzZXKDgSpBw33qN4";
+      "[build-worker-kyoumanet.fly.dev]:2207".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9z95a6Fn/dB+iNigEYpuJdBnBwCkIZYaKHcFbGP+RY";
+      "[build-worker-kyoumanet.fly.dev]:2208".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAk+FNMhTfAVqk3MfLp4QiG/i5ti53DlpnC0q+sOvU9O";
+      "integra.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBwEQiSfaDrUAwgul4mktusBPcIVxI4pLNDh9DPopVU";
+      "zh1830.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
+    };
+
+    extraConfig = ''
+      Host build-worker-01
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2201
+      Host build-worker-02
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2202
+      Host build-worker-03
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2203
+      Host build-worker-04
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2204
+      Host build-worker-05
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2205
+      Host build-worker-06
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2206
+      Host build-worker-07
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2207
+      Host build-worker-08
+        Hostname build-worker-kyoumanet.fly.dev
+        Port 2208
+    '';
+  };
 
   services.beesd.filesystems.root = {
     spec = "UUID=039aa386-a39d-4329-bcf0-48936b938db1";
