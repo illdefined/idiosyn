@@ -13,7 +13,7 @@
 
   hardware.graphics.enable = false;
 
-  security.lockKernelModules = true;
+  security.lockKernelModules = lib.mkIf (config.boot.kernelPackages.kernel.config.isEnabled "MODULES") true;
   security.protectKernelImage = true;
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
