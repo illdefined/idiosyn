@@ -140,6 +140,6 @@
 
   systemd.tmpfiles.rules = [
     "w- /sys/kernel/mm/transparent_hugepage/enabled - - - - always"
-    "w- /sys/kernel/mm/transparent_hugepage/defrag  - - - - defer+madvise"
+    "w- /sys/kernel/mm/transparent_hugepage/defrag  - - - - defer"
   ];
 }
