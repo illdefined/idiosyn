@@ -3,6 +3,15 @@ let
   inherit (nixpkgs.lib) optionalAttrs toList;
   inherit (prev.stdenv) hostPlatform;
 in {
+  numactl = prev.numactl.overrideAttrs (prevAttrs: {
+    patches = prevAttrs.patches or [ ] ++ [
+      (final.fetchpatch {
+        url = "https://github.com/numactl/numactl/commit/f9deba0c8404529772468d6dd01389f7dbfa5ba9.patch";
+        hash = "sha256-TmWfD99YaSIHA5PSsWHE91GSsdsVgVU+qIow7LOwOGw=";
+      })
+    ];
+  });
+
   redis = prev.redis.overrideAttrs ({
     doCheck = false;
   });
