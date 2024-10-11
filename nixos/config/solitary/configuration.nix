@@ -112,6 +112,12 @@ in {
     '';
   };
 
+  services.akkoma.dist.extraFlags = [
+    "-MMlp" "on"
+    "-MMsco" "true"
+    "-MMscs" "1024"  
+  ];
+  
   services.akkoma.config = let
     elixir = pkgs.formats.elixirConf { };
   in with elixir.lib; {
