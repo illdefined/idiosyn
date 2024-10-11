@@ -30,6 +30,18 @@ in {
         "$out/bin/thunderbird"
     '';
   });
+
+  fractal = prev.fractal.overrideAttrs (prevAttrs: {
+    nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ final.makeBinaryWrapper ];
+    buildInputs = prevAttrs.buildInputs or [ ] ++ [ final.mimalloc ];
+
+    NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C link-arg=-lmimalloc" ];
+    
+    postInstall = prevAttrs.postInstall or "" + ''
+      wrapProgram "$out/bin/fractal" \
+        --set MIMALLOC_RESERVE_HUGE_OS_PAGES 1
+    '';
+  });
   
   mpv = final.mpv-unwrapped.wrapper {
     mpv = final.mpv-unwrapped;
@@ -43,7 +55,6 @@ in {
   "erlang"
   "fd"
   "firefox-unwrapped"
-  "fractal"
   "fuzzel"
   "helix"
   "kitty"
