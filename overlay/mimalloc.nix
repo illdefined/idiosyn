@@ -40,6 +40,7 @@ in {
   "bottom"
   "cryptsetup"
   "dbus-broker"
+  "erlang"
   "fd"
   "firefox-unwrapped"
   "fractal"
