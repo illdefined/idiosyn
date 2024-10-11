@@ -15,9 +15,26 @@ in {
     secureBuild = true;
   };
 
-  firefox = final.wrapFirefox final.firefox-unwrapped { };
-  mpv = final.mpv-unwrapped.wrapper { mpv = final.mpv-unwrapped; };
-  thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
+  firefox = (final.wrapFirefox final.firefox-unwrapped { }).overrideAttrs (prevAttrs: {
+    buildCommand = prevAttrs.buildCommand + ''
+      sed -i \
+        '$i export MIMALLOC_RESERVE_HUGE_OS_PAGES=2' \
+        "$out/bin/firefox"
+    '';
+  });
+  
+  thunderbird = (final.wrapThunderbird final.thunderbird-unwrapped { }).overrideAttrs (prevAttrs: {
+    buildCommand = prevAttrs.buildCommand + ''
+      sed -i \
+        '$i export MIMALLOC_RESERVE_HUGE_OS_PAGES=2' \
+        "$out/bin/thunderbird"
+    '';
+  });
+  
+  mpv = final.mpv-unwrapped.wrapper {
+    mpv = final.mpv-unwrapped;
+    extraMakeWrapperArgs = [ "--set" "MIMALLOC_RESERVE_HUGE_OS_PAGES" "1" ];
+  };
 } // lib.genAttrs [
   "bat"
   "bottom"
