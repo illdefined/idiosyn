@@ -21,6 +21,7 @@ imports = [
   };
 
   boot.kernelParams = [
+    "hugepagesz=1G" "hugepages=8"
     "intel_iommu=on"
     "nouveau.config=NvGspRm=1"
   ];
