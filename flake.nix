@@ -98,7 +98,10 @@
         localSystem = builtins.currentSystem or platform;
         crossSystem = platform;
         overlays = [ self.overlays.default ];
-        config.allowUnsupportedSystem = true;
+        config = {
+          allowBroken = true;
+          allowUnsupportedSystem = true;
+        };
       });
 
     packages = eachSystem (system: platform:

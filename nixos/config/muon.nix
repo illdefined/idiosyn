@@ -291,6 +291,12 @@ imports = [
     });
   };
 
+  nixpkgs.crossSystem = {
+    system = "x86_64-linux";
+    useLLVM = true;
+    linker = "lld";
+  };
+
   programs.ssh = {
     knownHosts = {
       "[build-worker-kyoumanet.fly.dev]:2201".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDL2M97UBHg9aUfjDUxzmzg1r0ga0m3/stummBVwuEAB";
