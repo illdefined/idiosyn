@@ -35,7 +35,7 @@ in {
     nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ final.makeBinaryWrapper ];
     buildInputs = prevAttrs.buildInputs or [ ] ++ [ final.mimalloc ];
 
-    NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C link-arg=-lmimalloc" ];
+    NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C" "link-arg=-lmimalloc" ];
     
     postInstall = prevAttrs.postInstall or "" + ''
       wrapProgram "$out/bin/fractal" \
@@ -87,7 +87,7 @@ in {
     NIX_LDFLAGS = toString (lib.toList prevAttrs.env.NIX_LDFLAGS or [ ] ++ [ "-lmimalloc" ]);
   };
 
-  NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C link-arg=-lmimalloc" ];
+  NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C" "link-arg=-lmimalloc" ];
 } // lib.optionalAttrs (!prevAttrs ? env.NIX_LDFLAGS) {
   NIX_LDFLAGS = lib.toList prevAttrs.NIX_LDFLAGS or [ ] ++ [ "-lmimalloc" ];
 }))
