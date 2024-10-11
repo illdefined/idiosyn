@@ -30,6 +30,8 @@ in {
       "rcu_nocbs=all"
     ];
 
+    nix.settings.max-jobs = builtins.length cfg.performance |> lib.mkDefault;
+
     systemd.slices = lib.genAttrs [ "system" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
     });
