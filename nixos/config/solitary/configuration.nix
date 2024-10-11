@@ -36,6 +36,10 @@ in {
     device = "/dev/vda";
   };
 
+  boot.kernelParams = [
+    "hugepagesz=1G" "hugepages=1"
+  ];
+
   boot.kernelPackages = let
     inherit (self.packages.x86_64-linux) linux-hardened;
   in pkgs.linuxPackagesFor (linux-hardened.override {
