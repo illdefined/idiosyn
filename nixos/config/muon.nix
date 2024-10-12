@@ -271,8 +271,8 @@ imports = [
         supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
         sshKey = "/etc/keys/nix-ssh";
       }
-    ] ++ lib.forEach [ "01" "02" "03" "04" "05" "06" "07" "08" ] (num: {
-      hostName = "build-worker-${num}";
+    ] ++ (lib.range 1 8 |> map (num: {
+      hostName = "build-worker-0${toString num}";
       protocol = "ssh-ng";
       sshUser = "root";
       maxJobs = 4;
@@ -280,7 +280,7 @@ imports = [
       systems = [ "x86_64-linux" "i686-linux" ];
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
       sshKey = "/etc/keys/nix-ssh";
-    });
+    }));
   };
 
   programs.ssh = {
@@ -297,32 +297,11 @@ imports = [
       "zh1830.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
     };
 
-    extraConfig = ''
-      Host build-worker-01
+    extraConfig = lib.range 1 8 |> map (num: ''
+      Host build-worker-0${toString num}
         Hostname build-worker-kyoumanet.fly.dev
-        Port 2201
-      Host build-worker-02
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2202
-      Host build-worker-03
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2203
-      Host build-worker-04
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2204
-      Host build-worker-05
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2205
-      Host build-worker-06
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2206
-      Host build-worker-07
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2207
-      Host build-worker-08
-        Hostname build-worker-kyoumanet.fly.dev
-        Port 2208
-    '';
+        Port 220${toString num}
+    '') |> lib.concatStrings;
   };
 
   services.beesd.filesystems.root = {
