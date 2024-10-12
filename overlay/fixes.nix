@@ -4,6 +4,10 @@ let
   inherit (lib) toList;
   inherit (prev.stdenv) hostPlatform;
 in {
+  git = prev.git.overrideAttrs {
+    doInstallCheck = false;
+  };
+
   numactl = prev.numactl.overrideAttrs (prevAttrs: {
     patches = prevAttrs.patches or [ ] ++ [
       (final.fetchpatch {

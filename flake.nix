@@ -98,7 +98,10 @@
         localSystem = builtins.currentSystem or platform;
         crossSystem = platform;
         overlays = [ self.overlays.default ];
-        config.allowUnsupportedSystem = true;
+        config = {
+          allowUnsupportedSystem = true;
+          replaceStdenv = { pkgs }: self.lib.stdenv pkgs;
+        };
       });
 
     packages = eachSystem (system: platform:
