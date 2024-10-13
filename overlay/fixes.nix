@@ -55,6 +55,7 @@ in {
 
   elfutils = prev.elfutils.overrideAttrs ({
     doCheck = false;
+    doInstallCheck = false;
   });
 
   libseccomp = prev.libseccomp.overrideAttrs ({
