@@ -1,7 +1,6 @@
 { self, ... }: { lib, pkgs, ... }:
 let
   inherit (pkgs.stdenv) hostPlatform;
-#  inherit (inputs.idiosyn.lib.platforms.${hostPlatform.system}.gcc) arch;
 in {
   imports = with self.nixosModules; [
     powersupply
@@ -42,9 +41,6 @@ in {
       preallocate-contents = true;
       use-cgroups = true;
       use-xdg-base-directories = true;
-
-/*      system-features = lib.mkOptionDefault
-        (map (arch: "gccarch-${arch}") ([ arch ] ++ lib.systems.architectures.inferiors.${arch} or [ ]));*/
     };
 
     registry = {
