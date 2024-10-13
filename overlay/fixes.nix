@@ -66,6 +66,10 @@ in {
     doCheck = false;
   });
 
+  umockdev = prev.umockdev.overrideAttrs {
+    doCheck = false;
+  };
+
   xdg-utils = prev.xdg-utils.override {
     procmail = final.emptyDirectory;
   };
