@@ -99,13 +99,23 @@
     };
 
     overlays = load ./overlay "overlay";
-    legacyPackages = eachSystem (system: platform:
-      import nixpkgs {
-        localSystem = builtins.currentSystem or platform;
+    legacyPackages = eachSystem (system: platform: let
+      pkgs = import nixpkgs {
+        localSystem = builtins.currentSystem or system;
         crossSystem = platform;
         overlays = [ self.overlays.default ];
-        config.allowUnsupportedSystem = true;
-      });
+        config = {
+          allowBroken = true;
+          allowUnsupportedSystem = true;
+        };
+      };
+    in pkgs // {
+      config = pkgs.config // {
+        replaceStdenv = { pkgs }: self.lib.stdenv pkgs pkgs.stdenv;
+        replaceCrossStdenv = { buildPackages, baseStdenv }:
+          self.lib.stdenv self.legacyPackages.${system} baseStdenv;
+      };
+    });
 
     packages = eachSystem (system: platform:
       let pkgs = self.legacyPackages.${system};
@@ -125,6 +135,13 @@
           allowLocalDeployment = true;
           targetHost = config.networking.fqdnOrHostName;
           targetUser = null;
+        };
+
+        nixpkgs = let
+          platform = self.lib.platforms.x86_64-linux;
+        in {
+          buildPlatform = builtins.currentSystem or platform.system;
+          hostPlatform = platform;
         };
       };
     };

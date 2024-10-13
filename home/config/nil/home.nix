@@ -205,7 +205,7 @@ in {
     enable = true;
     envFile.text = let
       ls-colours = pkgs.runCommand "ls-colours" { } ''
-        ${lib.getExe pkgs.vivid} generate catppuccin-mocha >$out
+        ${lib.getExe pkgs.buildPackages.vivid} generate catppuccin-mocha >$out
       '' |> builtins.readFile;
     in ''
       load-env {

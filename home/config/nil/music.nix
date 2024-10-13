@@ -33,7 +33,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   services.mopidy = {
-    enable = true;
+#    enable = true;
     extensionPackages = with pkgs; [
       mopidy-iris
       mopidy-local
