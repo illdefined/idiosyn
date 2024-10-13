@@ -11,6 +11,7 @@
     iosched
     kernel
     locale-en_EU
+    musl
     network
     nix
     openssh

@@ -2,8 +2,16 @@
 let
   inherit (nixpkgs) lib;
   inherit (lib) toList;
-  inherit (prev.stdenv) hostPlatform;
+  inherit (prev.stdenv) buildPlatform hostPlatform;
 in {
+  netbsd = prev.netbsd.overrideScope (final: prev: {
+    compatIfNeeded = [ final.compat ];
+
+    compat = prev.compat.overrideAttrs (prevAttrs: {
+      makeFlags = prevAttrs.makeFlags ++ [ "OBJCOPY=:" ];
+    });
+  });
+
   numactl = prev.numactl.overrideAttrs (prevAttrs: {
     patches = prevAttrs.patches or [ ] ++ [
       (final.fetchpatch {
@@ -13,17 +21,46 @@ in {
     ];
   });
 
-  redis = prev.redis.overrideAttrs {
-    doCheck = false;
-  };
+  python3 = (prev.python3.overrideAttrs (prevAttrs: {
+    postInstall = let
+      lib = "$out/lib/${prevAttrs.passthru.libPrefix}";
+      prefix = "_sysconfigdata__linux_";
+      build = "${buildPlatform.parsed.cpu.name}-${buildPlatform.parsed.abi.name}";
+      host = "${hostPlatform.parsed.cpu.name}-${hostPlatform.parsed.abi.name}";
+    in ''
+      if ! [ -e "${lib}/${prefix}${host}.py" ]; then
+        test -e "${lib}/${prefix}.py" \
+          && cp "${lib}/${prefix}"{,"${host}"}.py
 
-  python312 = prev.python312.override {
+        test -e "${lib}/${prefix}${build}.py" \
+          && cp "${lib}/${prefix}"{"${build}","${host}"}.py
+      fi
+    '' + prevAttrs.postInstall;
+
+    postFixup = prevAttrs.postFixup + ''
+      cat <<EOF >>"$out/nix-support/setup-hook"
+      setuptoolsDistutilsHook() {
+        export SETUPTOOLS_USE_DISTUTILS="stdlib"
+      }
+
+      addEnvHooks "\$hostOffset" setuptoolsDistutilsHook
+      EOF
+    '';
+  })).override {
+    enableLTO = false;
     packageOverrides = final: prev: {
-      pywebview = prev.pywebview.overrideAttrs ({
-        doCheck = false;
-        doInstallCheck = false;
+      packaging = prev.packaging.overrideAttrs (prevAttrs: {
+        env = prevAttrs.env or { } // {
+          SETUPTOOLS_USE_DISTUTILS = "stdlib";
+        };
       });
     };
+  };
+
+  python3Packages = final.python3.pkgs;
+
+  redis = prev.redis.overrideAttrs {
+    doCheck = false;
   };
 
   sioyek = prev.sioyek.overrideAttrs (prevAttrs: {
@@ -33,10 +70,23 @@ in {
     };
   });
 
+  time = prev.time.overrideAttrs (prevAttrs: {
+    env = prevAttrs.env or { } // {
+      CFLAGS = toList prevAttrs.env.CFLAGS or [ ] ++ [
+        "-Wno-error=implicit-function-declaration"
+      ] |> toString;
+    };
+  });
+
   zeromq = prev.zeromq.overrideAttrs (prevAttrs: {
     postPatch = prevAttrs.postPatch or "" + ''
       substituteInPlace CMakeLists.txt \
         --replace-fail 'CACHELINE_SIZE EQUAL "undefined"' 'CACHELINE_SIZE STREQUAL "undefined"'
     '';
+  });
+
+  zlib = prev.zlib.overrideAttrs (prevAttrs: {
+    configureFlags = prevAttrs.configureFlags or [ ]
+      |> lib.subtractLists [ "--shared" "--static" ];
   });
 }
