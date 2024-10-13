@@ -4,6 +4,14 @@ let
   inherit (lib) toList;
   inherit (prev.stdenv) hostPlatform;
 in {
+  netbsd = prev.netbsd.overrideScope (final: prev: {
+    compatIfNeeded = [ final.compat ];
+
+    compat = prev.compat.overrideAttrs (prevAttrs: {
+      makeFlags = prevAttrs.makeFlags ++ [ "OBJCOPY=:" ];
+    });
+  });
+
   numactl = prev.numactl.overrideAttrs (prevAttrs: {
     patches = prevAttrs.patches or [ ] ++ [
       (final.fetchpatch {
@@ -13,23 +21,33 @@ in {
     ];
   });
 
+  python3 = prev.python3.overrideAttrs (prevAttrs: {
+    postFixup = let
+      lib = "$out/lib/${prevAttrs.passthru.libPrefix}";
+      prefix = "_sysconfigdata__linux_";
+      suffix = "${hostPlatform.parsed.cpu.name}-${hostPlatform.libc}";
+    in prevAttrs.postFixup + ''
+      test -e "${lib}/${prefix}${suffix}.py" \
+        || ln -s "${lib}/${prefix}"{,"${suffix}"}.py
+    '';
+  });
+
   redis = prev.redis.overrideAttrs {
     doCheck = false;
-  };
-
-  python312 = prev.python312.override {
-    packageOverrides = final: prev: {
-      pywebview = prev.pywebview.overrideAttrs ({
-        doCheck = false;
-        doInstallCheck = false;
-      });
-    };
   };
 
   sioyek = prev.sioyek.overrideAttrs (prevAttrs: {
     env = prevAttrs.env or { } // {
       NIX_CFLAGS_COMPILE = toList prevAttrs.env.NIX_CFLAGS_COMPILE or [ ]
         ++ [ "-DGL_CLAMP=GL_CLAMP_TO_EDGE" ] |> toString;
+    };
+  });
+
+  time = prev.time.overrideAttrs (prevAttrs: {
+    env = prevAttrs.env or { } // {
+      CFLAGS = toList prevAttrs.env.CFLAGS or [ ] ++ [
+        "-Wno-error=implicit-function-declaration"
+      ] |> toString;
     };
   });
 
