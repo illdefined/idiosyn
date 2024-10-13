@@ -4,6 +4,7 @@ let
   inherit (nixpkgs) lib;
 in {
   mimalloc = (prev.mimalloc.overrideAttrs (prevAttrs: {
+    overrideAlloc = false;
     postPatch = prevAttrs.postPatch or "" + ''
       sed -E -i \
         -e 's/(\{ )1(, UNINIT, MI_OPTION_LEGACY\(purge_decommits,reset_decommits\) \})/\10\2/' \
@@ -17,10 +18,6 @@ in {
 
   fractal = prev.fractal.overrideAttrs (prevAttrs: {
     nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ final.makeBinaryWrapper ];
-    buildInputs = prevAttrs.buildInputs or [ ] ++ [ final.mimalloc ];
-
-    NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C" "link-arg=-lmimalloc" ];
-    
     postInstall = prevAttrs.postInstall or "" + ''
       wrapProgram "$out/bin/fractal" \
         --set MIMALLOC_RESERVE_HUGE_OS_PAGES 1
@@ -31,47 +28,8 @@ in {
     mpv = final.mpv-unwrapped;
     extraMakeWrapperArgs = [ "--set" "MIMALLOC_RESERVE_HUGE_OS_PAGES" "1" ];
   };
-} // lib.genAttrs [
-  "bat"
-  "bottom"
-  "cryptsetup"
-  "dbus-broker"
-  "erlang"
-  "fd"
-  "firefox-unwrapped"
-  "fuzzel"
-  "helix"
-  "kitty"
-  "mako"
-  "mpv-unwrapped"
-  "niri"
-  "nix"
-  "nushell"
-  "openssh"
-  "pipewire"
-  "pueue"
-  "ripgrep"
-  "sd"
-  "sioyek"
-  "sudo-rs"
-  "systemd"
-  "swayidle"
-  "swaylock"
-  "swaylock-effects"
-  "thunderbird-unwrapped"
-  "uutils-coreutils"
-  "uutils-coreutils-noprefix"
-  "waybar"
-  "wirepluber"
-  "xdg-desktop-portal-gnome"
-  "xdg-desktop-portal-gtk"
-] (pkg: prev.${pkg}.overrideAttrs (prevAttrs: {
-  buildInputs = prevAttrs.buildInputs or [ ] ++ [ final.mimalloc ];
-  env = prevAttrs.env or { } // lib.optionalAttrs (prevAttrs ? env.NIX_LDFLAGS) {
-    NIX_LDFLAGS = toString (lib.toList prevAttrs.env.NIX_LDFLAGS or [ ] ++ [ "-lmimalloc" ]);
-  };
 
-  NIX_RUSTFLAGS = lib.toList prevAttrs.NIX_RUSTFLAGS or [ ] ++ [ "-C" "link-arg=-lmimalloc" ];
-} // lib.optionalAttrs (!prevAttrs ? env.NIX_LDFLAGS) {
-  NIX_LDFLAGS = lib.toList prevAttrs.NIX_LDFLAGS or [ ] ++ [ "-lmimalloc" ];
-}))
+  perl = prev.perl.overrideAttrs {
+    overrideAlloc = false;
+  };
+}

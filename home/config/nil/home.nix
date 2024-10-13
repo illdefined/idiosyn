@@ -11,7 +11,6 @@ in {
   imports = [
     nur.hmModules.nur
     self.homeModules.greedy
-    self.homeModules.locale-en_EU
     catppuccin.homeManagerModules.catppuccin
     niri.homeModules.config
   ] ++ self.lib.mods [
@@ -212,7 +211,7 @@ in {
     enable = true;
     envFile.text = let
       ls-colours = pkgs.runCommand "ls-colours" { } ''
-        ${lib.getExe pkgs.vivid} generate catppuccin-mocha >$out
+        ${lib.getExe pkgs.buildPackages.vivid} generate catppuccin-mocha >$out
       '' |> builtins.readFile;
     in ''
       load-env {
