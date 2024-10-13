@@ -258,7 +258,12 @@ imports = [
     { from = 6001; to = 6011; }
   ];
 
-  nix = {
+  nix = let
+    base = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    x86-64 = [ "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
+    riscv = [ "gccarch-rv64imac" "gccarch-rv64imacfd" "gccarch-rv64gc" ];
+    aarch = [ "gccarch-armv8-a" ];
+  in {
     distributedBuilds = true;
     buildMachines = [
       {
@@ -268,7 +273,7 @@ imports = [
         maxJobs = 2;
         speedFactor = 4;
         systems = [ "aarch64-linux" ];
-        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        supportedFeatures = base ++ aarch;
         sshKey = "/etc/keys/nix-ssh";
       }
     ] ++ (lib.range 1 8 |> map (num: {
@@ -278,9 +283,11 @@ imports = [
       maxJobs = 4;
       speedFactor = 16;
       systems = [ "x86_64-linux" "i686-linux" ];
-      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
+      supportedFeatures = base ++ x86-64;
       sshKey = "/etc/keys/nix-ssh";
     }));
+
+    settings.system-features = base ++ x86-64 ++ riscv ++ aarch;
   };
 
   programs.ssh = {
