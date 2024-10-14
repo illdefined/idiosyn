@@ -34,6 +34,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         units
         xecjk
         xecolor
+        xfrac
         xltxtra
         xtab
       ;
