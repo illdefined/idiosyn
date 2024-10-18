@@ -118,7 +118,7 @@ let
       options = [ "nodev" "noexec" "nosuid" ];
     };
   } |> lib.mapAttrs (name: subvol: subvol // {
-    extraOptions = [ "noatime" "compress=zstd" ];
+    extraOptions = [ "noatime" "autodefrag" "compress=zstd" ];
   });
 in {
   options = {
