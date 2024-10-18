@@ -139,7 +139,8 @@
   environment.etc."modprobe.d/nixos.conf".text = "";
 
   systemd.tmpfiles.rules = [
-    "w- /sys/kernel/mm/transparent_hugepage/enabled - - - - always"
-    "w- /sys/kernel/mm/transparent_hugepage/defrag  - - - - defer"
+    "w- /sys/kernel/mm/transparent_hugepage/enabled       - - - - always"
+    "w- /sys/kernel/mm/transparent_hugepage/defrag        - - - - defer"
+    "w- /sys/kernel/mm/transparent_hugepage/shmem_enabled - - - - within_size"
   ];
 }
