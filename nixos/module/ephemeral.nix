@@ -104,25 +104,22 @@ let
   subvolumeDefaults = {
     "/etc/keys" = {
       options = [ "nodev" "noexec" "nosuid" ];
-      extraOptions = [ "noatime" "compress=zstd" ];
     };
     "/etc/credstore" = {
       options = [ "nodev" "noexec" "nosuid" ];
-      extraOptions = [ "noatime" "compress=zstd" ];
     };
     "/etc/credstore.encrypted" = {
       options = [ "nodev" "noexec" "nosuid" ];
-      extraOptions = [ "noatime" "compress=zstd" ];
     };
     "/nix" = {
       options = [ "nodev" "nosuid" ];
-      extraOptions = [ "noatime" "compress=zstd" ];
     };
     "/var" = {
       options = [ "nodev" "noexec" "nosuid" ];
-      extraOptions = [ "noatime" "compress=zstd" ];
     };
-  };
+  } |> lib.mapAttrs (name: subvol: subvol // {
+    extraOptions = [ "noatime" "compress=zstd" ];
+  });
 in {
   options = {
     ephemeral = {
