@@ -112,7 +112,7 @@ let
     };
     "/etc/credstore.encrypted" = {
       options = [ "nodev" "noexec" "nosuid" ];
-      extraOptions = [ "noatime" ];
+      extraOptions = [ "noatime" "compress=zstd" ];
     };
     "/nix" = {
       options = [ "nodev" "nosuid" ];
