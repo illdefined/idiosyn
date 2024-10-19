@@ -370,18 +370,12 @@ in {
       http-request cache-use default
       http-request set-header X-Forwarded-Proto %[ssl_fc,iif(https,http)]
 
-      acl no-coep res.hdr(Cross-Origin-Embedder-Policy) -m len 0
-      acl no-coop res.hdr(Cross-Origin-Opener-Policy) -m len 0
-      acl no-corp res.hdr(Cross-Origin-Resource-Policy) -m len 0
-      acl no-csp res.hdr(Content-Security-Policy) -m len 0
-      acl no-rp res.hdr(Referrer-Policy) -m len 0
-
       http-response set-header Alt-Svc "h3=\":443\""
-      http-response set-header Cross-Origin-Embedder-Policy require-corp if no-coep
-      http-response set-header Cross-Origin-Opener-Policy same-origin if no-coop
-      http-response set-header Cross-Origin-Resource-Policy same-origin if no-corp
-      http-response set-header Content-Security-Policy "default-src 'self'; frame-ancestors 'none'" if no-csp
-      http-response set-header Referrer-Policy same-origin if no-rp
+      http-response set-header Cross-Origin-Embedder-Policy require-corp unless { res.hdr(Cross-Origin-Embedder-Policy) -m found }
+      http-response set-header Cross-Origin-Opener-Policy same-site unless { res.hdr(Cross-Origin-Opener-Policy) -m found }
+      http-response set-header Cross-Origin-Resource-Policy same-site unless { res.hdr(Cross-Origin-Resource-Policy) -m found }
+      http-response set-header Content-Security-Policy "default-src 'self'; frame-ancestors 'none'" unless { res.hdr(Content-Security-Policy) -m found }
+      http-response set-header Referrer-Policy same-origin unless { res.hdr(Referrer-Policy) -m found }
       http-response set-header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
       http-response set-header X-Frame-Options DENY
       http-response set-header X-Content-Type-Options nosniff
