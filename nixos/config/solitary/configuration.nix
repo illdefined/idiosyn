@@ -377,7 +377,7 @@ in {
       http-request cache-use default
       http-request set-header X-Forwarded-Proto %[ssl_fc,iif(https,http)]
 
-      http-response set-header Alt-Svc "h3=\":443\""
+      http-response set-header Alt-Svc "h3=\":443\"; ma=7776000; persist=1, h2=\":443\"; ma=7776000; persist=1"
       http-response set-header Cross-Origin-Embedder-Policy require-corp unless { res.hdr(Cross-Origin-Embedder-Policy) -m found }
       http-response set-header Cross-Origin-Opener-Policy same-site unless { res.hdr(Cross-Origin-Opener-Policy) -m found }
       http-response set-header Cross-Origin-Resource-Policy same-site unless { res.hdr(Cross-Origin-Resource-Policy) -m found }
