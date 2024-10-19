@@ -342,11 +342,11 @@ in {
       acl host-syncv3 hdr(host),host_only syncv3.solitary.social
       acl host-resolve hdr(host),host_only resolve.solitary.social
 
-      acl path-acme path_dir /.well-known/acme-challenge
+      acl path-acme path_reg ^/\.well-known/acme-challenge(/.*)?$
       acl path-security.txt path /.well-known/security.txt
-      acl path-matrix-well-known path_dir /.well-known/matrix
-      acl path-proxy path_dir /proxy
-      acl path-media path_dir /media
+      acl path-matrix-well-known path_reg ^/\.well-known/matrix(/.*)?$
+      acl path-proxy path_reg ^/proxy(/.*)?$
+      acl path-media path_reg ^/media(/.*)?$
 
       #http-request normalize-uri fragment-strip
       #http-request normalize-uri path-strip-dot
