@@ -343,6 +343,7 @@ in {
       acl host-resolve hdr(host),host_only resolve.solitary.social
 
       acl path-acme path_reg ^/\.well-known/acme-challenge(/.*)?$
+      acl path-well-known path_beg /.well-known/
       acl path-security.txt path /.well-known/security.txt
       acl path-matrix-well-known path_reg ^/\.well-known/matrix(/.*)?$
       acl path-proxy path_reg ^/proxy(/.*)?$
@@ -359,13 +360,19 @@ in {
       http-request redirect scheme https code 301 unless { ssl_fc } or path-acme
       http-request wait-for-handshake unless replay-safe
 
-      http-response set-tos 20 if path-acme  # AF22 (low‐latency, med drop)
+      http-request set-priority-class int(-1) if host-resolve
+      http-request set-priority-class int(1) if host-solitary
+      http-request set-priority-class int(2) if host-media
+      http-request set-priority-class int(3) if host-cache
+      http-request set-priority-class int(-2) if path-well-known
+      
       http-response set-tos 20 if host-resolve  # AF22 (low‐latency, med drop)
       http-response set-tos 10 if host-matrix  # AF11 (high‐throughput, low drop)
       http-response set-tos 10 if host-syncv3  # AF11 (high‐throughput, low drop)
       http-response set-tos 12 if host-solitary  # AF12 (high‐throughput, med drop)
       http-response set-tos 14 if host-media  # AF13 (high‐throughput, high drop)
       http-response set-tos 14 if host-cache  # AF13 (high‐throughput, high drop)
+      http-response set-tos 20 if path-well-known  # AF22 (low‐latency, med drop)
 
       http-request cache-use default
       http-request set-header X-Forwarded-Proto %[ssl_fc,iif(https,http)]
