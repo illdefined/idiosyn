@@ -5,7 +5,6 @@ with lib; let
     acme = 1360;
     nginx = 8080;
     synapse = 8008;
-    syncv3 = 8009;
     unbound = 8484;
   };
 
@@ -77,7 +76,6 @@ in {
         "matrix.solitary.social"
         "media.solitary.social"
         "resolve.solitary.social"
-        "syncv3.solitary.social"
       ];
     };
   };
@@ -339,7 +337,6 @@ in {
       acl host-cache hdr(host),host_only cache.solitary.social
       acl host-media hdr(host),host_only media.solitary.social
       acl host-matrix hdr(host),host_only matrix.solitary.social
-      acl host-syncv3 hdr(host),host_only syncv3.solitary.social
       acl host-resolve hdr(host),host_only resolve.solitary.social
 
       acl path-acme path_reg ^/\.well-known/acme-challenge(/.*)?$
@@ -368,7 +365,6 @@ in {
       
       http-response set-tos 20 if host-resolve  # AF22 (low‐latency, med drop)
       http-response set-tos 10 if host-matrix  # AF11 (high‐throughput, low drop)
-      http-response set-tos 10 if host-syncv3  # AF11 (high‐throughput, low drop)
       http-response set-tos 12 if host-solitary  # AF12 (high‐throughput, med drop)
       http-response set-tos 14 if host-media  # AF13 (high‐throughput, high drop)
       http-response set-tos 14 if host-cache  # AF13 (high‐throughput, high drop)
@@ -401,7 +397,6 @@ in {
       use_backend security.txt if path-security.txt
       use_backend unbound if host-resolve
       use_backend synapse if host-matrix
-      use_backend syncv3 if host-syncv3
       use_backend wellknown-matrix if host-solitary path-matrix-well-known
       use_backend nginx if host-cache
       use_backend akkoma if host-solitary
@@ -422,9 +417,6 @@ in {
     backend synapse
       server synapse [::1]:${toString ports.synapse}
 
-    backend syncv3
-      server syncv3 [::1]:${toString ports.syncv3}
-
     backend unbound
       server unbound [::1]:${toString ports.unbound} tfo ssl ssl-min-ver TLSv1.3 alpn h2 allow-0rtt ca-file ${acmeDir}/chain.pem
       retry-on conn-failure empty-response response-timeout 0rtt-rejected
@@ -436,7 +428,6 @@ in {
       http-request return status 200 content-type application/json file ${pkgs.writeText "client.json" (builtins.toJSON {
         "m.homeserver".base_url = config.services.matrix-synapse.settings.public_baseurl;
         "m.identity_server".base_url = "https://vector.im";
-        "org.matrix.msc3575.proxy".url = "https://syncv3.solitary.social";
       })} if { path /.well-known/matrix/client }
 
       http-request return status 200 content-type application/json file ${pkgs.writeText "server.json" (builtins.toJSON {
@@ -490,16 +481,6 @@ in {
       set_real_ip_from ::1;
       real_ip_header X-Forwarded-For;
     '';
-  };
-
-  services.matrix-sliding-sync = {
-    enable = true;
-    environmentFile = "/etc/keys/sliding-sync.env";
-    settings = {
-      SYNCV3_BINDADDR = "[::1]:${toString ports.syncv3}";
-      SYNCV3_LOG_LEVEL = "warn";
-      SYNCV3_SERVER = "https://matrix.solitary.social";
-    };
   };
 
   services.nginx.virtualHosts."cache.solitary.social" = {
@@ -652,13 +633,6 @@ in {
         SocketBindAllow = [ "tcp:80" "tcp:443" "udp:443" ];
         SocketBindDeny = "any";
       };
-    };
-
-    services.matrix-sliding-sync = {
-      after = [ "matrix-synapse.service" ];
-      serviceConfig.ReadOnlyPaths = [
-        "/run/postgres"
-      ];
     };
 
     services.nginx = {
