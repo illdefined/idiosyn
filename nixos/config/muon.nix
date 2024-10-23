@@ -276,6 +276,16 @@ imports = [
         supportedFeatures = base ++ aarch;
         sshKey = "/etc/keys/nix-ssh";
       }
+      {
+        hostName = "schrodinger.kyouma.net";
+        #protocol = "ssh-ng";
+        sshUser = "root";
+        maxJobs = 2;
+        speedFactor = 4;
+        systems = [ "riscv64-linux" ];
+        supportedFeatures = base ++ [ "gccarch-rv64imac" "gccarch-rv64imacfd" ];
+        sshKey = "/etc/keys/nix-ssh";
+      }
     ] ++ (lib.range 1 8 |> map (num: {
       hostName = "build-worker-0${toString num}";
       protocol = "ssh-ng";
@@ -301,6 +311,7 @@ imports = [
       "[build-worker-kyoumanet.fly.dev]:2207".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9z95a6Fn/dB+iNigEYpuJdBnBwCkIZYaKHcFbGP+RY";
       "[build-worker-kyoumanet.fly.dev]:2208".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAk+FNMhTfAVqk3MfLp4QiG/i5ti53DlpnC0q+sOvU9O";
       "integra.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBwEQiSfaDrUAwgul4mktusBPcIVxI4pLNDh9DPopVU";
+      "schrodinger.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKo7vZ6lS1wx76YsbAdhOsGcc20YMAW52ep8SZ/FCHDp";
       "zh1830.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
     };
 
