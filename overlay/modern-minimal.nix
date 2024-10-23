@@ -3,7 +3,7 @@
 let
   inherit (final) system;
   inherit (nixpkgs.lib.attrsets) genAttrs mapAttrsToList;
-  inherit (nixpkgs.lib.lists) remove subtractLists;
+  inherit (nixpkgs.lib.lists) remove subtractLists toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
   inherit (self.lib) substituteFlags removePackages;
 
@@ -330,6 +330,14 @@ in genAttrs [
       postgresql = null;
       qttranslations = null;
     };
+
+    qtwebengine = prev.qtwebengine.overrideAttrs (prevAttrs: {
+      env = prevAttrs.env or { } // {
+        # hacky
+        NIX_CFLAGS_COMPILE = toList prevAttrs.env.NIX_CFLAGS_COMPILE or [ ] ++
+          [ "-DGL_RGBA8_OES=0x8058" ] |> toString;
+      };
+    });
   });
 
   systemd = prev.systemd.override {
