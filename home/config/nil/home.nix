@@ -328,6 +328,11 @@ in {
 
   services.ssh-agent.enable = true;
 
+  systemd.user.sessionVariables = {
+    TMPDIR = "$XDG_RUNTIME_DIR/tmp";
+    XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
+  };
+
   systemd.user.tmpfiles.rules = [
     "d %C 700 - - 90d"
     "d %t/ssh 700"
