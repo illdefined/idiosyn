@@ -7,7 +7,7 @@ in {
   ];
 
   nix = {
-    package = pkgs.lix;
+    package = pkgs.lix.override { enableGC = true; };
 
     channel.enable = false;
 
