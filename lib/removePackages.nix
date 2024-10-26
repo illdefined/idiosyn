@@ -7,4 +7,4 @@ let
   fold = name: acc: regex:
     if acc == false then false
     else match regex name == null;
-in regexList: filter (pkg: foldl' (getName pkg |> fold) true regexList)
+in regexList: filter (pkg: pkg != null -> foldl' (getName pkg |> fold) true regexList)
