@@ -47,19 +47,45 @@
         IPMI_HANDLER = true;
         IPMI_PANIC_EVENT = true;
         IPMI_PANIC_STRING = true;
-        IPMI_WATCHDOG = true;
+        IPMI_DEVICE_INTERFACE = true;
+        IPMI_SI = true;
+        IPMI_SSIF = true;
+
+        I2C_PIIX4 = true;
 
         HWMON = true;
         SENSORS_K10TEMP = true;
-        SENSORS_ACPI_POWER = true;
 
+        WATCHDOG = true;
+        WATCHDOG_HANDLE_BOOT_ENABLED = true;
+        WATCHDOG_OPEN_TIMEOUT = 0;
+        WATCHDOG_SYSFS = true;
+        SP5100_TCO = true;
+
+        VIDEO = true;
+        DRM = true;
+        DRM_FBDEV_EMULATION = true;
+        DRM_AST = true;
+
+        EDAC_DECODE_MCE = true;
+        EDAC_AMD64 = true;
+
+        AMD_PTDMA = true;
         AMD_IOMMU = true;
+
+        INTEL_RAPL = true;
 
         BTRFS_FS = true;
         BTRFS_FS_POSIX_ACL = true;
 
         CEPH_FS = true;
         CEPH_FS_POSIX_ACL = true;
+
+        CRYPTO_DEV_CCP = true;
+        CRYPTO_DEV_CCP_DD = true;
+        CRYPTO_DEV_SP_CCP = true;
+        CRYPTO_DEV_CCP_CRYPTO = true;
+        CRYPTO_DEV_SP_PSP = true;
       });
   });
 
