@@ -228,6 +228,13 @@ imports = [
 
   hardware.uinput.enable = true;
 
+  i18n.supportedLocales = [
+    "C.UTF-8/UTF-8"
+    "en_EU.UTF-8/UTF-8"
+    "en_GB.UTF-8/UTF-8"
+    "en_US.UTF-8/UTF-8"
+  ];
+
   ephemeral.enable = true;
   ephemeral.device = "UUID=039aa386-a39d-4329-bcf0-48936b938db1";
   ephemeral.boot.device = "PARTUUID=61c6f04c-0923-437e-860e-e88452b8e39e";
