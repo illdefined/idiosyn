@@ -1,8 +1,18 @@
 { self, ... }: { lib, config, pkgs, ... }: {
   imports = with self.nixosModules; [
     default
+    headless
     mimalloc
     physical
+  ];
+
+  boot.binfmt = {
+    emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+    preferStaticEmulators = true;
+  };
+
+  boot.kernelParams = [
+    "hugepagesz=1G" "hugepages=16"
   ];
 
   boot.kernelPackages = let
@@ -37,6 +47,10 @@
         SATA_AHCI = true;
         SATA_MOBILE_LPM_POLICY = 1;
         ATA_SFF = false;
+
+        BLK_DEV_MD = true;
+        MD_AUTODETECT = true;
+        MD_RAID1 = true;
 
         BNXT = true;
         BNXT_FLOWER_OFFLOAD = true;
@@ -89,11 +103,12 @@
       });
   });
 
-  ephemeral = {
-    device = "nodev";
-    boot = {
-      device = "nodev";
-      fsType = "vfat";
+  hardware.nitrokey.enable = true;
+
+  nix = {
+    settings = {
+      system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]
+        ++ (map (arch: "gccarch-${arch}") (lib.systems.architectures.inferiors.znver2 ++ [ "rv64imac" "rv64imacfd" "rv64gc" "armv8-a" ]));
     };
   };
 }
