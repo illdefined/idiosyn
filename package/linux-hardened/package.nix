@@ -139,6 +139,8 @@ in stdenv.mkDerivation (finalAttrs: {
 
   postPatch = ''
     patchShebangs scripts/
+
+    sed -i '/select BLOCK_LEGACY_AUTOLOAD/d' drivers/md/Kconfig
   '';
 
   preConfigure = ''
