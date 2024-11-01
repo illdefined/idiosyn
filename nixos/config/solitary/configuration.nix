@@ -140,6 +140,9 @@ in {
         user_name_length = 64;
         max_account_fields = 8;
         cleanup_attachments = true;
+        local_bubble = [
+          "florp.social"
+        ];
       };
 
       "Pleroma.Web.Endpoint" = {
