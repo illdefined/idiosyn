@@ -314,7 +314,7 @@ in genAttrs [
     };
   });
 
-  qt6 = prev.qt6.overrideScope (final: prev: {
+  qt6 = final.lib.makeOverridable ({ ... }@args: (prev.qt6.override args).overrideScope (final: prev: {
     qtbase = (prev.qtbase.overrideAttrs (prevAttrs: {
       buildInputs = prevAttrs.buildInputs or [ ]
         |> removePackages [ "libX.*" "libxcb" "xcb.*" ];
@@ -338,7 +338,7 @@ in genAttrs [
           [ "-DGL_RGBA8_OES=0x8058" ] |> toString;
       };
     });
-  });
+  })) { };
 
   systemd = prev.systemd.override {
     withApparmor = false;
