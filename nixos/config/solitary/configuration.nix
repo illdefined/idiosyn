@@ -523,9 +523,9 @@ in {
 
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_14;
+    package = pkgs.postgresql_16;
 
-    extraPlugins = with pkgs.postgresql_14.pkgs; [
+    extraPlugins = with pkgs.postgresql_16.pkgs; [
       rum
     ];
 
