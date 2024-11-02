@@ -529,6 +529,19 @@ in {
       rum
     ];
 
+    settings = {
+      max_connections = 128;
+
+      shared_buffers = "768MB";
+      huge_pages = "try";
+      huge_page_size = "2MB";
+      work_mem = "16MB";
+
+      effective_io_concurrency = 128;
+
+      wal_compression = "zstd";
+    };
+
     initialScript = pkgs.writeText "init.psql" ''
       CREATE ROLE "matrix-synapse";
       CREATE DATABASE "matrix-synapse" OWNER "matrix-synapse"
