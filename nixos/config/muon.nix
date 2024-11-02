@@ -293,6 +293,15 @@ imports = [
         supportedFeatures = base ++ [ "gccarch-rv64imac" "gccarch-rv64imacfd" ];
         sshKey = "/etc/keys/nix-ssh";
       }
+      {
+        hostName = "machine-0008.cloud-v.co";
+        sshUser = "root";
+        maxJobs = 2;
+        speedFactor = 4;
+        systems = [ "riscv64-linux" ];
+        supportedFeatures = base ++ [ "gccarch-rv64imac" "gccarch-rv64imacfd" ];
+        sshKey = "/etc/keys/nix-ssh";
+      }
     ] ++ (lib.range 1 8 |> map (num: {
       hostName = "build-worker-0${toString num}";
       protocol = "ssh-ng";
@@ -317,16 +326,21 @@ imports = [
       "[build-worker-kyoumanet.fly.dev]:2206".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGf0kxGgwOG9KhUhvxxTSiQC5YikrzZXKDgSpBw33qN4";
       "[build-worker-kyoumanet.fly.dev]:2207".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9z95a6Fn/dB+iNigEYpuJdBnBwCkIZYaKHcFbGP+RY";
       "[build-worker-kyoumanet.fly.dev]:2208".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAk+FNMhTfAVqk3MfLp4QiG/i5ti53DlpnC0q+sOvU9O";
+      "[machine.cloud-v.co]:20008".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6Kri0cjPKEXXDEl2GwfwzPO9wuPZEgJS0M6lKRHCqH";
       "integra.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBwEQiSfaDrUAwgul4mktusBPcIVxI4pLNDh9DPopVU";
       "schrodinger.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKo7vZ6lS1wx76YsbAdhOsGcc20YMAW52ep8SZ/FCHDp";
       "zh1830.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
     };
 
-    extraConfig = lib.range 1 8 |> map (num: ''
+    extraConfig = ''
+      Host machine-0008.cloud-v.co
+        Hostname machine.cloud-v.co
+        Port 20008
+    '' + (lib.range 1 8 |> map (num: ''
       Host build-worker-0${toString num}
         Hostname build-worker-kyoumanet.fly.dev
         Port 220${toString num}
-    '') |> lib.concatStrings;
+    '') |> lib.concatStrings);
   };
 
   services.beesd.filesystems.root = {
