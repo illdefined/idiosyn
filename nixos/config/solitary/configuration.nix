@@ -81,6 +81,7 @@ in {
   };
 
   services.akkoma.enable = true;
+  services.akkoma.extraPackages = with pkgs; [ exiftool ffmpeg-headless imagemagick ];
   services.akkoma.extraStatic."emoji/blobs.gg" = pkgs.akkoma-emoji.blobs_gg;
   services.akkoma.extraStatic."static/terms-of-service.html" = pkgs.writeText "terms-of-service.html" ''
     <h2>Commitments</h2>
@@ -176,7 +177,7 @@ in {
       };
 
       ":media_preview_proxy" = {
-        enabled = false;
+        enabled = true;
         thumbnail_max_width = 1920;
         thumbnail_max_height = 1080;
         min_content_length = 128 * 1024;
