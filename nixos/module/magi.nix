@@ -51,6 +51,7 @@
         BLK_DEV_MD = true;
         MD_AUTODETECT = true;
         MD_RAID1 = true;
+        DM_RAID = true;
 
         BNXT = true;
         BNXT_FLOWER_OFFLOAD = true;
