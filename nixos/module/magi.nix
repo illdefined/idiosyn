@@ -111,4 +111,72 @@
         ++ (map (arch: "gccarch-${arch}") (lib.systems.architectures.inferiors.znver2 ++ [ "rv64imac" "rv64imacfd" "rv64gc" "armv8-a" ]));
     };
   };
+
+  services.ceph = {
+    enable = true;
+
+    global = {
+      fsid = "680c6fbc-e31c-4353-bd36-6046ceffd319";
+
+      authClusterRequired = "cephx";
+      authServiceRequired = "cephx";
+      authClientRequired = "cephx";
+    };
+
+    extraConfig = {
+      "ms bind ipv6" = "true";
+      "ms async op threads" = "4";
+      "ms async max op threads" = "24";
+
+      "ms cluster mode" = "secure";
+      "ms service mode" = "secure";
+      "ms client mode" = "secure";
+
+      "cephx cluster require signatures" = "true";
+      "cephx service require signatures" = "true";
+      "cephx sign messages" = "true";
+
+      "mon osd nearfull ratio" = ".67";
+    };
+
+    mon = {
+      enable = true;
+      daemons = [ config.networking.hostName ];
+    };
+
+    mgr = {
+      enable = true;
+      daemons = [ config.networking.hostName ];
+    };
+
+    osd = {
+      enable = false;
+
+      extraConfig = {
+        "bluestore cache autotune" = "true";
+        "osd memory target" = "12Gi";
+        "osd memory cache min" = "1Gi";
+
+        "bluestore csum type" = "xxhash64";
+        "bluestore compression algorithm" = "zstd";
+        "bluestore compression mode" = "aggressive";
+
+        "osd crush chooseleaf type" = "1";
+      };
+    };
+
+    mds = {
+      enable = true;
+      daemons = [ config.networking.hostName ];
+    };
+
+    rgw = {
+      enable = true;
+      daemons = [ config.networking.hostName ];
+    };   
+
+    client = {
+      enable = true;
+    };  
+  };
 }
