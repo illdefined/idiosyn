@@ -99,6 +99,13 @@ in {
 
   home.preferXdgDirectories = true;
 
+  i18n.glibcLocales = self.packages.${pkgs.system}.locale-en_EU.override {
+    locales = [
+      "en_EU.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
+  } |> lib.mkForce;
+
   programs.aria2 = {
     enable = true;
     settings = {
