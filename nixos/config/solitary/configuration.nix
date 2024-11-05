@@ -1,4 +1,4 @@
-{ self, ... }: { lib, config, pkgs, ... }:
+{ self, linux-hardened, ... }: { lib, config, pkgs, ... }:
 
 with lib; let
   ports = {
@@ -40,15 +40,16 @@ in {
   ];
 
   boot.kernelPackages = let
-    inherit (self.packages.x86_64-linux) linux-hardened;
-  in pkgs.linuxPackagesFor (linux-hardened.override {
+    inherit (linux-hardened.packages.x86_64-linux) default;
+  in pkgs.linuxPackagesFor (default.override {
     instSetArch = "x86-64-v3";
-    extraConfig = linux-hardened.profile.paravirt // (with self.lib.kernel; {
+    profiles = { paravirt = true; };
+    extraConfig = with linux-hardened.lib.kernel; {
       NR_CPUS = 8;
 
       BTRFS_FS = true;
       BTRFS_FS_POSIX_ACL = true;
-    });
+    };
   });
 
   environment.etc."machine-id".text = "1c97ae368741530de77aad42b5a6ae42";

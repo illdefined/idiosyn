@@ -39,6 +39,8 @@
       flake = false;
     };
 
+    linux-hardened.url = "git+https://woof.rip/mikael/linux-hardened.git";
+
     nix-index-database = {
       url = "github:illdefined/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

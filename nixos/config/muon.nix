@@ -1,4 +1,4 @@
-{ self, nixos-hardware, ... }: { lib, config, pkgs, ... }: {
+{ self, nixos-hardware, linux-hardened, ... }: { lib, config, pkgs, ... }: {
 imports = [
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-extreme-gen4
   ] ++ (with self.nixosModules; [
@@ -27,8 +27,8 @@ imports = [
   ];
 
   boot.kernelPackages = let
-    inherit (self.packages.x86_64-linux) linux-hardened;
-  in pkgs.linuxPackagesFor (linux-hardened.override {
+    inherit (linux-hardened.packages.x86_64-linux) default;
+  in pkgs.linuxPackagesFor (default.override {
     instSetArch = "alderlake";
     extraFirmware = [
       "i915/adlp_dmc.bin"
@@ -63,143 +63,149 @@ imports = [
       "rtl_nic/rtl8153b-2.fw"
     ];
 
-    extraConfig =
-      (with linux-hardened.profile; physical // portable // dm-crypt // wireless // audio)
-      // (with self.lib.kernel; {
-        X86_INTEL_LPSS = true;
+    profiles = {
+      physical = true;
+      portable = true;
+      dm-crypt = true;
+      wireless = true;
+      audio = true;
+    };
 
-        CPU_SUP_INTEL = true;
-        CPU_SUP_AMD = false;
-        NR_CPUS = 20;
-        X86_MCE_INTEL = true;
+    extraConfig = with linux-hardened.lib.kernel; {
+      X86_INTEL_LPSS = true;
 
-        ACPI_DPTF = true;
-        DPTF_POWER = true;
-        DPTF_PCH_FIVR = true;
-        INTEL_IDLE = true;
+      CPU_SUP_INTEL = true;
+      CPU_SUP_AMD = false;
+      NR_CPUS = 20;
+      X86_MCE_INTEL = true;
 
-        VIRTUALIZATION = true;
-        KVM = true;
-        KVM_INTEL = true;
-        KVM_SMM = true;
+      ACPI_DPTF = true;
+      DPTF_POWER = true;
+      DPTF_PCH_FIVR = true;
+      INTEL_IDLE = true;
 
-        IP_MULTICAST = true;
+      VIRTUALIZATION = true;
+      KVM = true;
+      KVM_INTEL = true;
+      KVM_SMM = true;
 
-        IPV6_ROUTER_PREF = true;
-        IPV6_ROUTE_INFO = true;
-        IPV6_OPTIMISTIC_DAD = true;
+      IP_MULTICAST = true;
 
-        BT_INTEL = true;
-        BT_HCIBTUSB = true;
+      IPV6_ROUTER_PREF = true;
+      IPV6_ROUTE_INFO = true;
+      IPV6_OPTIMISTIC_DAD = true;
 
-        EISA = true;
-        EISA_PCI_EISA = true;
-        EISA_VIRTUAL_ROOT = false;
-        EISA_NAMES = true;
+      BT_INTEL = true;
+      BT_HCIBTUSB = true;
 
-        NVME_CORE = true;
-        BLK_DEV_NVME = true;
-        NVME_VERBOSE_ERRORS = true;
-        NVME_HWMON = true;
+      EISA = true;
+      EISA_PCI_EISA = true;
+      EISA_VIRTUAL_ROOT = false;
+      EISA_NAMES = true;
 
-        MISC_RTSX = true;
-        INTEL_MEI = true;
-        MISC_RTSX_PCI = true;
+      NVME_CORE = true;
+      BLK_DEV_NVME = true;
+      NVME_VERBOSE_ERRORS = true;
+      NVME_HWMON = true;
 
-        ETHERNET = true;
-        AQTION = true;
+      MISC_RTSX = true;
+      INTEL_MEI = true;
+      MISC_RTSX_PCI = true;
 
-        WLAN = true;
-        IWLWIFI = true;
-        IWLMVM = true;
+      ETHERNET = true;
+      AQTION = true;
 
-        INPUT_MOUSEDEV = true;
-        INPUT_JOYDEV = true;
+      WLAN = true;
+      IWLWIFI = true;
+      IWLMVM = true;
 
-        KEYBOARD_ATKBD = true;
+      INPUT_MOUSEDEV = true;
+      INPUT_JOYDEV = true;
 
-        INPUT_MOUSE = true;
-        MOUSE_PS2 = true;
-        MOUSE_PS2_TRACKPOINT = true;
+      KEYBOARD_ATKBD = true;
 
-        INPUT_JOYSTICK = true;
+      INPUT_MOUSE = true;
+      MOUSE_PS2 = true;
+      MOUSE_PS2_TRACKPOINT = true;
 
-        INTEL_PCH_THERMAL = true;
+      INPUT_JOYSTICK = true;
 
-        MFD_CORE = true;
-        MFD_INTEL_LPSS_PCI = true;
+      INTEL_PCH_THERMAL = true;
 
-        I2C = true;
-        I2C_I801 = true;
+      MFD_CORE = true;
+      MFD_INTEL_LPSS_PCI = true;
 
-        SPI = true;
-        SPI_MEM = true;
-        SPI_INTEL_PCI = true;
+      I2C = true;
+      I2C_I801 = true;
 
-        INT340X_THERMAL = true;
+      SPI = true;
+      SPI_MEM = true;
+      SPI_INTEL_PCI = true;
 
-        VIDEO = true;
-        VGA_SWITCHEROO = true;
-        DRM = true;
-        DRM_FBDEV_EMULATION = true;
-        DRM_NOUVEAU = true;
-        DRM_NOUVEAU_SVM = true;
-        DRM_NOUVEAU_GSP_DEFAULT = true;
-        DRM_I915 = true;
+      INT340X_THERMAL = true;
 
-        BACKLIGHT_CLASS_DEVICE = true;
+      VIDEO = true;
+      VGA_SWITCHEROO = true;
+      DRM = true;
+      DRM_FBDEV_EMULATION = true;
+      DRM_NOUVEAU = true;
+      DRM_NOUVEAU_SVM = true;
+      DRM_NOUVEAU_GSP_DEFAULT = true;
+      DRM_I915 = true;
 
-        HDMI = true;
+      BACKLIGHT_CLASS_DEVICE = true;
 
-        SND_HDA_INTEL = true;
-        SND_HDA_HWDEP = true;
-        SND_HDA_CODEC_REALTEK = true;
-        SND_HDA_CODEC_HDMI = true;
-        SND_HDA_POWER_SAVE_DEFAULT = 2;
+      HDMI = true;
 
-        SND_SOC = true;
-        SND_SOC_SOF_TOPLEVEL = true;
-        SND_SOC_SOF_PCI = true;
-        SND_SOC_SOF_INTEL_TOPLEVEL = true;
-        SND_SOC_SOF_TIGERLAKE = true;
-        SND_SOC_SOF_HDA_LINK = true;
-        SND_SOC_SOF_HDA_AUDIO_CODEC = true;
-        SND_SOC_DMIC = true;
+      SND_HDA_INTEL = true;
+      SND_HDA_HWDEP = true;
+      SND_HDA_CODEC_REALTEK = true;
+      SND_HDA_CODEC_HDMI = true;
+      SND_HDA_POWER_SAVE_DEFAULT = 2;
 
-        HID_LENOVO = true;
-        HID_LOGITECH = true;
+      SND_SOC = true;
+      SND_SOC_SOF_TOPLEVEL = true;
+      SND_SOC_SOF_PCI = true;
+      SND_SOC_SOF_INTEL_TOPLEVEL = true;
+      SND_SOC_SOF_TIGERLAKE = true;
+      SND_SOC_SOF_HDA_LINK = true;
+      SND_SOC_SOF_HDA_AUDIO_CODEC = true;
+      SND_SOC_DMIC = true;
 
-        USB_ACM = true;
+      HID_LENOVO = true;
+      HID_LOGITECH = true;
 
-        USB_SERIAL = true;
-        USB_SERIAL_PL2303 = true;
+      USB_ACM = true;
 
-        EDAC_IGEN6 = true;
+      USB_SERIAL = true;
+      USB_SERIAL_PL2303 = true;
 
-        ACPI_WMI = true;
-        MXM_WMI = true;
-        THINKPAD_ACPI = true;
-        THINKPAD_ACPI_ALSA_SUPPORT = true;
-        THINKPAD_ACPI_VIDEO = true;
+      EDAC_IGEN6 = true;
 
-        INTEL_TURBO_MAX_3 = true;
-        INTEL_VSEC = true;
+      ACPI_WMI = true;
+      MXM_WMI = true;
+      THINKPAD_ACPI = true;
+      THINKPAD_ACPI_ALSA_SUPPORT = true;
+      THINKPAD_ACPI_VIDEO = true;
 
-        INTEL_IOMMU = true;
-        INTEL_IOMMU_DEFAULT_ON = true;
+      INTEL_TURBO_MAX_3 = true;
+      INTEL_VSEC = true;
 
-        SOUNDWIRE = true;
-        SOUNDWIRE_INTEL = true;
+      INTEL_IOMMU = true;
+      INTEL_IOMMU_DEFAULT_ON = true;
 
-        INTEL_IDMA64 = true;
+      SOUNDWIRE = true;
+      SOUNDWIRE_INTEL = true;
 
-        INTEL_RAPL = true;
+      INTEL_IDMA64 = true;
 
-        BTRFS_FS = true;
-        BTRFS_FS_POSIX_ACL = true;
-        FUSE_FS = true;
-        EXFAT_FS = true;
-      });
+      INTEL_RAPL = true;
+
+      BTRFS_FS = true;
+      BTRFS_FS_POSIX_ACL = true;
+      FUSE_FS = true;
+      EXFAT_FS = true;
+    };
   });
 
   hardware.cpu.clusters.performance = lib.range 0 11;
