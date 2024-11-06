@@ -120,6 +120,7 @@ in {
   
   services.akkoma.config = let
     elixir = pkgs.formats.elixirConf { };
+    attrsToTuples = lib.mapAttrsToList (name: value: elixir.lib.mkTuple [ name value ]);
   in with elixir.lib; {
     ":pleroma" = {
       ":instance" = {
@@ -199,7 +200,7 @@ in {
       ];
 
       ":mrf_simple" = {
-        reject = mkMap {
+        reject = attrsToTuples {
           "bae.st" = "harassment";
           "brighteon.social" = "incompatible";
           "detroitriotcity.com" = "incompatible";
@@ -220,7 +221,7 @@ in {
           "repl.co" = "security";
         };
 
-        followers_only = mkMap {
+        followers_only = attrsToTuples {
           "bitcoinhackers.org" = "annoying";
         };
       };
