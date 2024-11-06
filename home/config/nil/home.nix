@@ -249,8 +249,11 @@ in {
 
         PROMPT_INDICATOR: { "› " }
 
-        SSH_AUTH_SOCK: $"($env.XDG_RUNTIME_DIR)/ssh-agent"
         TMPDIR: $"($env.XDG_RUNTIME_DIR)/tmp"
+      }
+
+      if SSH_AUTH_SOCK not-in $env {
+        $env.SSH_AUTH_SOCK = $"($env.XDG_RUNTIME_DIR)/ssh-agent"
       }
     '';
 
