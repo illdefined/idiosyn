@@ -286,8 +286,6 @@ in genAttrs [
     sdl2Support = false;
     vdpauSupport = false;
     x11Support = false;
-    xineramaSupport = false;
-    xvSupport = false;
   };
 
   mpv = final.mpv-unwrapped.wrapper {
