@@ -86,7 +86,7 @@ in {
   services.akkoma.extraStatic."emoji/blobs.gg" = pkgs.akkoma-emoji.blobs_gg;
   services.akkoma.extraStatic."static/terms-of-service.html" = pkgs.writeText "terms-of-service.html" ''
     <h2>Commitments</h2>
-    <p>This is currently a single‐user instance and therefore I decided to formulate what would be <em>Terms of Service</em> for a multi‐user user instance as commitments. These are still incomplete and subject to expansion in the future.</p>
+    <p>This was originally a single‐user instance and therefore I decided to formulate what would be <em>Terms of Service</em> for a multi‐user user instance as commitments. These are still incomplete and subject to expansion in the future.</p>
     <ul>
       <li>I shall observe and respect your boundaries.</li>
       <li>I shall respect your right to disengage, and support you if you wish to disengage from others.</li>
