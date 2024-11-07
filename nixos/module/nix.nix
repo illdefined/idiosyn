@@ -41,6 +41,18 @@ in {
       preallocate-contents = true;
       use-cgroups = true;
       use-xdg-base-directories = true;
+
+      substituters = [
+        "https://cache.kyouma.net"
+        "https://colmena.cachix.org"
+        "https://nix-community.cachix.org"
+      ];
+
+      trusted-public-keys = [
+        "cache.kyouma.net:Frjwu4q1rnwE/MnSTmX9yx86GNA/z3p/oElGvucLiZg="
+        "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
 
     registry = {
