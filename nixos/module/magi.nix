@@ -132,4 +132,28 @@
       ];
     };
   };
+
+  services.ntpd-rs = {
+    enable = true;
+    settings = {
+      source = map (n: {
+        mode = "server";
+        address = "ptbtime${toString n}.ptb.de";
+      }) (lib.range 1 4) ++ [
+        {
+          mode = "server";
+          address = "alucard.nyantec.com";
+        }
+      ];
+
+      server = [
+        {
+          listen = "[::]:123";
+        }
+        {
+          listen = "0.0.0.0:123";
+        }
+      ];
+    };
+  };
 }

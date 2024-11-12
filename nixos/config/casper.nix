@@ -9,4 +9,10 @@
       fsType = "vfat";
     };
   };
+
+  services.ntpd-rs.settings.source = map (address: {
+    mode = "server";
+    inherit address;
+  }) [ "melchior.nyantec.com" "balthasar.nyantec.com" ]
+  |> lib.mkAfter;
 }
