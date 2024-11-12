@@ -116,4 +116,20 @@
       enable = true;
     };  
   };
+
+  services.gobgpd = {
+    enable = true;
+    settings = {
+      global = {
+        as = 208250;
+      };
+
+      neighbors = [
+        {
+          neighbor-address = "2a0f:be00:0001::";
+          peer-as = 208250;
+        }
+      ];
+    };
+  };
 }
