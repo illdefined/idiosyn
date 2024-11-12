@@ -156,4 +156,75 @@
       ];
     };
   };
+
+  services.unbound = {
+    enable = true;
+
+    package = pkgs.unbound-with-systemd.override {
+      withDoH = true;
+      withECS = true;
+      withTFO = true;
+    };
+
+    enableRootTrustAnchor = true;
+
+    settings = {
+      module-config = "subnetcache validator iterator";
+      server = let
+        acmeDir = config.security.acme.certs."resolve.nyantec.com".directory;
+        num-threads = 16;
+      in {
+        inherit num-threads;
+
+        interface = [
+          "::1@53"
+          "127.0.0.1@53"
+
+          "::@443"
+          "0.0.0.0@443"
+
+          "::@853"
+          "0.0.0.0@853"
+        ];
+
+        so-reuseport = true;
+        ip-dscp = 20;
+        outgoing-range = 8192;
+        edns-buffer-size = 1472;
+        udp-upstream-without-downstream = true;
+        num-queries-per-thread = 4096;
+        incoming-num-tcp = 1024;
+        outgoing-num-tcp = 16;
+        stream-wait-size = "64m";
+        msg-cache-size = "128m";
+        msg-cache-slabs = num-threads;
+        rrset-cache-size = "256m";
+        rrset-cache-slabs = num-threads;
+        infra-cache-slabs = num-threads;
+        key-cache-slabs = num-threads;
+        cache-min-ttl = 60;
+        cache-max-negative-ttl = 360;
+        prefer-ip6 = true;
+        tls-service-pem = "${acmeDir}/fullchain.pem";
+        tls-service-key = "${acmeDir}/key.pem";
+        https-port = 443;
+        http-query-buffer-size = "64m";
+        http-response-buffer-size = "64m";
+        access-control = [ "::/0 allow" "0.0.0.0/0 allow" ];
+        harden-dnssec-stripped = true;
+        hide-identity = true;
+        hide-version = true;
+        prefetch = true;
+        prefetch-key = true;
+        serve-expired-client-timeout = 1800;
+
+        # ECS
+        send-client-subnet = [ "::/0" "0.0.0.0/0" ];
+        max-client-subnet-ipv6 = 36;
+        max-client-subnet-ipv4 = 20;
+        max-ecs-tree-size-ipv6 = 128;
+        max-ecs-tree-size-ipv4 = 128;
+      };
+    };
+  };
 }
