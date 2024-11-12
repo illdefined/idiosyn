@@ -117,6 +117,22 @@
     };  
   };
 
+  services.cockroachdb = {
+    enable = true;
+
+    listen.address = config.networking.fdqnOrHostname;
+    certsDir = "";
+
+    cache = ".05";
+    maxSqlMemory = ".05";
+    join = "casper.nyantec.com,melchior.nyantec.com,balthasar.nyantec.com";
+
+    extraArgs = [
+      "--cluster-name=nyantec"
+      "--store=path=/var/lib/cockroachdb,attrs=ssd,size=.5"
+    ];
+  };
+
   services.gobgpd = {
     enable = true;
     settings = {
@@ -227,4 +243,11 @@
       };
     };
   };
+
+  systemd.tmpfiles.rules = let
+    inherit (config.services) cockroachdb;
+  in [
+    "q /var/lib/cockroachdb 0750 ${cockroachdb.user} ${cockroachdb.group} - -"
+    "H /var/lib/cockroachdb - - - - +C"
+  ];
 }
