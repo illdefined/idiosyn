@@ -49,12 +49,8 @@ imports = [
       "nvidia/ga107/gsp/gsp-535.113.01.bin"
     ];
 
-    profiles = {
-      physical = true;
-      portable = true;
+    extraProfiles = {
       dm-crypt = true;
-      wireless = true;
-      audio = true;
     };
 
     extraConfig = with linux-hardened.lib.kernel; {

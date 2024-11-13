@@ -18,8 +18,7 @@
   boot.kernelPackages = let
     inherit (linux-hardened.packages.x86_64-linux) supermicro-h11ssw;
   in pkgs.linuxPackagesFor (supermicro-h11ssw.override {
-    profiles = {
-      physical = true;
+    extraProfiles = {
       dm-crypt = true;
     };
 

@@ -40,10 +40,9 @@ in {
   ];
 
   boot.kernelPackages = let
-    inherit (linux-hardened.packages.x86_64-linux) default;
-  in pkgs.linuxPackagesFor (default.override {
+    inherit (linux-hardened.packages.x86_64-linux) paravirt;
+  in pkgs.linuxPackagesFor (paravirt.override {
     instSetArch = "x86-64-v3";
-    profiles = { paravirt = true; };
     extraConfig = with linux-hardened.lib.kernel; {
       NR_CPUS = 8;
 
