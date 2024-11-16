@@ -40,6 +40,7 @@
     };
 
     linux-hardened.url = "git+https://woof.rip/mikael/linux-hardened.git";
+    firefox.url = "git+https://woof.rip/mikael/firefox.git";
 
     nix-index-database = {
       url = "github:illdefined/nix-index-database";

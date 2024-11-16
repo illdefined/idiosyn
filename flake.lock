@@ -101,6 +101,24 @@
         "type": "github"
       }
     },
+    "firefox": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1731773001,
+        "narHash": "sha256-/3tpXzkJqSmJObEilZxeL4Mo1GsyNP0q15kIvw6+GEo=",
+        "ref": "refs/heads/main",
+        "rev": "bb30e67d1f3e5947d46c86dda2a567d16e9d3f52",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://woof.rip/mikael/firefox.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://woof.rip/mikael/firefox.git"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -329,7 +347,7 @@
     },
     "linux-hardened": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1731676971,
@@ -576,6 +594,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1731531548,
+        "narHash": "sha256-sz8/v17enkYmfpgeeuyzniGJU0QQBfmAjlemAUYhfy8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "24f0d4acd634792badd6470134c387a3b039dace",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1731667778,
@@ -674,6 +708,7 @@
         "catppuccin": "catppuccin",
         "catppuccin-palette": "catppuccin-palette",
         "colmena": "colmena",
+        "firefox": "firefox",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "linux-hardened": "linux-hardened",
@@ -682,7 +717,7 @@
         "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nur": "nur",
         "ripgrep-all": "ripgrep-all",
         "rust-overlay": "rust-overlay"

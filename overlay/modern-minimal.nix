@@ -91,23 +91,6 @@ in genAttrs [
     withSsh = false;
   };
 
-  firefox-unwrapped = (prev.firefox-unwrapped.overrideAttrs (prevAttrs: {
-    buildInputs = prevAttrs.buildInputs or [ ]
-      ++ [ final.alsa-lib ];
-
-    configureFlags = prevAttrs.configureFlags or [ ]
-      |> substituteFlags {
-        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
-      };
-  })).override {
-    alsaSupport = false;
-    gssSupport = false;
-    jemallocSupport = false;
-    sndioSupport = false;
-  };
-
-  firefox = final.wrapFirefox final.firefox-unwrapped { };
-
   gammastep = prev.gammastep.override {
     withRandr = false;
   };
@@ -343,17 +326,6 @@ in genAttrs [
     withHomed = false;
     withIptables = false;
   };
-
-  thunderbird-unwrapped = (prev.thunderbird-unwrapped.overrideAttrs (prevAttrs: {
-    configureFlags = prevAttrs.configureFlags or [ ]
-      |> substituteFlags {
-        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
-      };
-  })).override {
-    jemallocSupport = false;
-  };
-
-  thunderbird = final.wrapThunderbird final.thunderbird-unwrapped { };
 
   w3m = prev.w3m.override {
     x11Support = false;

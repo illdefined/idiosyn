@@ -15,22 +15,6 @@ in {
     secureBuild = true;
   };
 
-  firefox = (final.wrapFirefox final.firefox-unwrapped { }).overrideAttrs (prevAttrs: {
-    buildCommand = prevAttrs.buildCommand + ''
-      sed -i \
-        '$i export MIMALLOC_RESERVE_HUGE_OS_PAGES=2' \
-        "$out/bin/firefox"
-    '';
-  });
-  
-  thunderbird = (final.wrapThunderbird final.thunderbird-unwrapped { }).overrideAttrs (prevAttrs: {
-    buildCommand = prevAttrs.buildCommand + ''
-      sed -i \
-        '$i export MIMALLOC_RESERVE_HUGE_OS_PAGES=2' \
-        "$out/bin/thunderbird"
-    '';
-  });
-
   fractal = prev.fractal.overrideAttrs (prevAttrs: {
     nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ final.makeBinaryWrapper ];
     buildInputs = prevAttrs.buildInputs or [ ] ++ [ final.mimalloc ];
