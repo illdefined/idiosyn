@@ -1,7 +1,27 @@
-{ ... }: { config, lib, ... }: {
+{ ... }: { config, lib, pkgs, ... }@args:
+let
+  osConfig = args.osConfig or { };
+in {
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    extraPackages = lib.mkIf (osConfig.hardware.graphics.enable or false)
+      (with pkgs; [
+        bash-language-server
+        clang-tools
+        cmake-language-server
+        dot-language-server
+        elixir-ls
+        lldb
+        markdown-oxide
+        nil
+        python3Packages.python-lsp-server
+        taplo
+        texlab
+        typescript-language-server
+        yaml-language-server
+      ]);
+
     catppuccin.useItalics = true;
     settings = {
       editor = {
