@@ -46,7 +46,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     julia-mono
     lato
     mplus-outline-fonts.githubRelease
-    nerdfonts
+    nerd-fonts.symbols-only
     noto-fonts
     noto-fonts-color-emoji
     unifont
