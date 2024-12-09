@@ -338,6 +338,8 @@ in genAttrs [
     });
   })) { };
 
+  svt-av1 = final.svt-av1-psy;
+
   systemd = prev.systemd.override {
     withApparmor = false;
     withHomed = false;
