@@ -48,6 +48,8 @@ in {
 
       BTRFS_FS = true;
       BTRFS_FS_POSIX_ACL = true;
+
+      CRYPTO_ZSTD = true;
     };
   });
 
