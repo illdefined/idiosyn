@@ -1,4 +1,4 @@
-{ ... }: { config, lib, pkgs, ... }@args:
+{ firefox, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 
@@ -12,16 +12,8 @@ let
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox;
+    package = firefox.packages.${pkgs.system}.firefox;
     profiles = let
-    extensions = with config.nur.repos.rycee.firefox-addons; [
-      clearurls
-      consent-o-matic
-      decentraleyes
-      keepassxc-browser
-      multi-account-containers
-      ublock-origin
-    ];
     settings = {
       # use OS locale
       "intl.regional_prefs.use_os_locales" = true;
@@ -29,16 +21,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       # localisation
       "intl.accept_languages" = "en-gb,en,de,fr,es-es,es,pt,ja";
       "intl.locale.requested" = "en-GB,en,de,fr,es-ES,es,pt,ja";
-
-      # use OS resolver
-      "network.trr.mode" = 5;
-
-      # force HTTPS
-      "dom.security.https_only_mode" = true;
-      "dom.security.https_only_mode_ever_enabled" = true;
-
-      # enable EME
-      "media.eme.enabled" = true;
 
       # founts
       "font.default.x-unicode" = "sans-serif";
@@ -49,33 +31,13 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "font.name.monospace.x-western" = "Fira Code";
 
       # hardware acceleration
-      "gfx.webrender.all" = true;
       "layers.acceleration.force-enabled" = true;
-      "media.ffmpeg.vaapi.enabled" = true;
 
       # always ask for download location
       "browser.download.useDownloadDir" = false;
 
-      # disable firefox tab
-      "browser.tabs.firefox-view" = false;
-
-      # disable firefox intro tab
-      "browser.startup.homepage_override.mstone" = "ignore";
-
-      # disable default browser check
-      "browser.shell.checkDefaultBrowser" = false;
-
       # private containor for new tab page thumbnails
       "privacy.usercontext.about_newtab_segregation.enabled" = true;
-
-      # disable Beacons API
-      "beacon.enabled" = false;
-
-      # disable pings
-      "browser.send_pings" = false;
-
-      # strip query parameters
-      "privacy.query_stripping" = true;
 
       # disable access to device sensors
       "device.sensors.enabled" = false;
@@ -83,50 +45,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       # disable media auto‐play
       "media.autoplay.enabled" = false;
-
-      # block third‐party cookies
-      "network.cookie.cookieBehavior" = 1;
-
-      # spoof referrer header
-      "network.http.referer.spoofSource" = true;
-
-      # isolate all browser identifier sources
-      "privacy.firstparty.isolate" = true;
-
-      # resist fingerprinting
-      #"privacy.resistFingerprinting" = true;
-
-      # enable built‐in tracking protection
-      "privacy.trackingprotection.enabled" = true;
-      "privacy.trackingprotection.emailtracking.enabled" = true;
-      "privacy.trackingprotection.socialtracking.enabled" = true;
-
-      # disable data sharing
-      "app.normandy.enabled" = false;
-      "app.shield.optoutstudies.enabled" = false;
-      "datareporting.healthreport.uploadEnabled" = false;
-
-      # disable safebrowsing
-      "browser.safebrowsing.downloads.enabled" = false;
-      "browser.safebrowsing.malware.enabled" = false;
-      "browser.safebrowsing.phishing.enabled" = false;
-
-      # disable firefox account
-      "identity.fxaccounts.enabled" = false;
-
-      # disable sponsored items
-      "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-      "browser.newtabpage.enhanced" = false;
-
-      # disable Pocket
-      "extensions.pocket.enabled" = false;
-
-      # disable crash reporting
-      "browser.tabs.crashReporting.sendReport" = false;
-      "breakpad.reportURL" = "";
-
-      # disable accessibility services
-      "accessibility.force_disabled" = true;
 
       # disable password auto‐fill
       "signon.autofillForms" = false;
@@ -230,11 +148,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
     in {
       default = {
-        inherit extensions settings userChrome search;
+        inherit settings userChrome search;
         isDefault = true;
       };
       sneaky = {
-        inherit extensions settings userChrome search;
+        inherit settings userChrome search;
         id = 1;
       };
       vanilla = {

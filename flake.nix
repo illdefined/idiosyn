@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
-    nur.url = "github:nix-community/NUR";
 
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
@@ -40,6 +39,7 @@
     };
 
     linux-hardened.url = "git+https://woof.rip/mikael/linux-hardened.git";
+    firefox.url = "git+https://woof.rip/mikael/firefox.git";
 
     nix-index-database = {
       url = "github:illdefined/nix-index-database";

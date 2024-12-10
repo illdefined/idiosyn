@@ -1,4 +1,4 @@
-{ self, nur, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
+{ self, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
 { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
@@ -9,7 +9,6 @@ let
   sh = lib.getExe self.packages.${pkgs.system}.hush;
 in {
   imports = [
-    nur.modules.homeManager.default
     self.homeModules.greedy
     self.homeModules.locale-en_EU
     catppuccin.homeManagerModules.catppuccin
