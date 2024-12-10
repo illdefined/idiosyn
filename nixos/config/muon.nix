@@ -80,6 +80,8 @@ imports = [
       BTRFS_FS_POSIX_ACL = true;
       FUSE_FS = true;
       EXFAT_FS = true;
+
+      CRYPTO_ZSTD = true;
     };
   });
 
