@@ -350,11 +350,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1733594854,
-        "narHash": "sha256-7tpyiyN5CGz6Kx+dTJc9Pm3Ut1mGzBMABCjdRd+Kqls=",
+        "lastModified": 1733856485,
+        "narHash": "sha256-hsyfQ/cr6PKWc+3B0ey1XbTaww5BeXmnIoLvdori27U=",
         "ref": "refs/heads/main",
-        "rev": "627dea6f1ab29bd71cc7cdb7b9175337076c7072",
-        "revCount": 22,
+        "rev": "741da6804086e4aeb4bd80ec1bb259f3654d7194",
+        "revCount": 25,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -366,11 +366,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1733740102,
-        "narHash": "sha256-zIm58tETZ5Z6Scsjrn9rPISLzH4kWb2MIoC/jdii5ts=",
-        "rev": "369e3f82f066866b4d75abc5fc66e5b8e2149b4c",
+        "lastModified": 1733853761,
+        "narHash": "sha256-DvPl/cOMvKIV4SPydx22YfoPUb7SPBKbPCt14umDzq0=",
+        "rev": "7c76053d932138eb062418209884d44b472225ce",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/369e3f82f066866b4d75abc5fc66e5b8e2149b4c.tar.gz?rev=369e3f82f066866b4d75abc5fc66e5b8e2149b4c"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/7c76053d932138eb062418209884d44b472225ce.tar.gz?rev=7c76053d932138eb062418209884d44b472225ce"
       },
       "original": {
         "type": "tarball",
@@ -580,11 +580,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1733376361,
-        "narHash": "sha256-aLJxoTDDSqB+/3orsulE6/qdlX6MzDLIITLZqdgMpqo=",
+        "lastModified": 1733686850,
+        "narHash": "sha256-NQEO/nZWWGTGlkBWtCs/1iF1yl2lmQ1oY/8YZrumn3I=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "929116e316068c7318c54eb4d827f7d9756d5e9c",
+        "rev": "dd51f52372a20a93c219e8216fe528a648ffcbf4",
         "type": "github"
       },
       "original": {
