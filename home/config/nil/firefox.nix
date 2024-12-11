@@ -5,9 +5,9 @@ let
   firefox-csshacks = pkgs.fetchFromGitHub {
     owner = "MrOtherGuy";
     repo = "firefox-csshacks";
-    rev = "7eca4b1050c4065130a2cf696302b4ef5d88d932";
+    rev = "890a03f4ffd8ba7833a42aaa09d7b40565c04dd4";
     sparseCheckout = [ "!/*" "/chrome" "/content" ];
-    hash = "sha256-rk0jC5AMw41xt5yItY7CAxuYAFhoe5Jy2tvwgh59cPI=";
+    hash = "sha256-qCj5BuRa7eq6uqWdbrD8FwLotuVSXksk1l5j07kWCUk=";
   };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.firefox = {
