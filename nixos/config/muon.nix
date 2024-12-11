@@ -163,7 +163,7 @@ imports = [
         maxJobs = 2;
         speedFactor = 4;
         systems = [ "aarch64-linux" ];
-        supportedFeatures = base ++ aarch;
+        supportedFeatures = base ++ aarch ++ [ "aarch64-linux-native" ];
         sshKey = "/etc/keys/nix-ssh";
       }
       {
@@ -173,7 +173,7 @@ imports = [
         maxJobs = 2;
         speedFactor = 4;
         systems = [ "riscv64-linux" ];
-        supportedFeatures = base ++ [ "gccarch-rv64imac" "gccarch-rv64imacfd" ];
+        supportedFeatures = base ++ riscv ++ [ "riscv64-linux-native" ];
         sshKey = "/etc/keys/nix-ssh";
       }
     ] ++ (lib.range 1 11 |> map (num: {
@@ -182,12 +182,14 @@ imports = [
       sshUser = "root";
       maxJobs = 4;
       speedFactor = 16;
-      systems = [ "x86_64-linux" "i686-linux" ];
-      supportedFeatures = base ++ x86-64;
+      systems = [ "x86_64-linux" "i686-linux" "riscv64-linux" "aarch64-linux" ];
+      supportedFeatures = base ++ x86-64 ++ riscv ++ aarch
+        ++ [ "x86_64-linux-native" "i686-linux-native" "riscv64-linux-qemu" "aarch64-linux-qemu" ];
       sshKey = "/etc/keys/nix-ssh";
     }));
 
-    settings.system-features = base ++ x86-64 ++ riscv ++ aarch;
+    settings.system-features = base ++ x86-64 ++ riscv ++ aarch
+      ++ [ "x86_64-linux-native" "riscv64-linux-qemu" "aarch64-linux-qemu" ];
   };
 
   programs.ssh = {
