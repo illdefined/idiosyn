@@ -25,7 +25,7 @@ in {
     catppuccin.useItalics = true;
     settings = {
       editor = {
-        rulers = [ 80 120 ];
+        rulers = [ 80 132 ];
 
         indent-guides = {
           render = true;
