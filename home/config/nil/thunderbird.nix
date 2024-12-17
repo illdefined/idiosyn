@@ -1,10 +1,10 @@
-{ ... }: { config, lib, pkgs, ... }@args:
+{ firefox, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.thunderbird = {
     enable = true;
-    package = pkgs.thunderbird;
+    package = firefox.packages.${pkgs.system}.thunderbird;
     profiles = { };
   };
 }
