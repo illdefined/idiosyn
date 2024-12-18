@@ -1,18 +1,11 @@
 { firefox, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
-
-  firefox-csshacks = pkgs.fetchFromGitHub {
-    owner = "MrOtherGuy";
-    repo = "firefox-csshacks";
-    rev = "890a03f4ffd8ba7833a42aaa09d7b40565c04dd4";
-    sparseCheckout = [ "!/*" "/chrome" "/content" ];
-    hash = "sha256-qCj5BuRa7eq6uqWdbrD8FwLotuVSXksk1l5j07kWCUk=";
-  };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
-  programs.firefox = {
+  programs.floorp = {
     enable = true;
-    package = firefox.packages.${pkgs.system}.firefox;
+    package = firefox.packages.${pkgs.system}.floorp;
+    languagePacks = [ "en-GB" ];
     profiles = let
     settings = {
       # use OS locale
@@ -52,12 +45,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       # enable user profile customisation
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     };
-    userChrome = lib.concatMapStrings (css:
-      "@import url('${firefox-csshacks}/chrome/${css}.css');\n"
-      ) [
-        "hide_tabs_with_one_tab"
-        "autohide_bookmarks_and_main_toolbars"
-      ];
     search = {
       default = "Google Search";
       force = true;
@@ -148,21 +135,17 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
     in {
       default = {
-        inherit settings userChrome search;
+        inherit settings search;
         isDefault = true;
       };
       sneaky = {
-        inherit settings userChrome search;
+        inherit settings search;
         id = 1;
-      };
-      vanilla = {
-        inherit userChrome search;
-        id = 2;
       };
     };
   };
 
   xdg.mimeApps.defaultApplications = {
-    default-web-browser = [ "firefox.desktop" ];
+    default-web-browser = [ "floorp.desktop" ];
   };
 }

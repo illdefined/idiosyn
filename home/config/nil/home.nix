@@ -20,7 +20,7 @@ in {
     ./desktop.nix
     ./bar.nix
     ./terminal.nix
-    ./firefox.nix
+    ./floorp.nix
     ./thunderbird.nix
     ./sioyek.nix
     ./texlive.nix
