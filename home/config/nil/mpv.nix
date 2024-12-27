@@ -41,6 +41,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       highres = {
         scale = "spline64";
       };
+
+      vrr = {
+        profile-cond = "fullscreen";
+        video-sync = "audio";
+      };
     };
 
     scripts = with pkgs.mpvScripts; [
