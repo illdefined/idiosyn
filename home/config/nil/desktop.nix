@@ -40,14 +40,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     simple-scan
   ];
 
-  gtk = {
-    enable = true;
-    catppuccin = {
-      enable = true;
-      gnomeShellTheme = true;
-      icon.enable = true;
-    };
-  };
+  gtk.enable = true;
 
   programs.fuzzel = {
     enable = true;
