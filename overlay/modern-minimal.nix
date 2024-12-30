@@ -205,16 +205,6 @@ in genAttrs [
     x11Support = false;
   };
 
-  libva = prev.libva.overrideAttrs (prevAttrs: {
-    buildInputs = prevAttrs.buildInputs or [ ]
-      |> removePackages [ "libX.*" ];
-
-    meta = prevAttrs.meta or { } // {
-      pkgConfigModules = prevAttrs.meta.pkgConfigModules
-        |> subtractLists [ "libva-glx" "libva-x11" ];
-    };
-  });
-
   libGL = prev.libGL.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       |> removePackages [ "libX.*" "xorgproto" ];
