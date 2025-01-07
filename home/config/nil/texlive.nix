@@ -27,6 +27,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         hyperref
         multirow
         paralist
+        pbox
         preprint
         realscripts
         textpos
