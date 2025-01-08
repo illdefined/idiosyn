@@ -403,11 +403,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736336279,
-        "narHash": "sha256-9Xp2X7ofKY4h39vUbd4coNambsG7Y/9axLFyTXaXOMU=",
+        "lastModified": 1736366465,
+        "narHash": "sha256-Fo68EF6p/N9GJyHiAUbXtiE7IJlb3IMjK86LuxFMsRU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "45bcdbc910dc5131943bb6f7edb156617898fd1a",
+        "rev": "7e00856596891850ba5ad4c5ecd2ed74468c08c5",
         "type": "github"
       },
       "original": {
@@ -476,11 +476,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1736275048,
-        "narHash": "sha256-bT4EZeRNta3rXzrqYykrzDWF70QKCSkPvpMuyoSBKRs=",
+        "lastModified": 1736377363,
+        "narHash": "sha256-i8UVlj7WWvyZgMu2pkLtEarUsQmpIQ89jQn+Bobmeow=",
         "ref": "refs/heads/main",
-        "rev": "4e3e6772fdbded997df631381d413da4a0680665",
-        "revCount": 41,
+        "rev": "896f1492c70ebd08d1561540b0e6c8b39d3a39b6",
+        "revCount": 42,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
