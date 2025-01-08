@@ -222,7 +222,7 @@ in {
         MANPAGER: `${sh} -c '${col} -bx | ${bat} -l man -p'`
 
         PROMPT_COMMAND: {
-          let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
+          let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
             null => $env.PWD
             "" => '~'
             $relative_pwd => ([~ $relative_pwd] | path join)
