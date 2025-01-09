@@ -2,6 +2,7 @@
 let
   osConfig = args.osConfig or { };
 in {
+  catppuccin.helix.useItalics = true;
   programs.helix = {
     enable = true;
     defaultEditor = true;
@@ -22,7 +23,6 @@ in {
         yaml-language-server
       ]);
 
-    catppuccin.useItalics = true;
     settings = {
       editor = {
         rulers = [ 80 132 ];

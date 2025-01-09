@@ -33,7 +33,7 @@ in {
 
   catppuccin = {
     enable = true;
-    pointerCursor.enable = true;
+    cursors.enable = true;
   };
 
   home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
