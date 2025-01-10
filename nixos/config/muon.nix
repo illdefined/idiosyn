@@ -188,6 +188,7 @@ imports = [
       sshKey = "/etc/keys/nix-ssh";
     }));
 
+    gc.options = lib.mkForce "--delete-older-than 90d";
     settings.system-features = base ++ x86-64 ++ riscv ++ aarch
       ++ [ "x86_64-linux-native" "riscv64-linux-qemu" "aarch64-linux-qemu" ];
   };
