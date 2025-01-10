@@ -131,6 +131,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
           urls = [{ template = "https://www.deepl.com/translator#en//{searchTerms}"; }];
           definedAliases = [ "dpl" ];
         };
+
+        "Sci-Hub" = {
+          urls = [{ template = "https://sci-hub.se/{searchTerms}"; }];
+          definedAliases = [ "sci" ];
+        };
       };
     };
     in {
