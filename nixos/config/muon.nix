@@ -186,12 +186,12 @@ imports = [
         supportedFeatures = base ++ riscv ++ [ "riscv64-linux-native" ];
         sshKey = "/etc/keys/nix-ssh";
       }
-    ] ++ (lib.range 1 11 |> map (num: {
+    ] ++ (lib.range 9 11 |> map (num: {
       hostName = "build-worker-${lib.fixedWidthNumber 2 num}";
       protocol = "ssh-ng";
       sshUser = "root";
-      maxJobs = 4;
-      speedFactor = 16;
+      maxJobs = 2;
+      speedFactor = 8;
       systems = [ "x86_64-linux" "i686-linux" "riscv64-linux" "aarch64-linux" ];
       supportedFeatures = base ++ x86-64 ++ riscv ++ aarch
         ++ [ "x86_64-linux-native" "i686-linux-native" "riscv64-linux-qemu" "aarch64-linux-qemu" ];
