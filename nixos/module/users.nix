@@ -48,7 +48,12 @@ in {
   users.users.nil = {
     isNormalUser = true;
     shell = pkgs.nushell;
-    extraGroups = [ "wheel" ];
+
+    extraGroups = lib.mkMerge [
+      [ "wheel" ]
+      (lib.mkIf config.security.tpm2.enable [ config.security.tpm2.tssGroup ])
+    ];
+
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo= primary"
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIAgnEAwe59/yY/U55y7WxGa/QI20/XMQEsQvs1/6LitRAAAABHNzaDo= backup"
