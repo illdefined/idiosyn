@@ -2,6 +2,7 @@
   serifs = "sans";
   noCvSs = true;
   exportGlyphNames = true;
+  buildTextureFeature = true;
 
   variants.design = {
     one = "no-base";
