@@ -492,11 +492,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1737403222,
-        "narHash": "sha256-bAcx6Nv0a3XoCBs9TSqgjyf16nrz/ozUO93Ng52IfOI=",
-        "rev": "fcc151d7898e466569c5f9e628217e476c1eaba8",
+        "lastModified": 1737410864,
+        "narHash": "sha256-y46guhPY/ganPwivGjgH03LcF/xG4vpPxoudXI/moQc=",
+        "rev": "5f1782a938ad14ed677a6cd283f70fa62613451f",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/fcc151d7898e466569c5f9e628217e476c1eaba8.tar.gz?rev=fcc151d7898e466569c5f9e628217e476c1eaba8"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/5f1782a938ad14ed677a6cd283f70fa62613451f.tar.gz?rev=5f1782a938ad14ed677a6cd283f70fa62613451f"
       },
       "original": {
         "type": "tarball",
@@ -538,11 +538,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1737373716,
-        "narHash": "sha256-GRI9WugYv8QlnhZlINfY8gHIR+xn/AsEXhQP3+FjUh0=",
+        "lastModified": 1737453013,
+        "narHash": "sha256-Dp/DOKuehXsUDk1ehNRsduc+Iv8ojQsgHtzmO7Px4ZM=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "5aa5e53601ff1d93ae6b4dc6f833c73fc8de6466",
+        "rev": "170d1b8348fc84b48e8374df93b2a2bb2fea70e6",
         "type": "github"
       },
       "original": {
@@ -571,11 +571,11 @@
     "niri-unstable": {
       "flake": false,
       "locked": {
-        "lastModified": 1737370409,
-        "narHash": "sha256-khoHHrpP/yArGEm94H/GtZytGzfJECsAEGmB9DLWb7M=",
+        "lastModified": 1737449786,
+        "narHash": "sha256-G/AK0T41PpxU9hjkK/tnjODigzKcpRayo1o4pi9glqI=",
         "owner": "YaLTeR",
         "repo": "niri",
-        "rev": "7f025da5b6edb1d77e785ba6a6450ab10788ad8f",
+        "rev": "b01b8afa8c8f9070300243050d9790e38fd19145",
         "type": "github"
       },
       "original": {
@@ -895,11 +895,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1737340068,
-        "narHash": "sha256-5UciRckNV+YOZ6y6ASBIb01cySB12whDxgFUK+EqT8g=",
+        "lastModified": 1737426362,
+        "narHash": "sha256-4SavpRWfRw2pLG1qqErWpk/hI1eCzqjKcE1motxHZgo=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "275c824ed9e90e7fd4f96d187bde3670062e721f",
+        "rev": "2103fcb16359438d42141bac873ed2367a05cbe7",
         "type": "github"
       },
       "original": {
