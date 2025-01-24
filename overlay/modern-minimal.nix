@@ -5,6 +5,7 @@ let
   inherit (nixpkgs.lib.attrsets) genAttrs mapAttrsToList;
   inherit (nixpkgs.lib.lists) remove subtractLists toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
+  inherit (nixpkgs.lib.trivial) concat;
   inherit (self.lib) substituteFlags removePackages;
 
   final' = final;
@@ -354,7 +355,8 @@ in genAttrs [
 
   utsushi = prev.utsushi.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
-      |> removePackages [ "gtkmm" ];
+      |> removePackages [ "gtkmm" ]
+      |> concat [ final.libtiff ];
     configureFlags = prevAttrs.configureFlags or [ ]
       |> substituteFlags { "--with-gtkmm" = null; };
   });
