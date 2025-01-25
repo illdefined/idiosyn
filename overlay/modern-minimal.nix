@@ -148,6 +148,13 @@ in genAttrs [
       ++ [ "-DWITH_X11:BOOL=OFF" ];
   });
 
+  kdePackages = prev.kdePackages.overrideScope (final: prev: {
+    kguiaddons = prev.kguiaddons.overrideAttrs (prevAttrs: {
+      cmakeFlags = prevAttrs.cmakeFlags or [ ]
+        ++ [ "-DWITH_X11:BOOL=OFF" ];
+    });
+  });
+
   keepassxc = (prev.keepassxc.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs
       |> removePackages [ "kio" ];
