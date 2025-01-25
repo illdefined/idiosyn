@@ -92,23 +92,6 @@ in genAttrs [
     withSsh = false;
   };
 
-  firefox-unwrapped = (prev.firefox-unwrapped.overrideAttrs (prevAttrs: {
-    buildInputs = prevAttrs.buildInputs or [ ]
-      ++ [ final.alsa-lib ];
-
-    configureFlags = prevAttrs.configureFlags or [ ]
-      |> substituteFlags {
-        "--enable-default-toolkit=.*" = "--enable-default-toolkit=cairo-gtk3-wayland-only";
-      };
-  })).override {
-    alsaSupport = false;
-    gssSupport = false;
-    jemallocSupport = false;
-    sndioSupport = false;
-  };
-
-  firefox = final.wrapFirefox final.firefox-unwrapped { };
-
   gammastep = prev.gammastep.override {
     withRandr = false;
   };
