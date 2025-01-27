@@ -341,10 +341,12 @@ in {
   systemd.user.sessionVariables = {
     TMPDIR = "$XDG_RUNTIME_DIR/tmp";
     XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
+    XDG_STATE_HOME = "\${XDG_STATE_HOME:-$HOME/.local/state}";
   };
 
   systemd.user.tmpfiles.rules = [
     "d %C 700 - - 90d"
+    "d %S 700 - - 270d"
     "d %t/ssh 700"
     "d %t/tmp 700 - - 24h"
   ];
