@@ -3,7 +3,6 @@
 with lib; let
   ports = {
     acme = 1360;
-    nginx = 8080;
     synapse = 8008;
     unbound = 8484;
   };
@@ -74,7 +73,6 @@ in {
       listenHTTP = "127.0.0.1:${toString ports.acme}";
       reloadServices = [ "haproxy.service" "unbound.service" ];
       extraDomainNames = [
-        "cache.solitary.social"
         "matrix.solitary.social"
         "media.solitary.social"
         "resolve.solitary.social"
@@ -171,20 +169,6 @@ in {
       };
 
       ":database".rum_enabled = true;
-
-      ":media_proxy" = {
-        enabled = true;
-        base_url = "https://cache.solitary.social";
-        proxy_opts.redirect_on_failure = true;
-        proxy_opts.max_body_length = 64 * 1024 * 1024;
-      };
-
-      ":media_preview_proxy" = {
-        enabled = true;
-        thumbnail_max_width = 1920;
-        thumbnail_max_height = 1080;
-        min_content_length = 128 * 1024;
-      };
 
       "Pleroma.Upload".base_url = "https://media.solitary.social";
 
@@ -341,7 +325,6 @@ in {
       acl replay-safe method GET HEAD OPTIONS req.body_size eq 0
 
       acl host-solitary hdr(host),host_only solitary.social
-      acl host-cache hdr(host),host_only cache.solitary.social
       acl host-media hdr(host),host_only media.solitary.social
       acl host-matrix hdr(host),host_only matrix.solitary.social
       acl host-resolve hdr(host),host_only resolve.solitary.social
@@ -367,14 +350,12 @@ in {
       http-request set-priority-class int(-1) if host-resolve
       http-request set-priority-class int(1) if host-solitary
       http-request set-priority-class int(2) if host-media
-      http-request set-priority-class int(3) if host-cache
       http-request set-priority-class int(-2) if path-well-known
       
       http-response set-tos 20 if host-resolve  # AF22 (low‐latency, med drop)
       http-response set-tos 10 if host-matrix  # AF11 (high‐throughput, low drop)
       http-response set-tos 12 if host-solitary  # AF12 (high‐throughput, med drop)
       http-response set-tos 14 if host-media  # AF13 (high‐throughput, high drop)
-      http-response set-tos 14 if host-cache  # AF13 (high‐throughput, high drop)
       http-response set-tos 20 if path-well-known  # AF22 (low‐latency, med drop)
 
       http-request cache-use default
@@ -397,7 +378,6 @@ in {
 
       http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-solitary path-media
       http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-media path-media
-      http-request redirect code 308 location https://cache.solitary.social%[capture.req.uri] if host-solitary path-proxy
       http-request set-path "/media%[path]" if host-media !path-acme !path-media
 
       use_backend acme if path-acme
@@ -405,7 +385,6 @@ in {
       use_backend unbound if host-resolve
       use_backend synapse if host-matrix
       use_backend wellknown-matrix if host-solitary path-matrix-well-known
-      use_backend nginx if host-cache
       use_backend akkoma if host-solitary
       use_backend akkoma if host-media
       default_backend notfound
@@ -416,10 +395,6 @@ in {
 
     backend akkoma
       server akkoma /run/akkoma/socket
-
-    backend nginx
-      server nginx [::1]:${toString ports.nginx} tfo proto h2
-      retry-on conn-failure empty-response response-timeout
 
     backend synapse
       server synapse [::1]:${toString ports.synapse}
@@ -467,53 +442,6 @@ in {
     } ];
 
     log_config = ./log_config.yaml;
-  };
-
-  services.nginx = {
-    enable = true;
-
-    package = pkgs.tengine;
-
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-
-    commonHttpConfig = ''
-      charset utf-8;
-      proxy_cache_path /var/cache/nginx/cache/akkoma_media_cache
-        levels= keys_zone=akkoma_media_cache:16m max_size=16g
-        inactive=1y use_temp_path=off;
-      access_log off;
-
-      set_real_ip_from ::1;
-      real_ip_header X-Forwarded-For;
-    '';
-  };
-
-  services.nginx.virtualHosts."cache.solitary.social" = {
-    listen = [ {
-      addr = "[::1]";
-      port = ports.nginx;
-      extraParameters = [ "http2" "fastopen=512" ];
-    } ];
-    locations."/" = {
-      proxyPass = "http://unix:/run/akkoma/socket";
-      extraConfig = ''
-        proxy_cache akkoma_media_cache;
-        slice 1m;
-        proxy_cache_key $host$uri$is_args$args$slice_range;
-        proxy_set_header Range $slice_range;
-
-        proxy_buffering on;
-        proxy_cache_lock on;
-        proxy_ignore_client_abort on;
-
-        proxy_cache_valid 200 1y;
-        proxy_cache_valid 206 301 304 1h;
-
-        proxy_cache_use_stale error timeout invalid_header updating;
-      '';
-    };
   };
 
   services.postfix = {
@@ -621,7 +549,6 @@ in {
     backendServices = [
       "akkoma.service"
       "matrix-synapse.service"
-      "nginx.service"
       "unbound.service"
     ];
   in {
@@ -652,27 +579,6 @@ in {
         CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
         SocketBindAllow = [ "tcp:80" "tcp:443" "udp:443" ];
         SocketBindDeny = "any";
-      };
-    };
-
-    services.nginx = {
-      confinement.enable = true;
-      after = [ "akkoma.service" ];
-      serviceConfig = {
-        BindReadOnlyPaths = [
-          "/etc/hosts"
-          "/etc/resolv.conf"
-          "/run"
-        ];
-
-        BindPaths = [
-          "/var/cache/nginx"
-        ];
-
-        ProtectSystem = mkForce false;
-        SocketBindAllow = [ "tcp:${toString ports.nginx}" ];
-        SocketBindDeny = "any";
-        RestrictNetworkInterfaces = [ "lo" ];
       };
     };
 
