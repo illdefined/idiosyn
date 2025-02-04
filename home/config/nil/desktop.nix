@@ -36,8 +36,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     keepassxc
     man-pages
     man-pages-posix
+    openssl
+    qpdf
     restic
     simple-scan
+    tokei
   ];
 
   gtk.enable = true;
