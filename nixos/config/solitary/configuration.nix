@@ -488,6 +488,7 @@ in {
 
     package = pkgs.unbound-with-systemd.override {
       withDoH = true;
+      withECS = true;
       withTFO = true;
     };
 
@@ -496,6 +497,7 @@ in {
 
 
   services.unbound.settings = {
+    module-config = "subnetcache validator iterator";
     server = let
       acmeDir = config.security.acme.certs.${config.networking.fqdn}.directory;
       num-threads = 2;
@@ -542,6 +544,13 @@ in {
       prefetch = true;
       prefetch-key = true;
       serve-expired-client-timeout = 1800;
+
+      # ECS
+      send-client-subnet = [ "::/0" "0.0.0.0/0" ];
+      max-client-subnet-ipv6 = 36;
+      max-client-subnet-ipv4 = 20;
+      max-ecs-tree-size-ipv6 = 128;
+      max-ecs-tree-size-ipv4 = 128;
     };
   };
 
