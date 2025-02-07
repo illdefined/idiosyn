@@ -14,6 +14,12 @@
     enable = true;
     dnsovertls = "true";
     dnssec = "true";
+    fallbackDns = [
+      "2001:67c:930::1#wikimedia-dns.org"
+      "2620:fe::11#dns11.quad9.net"
+      "185.71.138.138#wikimedia-dns.org"
+      "9.9.9.11#dns11.quad9.net"
+    ];
   };
 
   systemd.network.networks."98-ethernet-default-dhcp" = {
