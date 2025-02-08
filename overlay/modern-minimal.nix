@@ -306,7 +306,6 @@ in genAttrs [
           wayland = true;
         };
     })).override {
-      postgresql = null;
       qttranslations = null;
     };
 
