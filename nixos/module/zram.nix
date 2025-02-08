@@ -1,6 +1,5 @@
 { ... }: { lib, pkgs, ... }: {
   boot.kernelParams = [
-    "zswap.zpool=zsmalloc"
     "zram.num_devices=0"
   ];
 
