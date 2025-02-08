@@ -41,7 +41,6 @@
 
           echo zstd >"/sys/block/zram$dev/comp_algorithm"
           echo "$((pages * pagesize * 3 / 2))" >"/sys/block/zram$dev/disksize"
-          echo "$((pages * pagesize * 3 / 4))" >"/sys/block/zram$dev/mem_limit"
 
           mkswap "/dev/zram$dev"
         '';
