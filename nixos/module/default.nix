@@ -2,6 +2,7 @@
   imports = [
     catppuccin.nixosModules.catppuccin
   ] ++ (with self.nixosModules; [
+    autoupgrade
     broken
     btrfs
     clusters

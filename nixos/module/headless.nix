@@ -1,5 +1,6 @@
 { self, ... }: { config, lib, pkgs, ... }: {
   imports = with self.nixosModules; [
+    autoupgrade
     mimalloc
   ];
 
@@ -17,6 +18,8 @@
   security.protectKernelImage = true;
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
+
+  system.autoUpgrade.allowReboot = lib.mkDefault true;
 
   systemd.network.networks."97-ethernet-default-dhcp-static.network" = {
     matchConfig.Type = "ether";
