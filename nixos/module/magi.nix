@@ -41,6 +41,10 @@
 
   hardware.nitrokey.enable = true;
 
+  networking = {
+    domain = "nyantec.com";
+  };
+
   nix = {
     settings = {
       system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]
@@ -49,6 +53,25 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = (pkg: builtins.elem (lib.getName pkg) [ "cockroachdb" ]);
+
+  security.acme = {
+    acceptTerms = true;
+
+    certs.${config.networking.fqdn} = {
+      webroot = "/srv/www/${config.networking.fqdn}";
+    };
+
+    certs."resolve.nyantec.com" = {
+      # This needs to be synchronised between servers in the cluster,
+      # perhaps via Ceph?
+      webroot = "/srv/www/resolve.nyantec.com";
+    };
+
+    defaults = {
+      email = "ops@${config.networking.domain}";
+      keyType = "rsa4096";  # preferred until Ed25519 is permitted by CAB Forum
+    };
+  };
 
   services.ceph = {
     enable = true;
@@ -171,6 +194,24 @@
           listen = "0.0.0.0:123";
         }
       ];
+    };
+  };
+
+  # static web server for ACME challenges
+  services.static-web-server = {
+    enable = true;
+    listen = "[::]:80";
+    root = "/srv/www/${config.networking.fqdn}";
+
+    configuration = {
+      advanced = {
+        virtual-hosts = [
+          {
+            host = "resolve.nyantec.com";
+            root = "/srv/www/resolve.nyantec.com";
+          }
+        ];
+      };
     };
   };
 
