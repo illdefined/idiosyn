@@ -121,7 +121,7 @@
   services.cockroachdb = {
     enable = true;
 
-    listen.address = config.networking.fdqnOrHostname;
+    listen.address = config.networking.fqdnOrHostName;
     certsDir = pkgs.emptyDirectory;
 
     cache = ".05";
