@@ -48,6 +48,8 @@
     };
   };
 
+  nixpkgs.config.allowUnfreePredicate = (pkg: builtins.elem (lib.getName pkg) [ "cockroachdb" ]);
+
   services.ceph = {
     enable = true;
 
