@@ -457,7 +457,7 @@ in {
     enable = true;
     package = pkgs.postgresql_16;
 
-    extraPlugins = with pkgs.postgresql_16.pkgs; [
+    extensions = with pkgs.postgresql_16.pkgs; [
       rum
     ];
 
