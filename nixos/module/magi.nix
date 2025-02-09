@@ -43,6 +43,10 @@
 
   networking = {
     domain = "nyantec.com";
+
+    firewall = {
+      allowedTCPPorts = [ 80 443 853 ];
+    };
   };
 
   nix = {
