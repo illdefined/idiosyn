@@ -6,6 +6,15 @@
     physical
   ];
 
+  ephemeral = {
+    enable = true;
+    device = "UUID=";
+    boot = {
+      device = "UUID=";
+      fsType = "vfat";
+    };
+  };
+
   networking = {
     domain = "nyantec.com";
   };
