@@ -120,7 +120,7 @@
     enable = true;
 
     listen.address = config.networking.fdqnOrHostname;
-    certsDir = "";
+    certsDir = pkgs.emptyDirectory;
 
     cache = ".05";
     maxSqlMemory = ".05";
