@@ -1,4 +1,4 @@
-{ self, ... }: { lib, pkgs, ... }: {
+{ self, linux-hardened, ... }: { lib, pkgs, ... }: {
   boot.consoleLogLevel = lib.mkDefault 3;
 
   boot.initrd = {
@@ -9,7 +9,7 @@
   };
 
   boot.kernelPackages = lib.mkDefault
-    (pkgs.linuxPackagesFor self.packages.${pkgs.system}.linux-hardened);
+    (pkgs.linuxPackagesFor linux-hardened.packages.${pkgs.system}.default);
   boot.modprobeConfig.enable = lib.mkDefault false;
 
   boot.kernelParams = [
