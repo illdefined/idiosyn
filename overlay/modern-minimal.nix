@@ -115,6 +115,9 @@ in genAttrs [
     });
   };
 
+  gtk2 = null;
+  gtk2-x11 = null;
+
   gtk3 = (prev.gtk3.overrideAttrs (prevAttrs: {
     propagatedBuildInputs = prevAttrs.propagatedBuildInputs or [ ]
       |> removePackages [ "libICE" "libSM" "libX.*" ];
