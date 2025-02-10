@@ -497,7 +497,7 @@ in {
 
 
   services.unbound.settings = {
-    module-config = "subnetcache validator iterator";
+    module-config = ''"subnetcache validator iterator"'';
     server = let
       acmeDir = config.security.acme.certs.${config.networking.fqdn}.directory;
       num-threads = 2;
