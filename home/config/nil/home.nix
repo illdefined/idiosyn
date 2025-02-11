@@ -221,6 +221,7 @@ in {
         LS_COLORS: `${ls-colours}`
         MANROFFOPT: `-c`
         MANPAGER: `${sh} -c '${col} -bx | ${bat} -l man -p'`
+        NIX_PATH: `nixpkgs=flake:nixpkgs`
 
         PROMPT_COMMAND: {
           let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
