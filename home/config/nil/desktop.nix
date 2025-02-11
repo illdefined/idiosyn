@@ -36,6 +36,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     keepassxc
     man-pages
     man-pages-posix
+    nix-update
+    nixfmt-rfc-style
+    nixpkgs-review
     openssl
     qpdf
     restic
