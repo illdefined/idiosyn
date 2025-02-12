@@ -11,6 +11,14 @@
 
   hardware.graphics.enable = true;
 
+  security.pam.loginLimits = [
+    {
+      domain = "@users";
+      item = "memlock";
+      value = 262144;
+    }
+  ];
+
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
