@@ -48,7 +48,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         data_dir = "$XDG_DATA_DIR/mopidy";
       };
 
-      audio.mixer = "none";
+      audio = {
+        mixer = "none";
+        output = "pipewiresink";
+      };
+
       file.media_dirs = [ "$XDG_MUSIC_DIR" ];
       local.media_dir = "$XDG_MUSIC_DIR";
 
