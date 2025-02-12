@@ -31,6 +31,13 @@
 
     extraConfig = {
       pipewire = {
+        "10-memlock" = {
+          "context.properties" = {
+            "mem.allow-mlock" = true;
+            "mem.warn-mlock" = true;
+          };
+        };
+
         "10-clock-rate" = {
           "context.properties" = {
             "default.clock.rate" = 96000;
