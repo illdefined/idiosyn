@@ -8,6 +8,7 @@ imports = [
     portable
     graphical
     wireless
+    fireface-ucx-2
   ]);
 
   boot.binfmt = {
