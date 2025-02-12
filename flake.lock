@@ -308,11 +308,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1739298825,
-        "narHash": "sha256-q9CzTY7n8n9RK9mKUQ4VbaKdydhXQqzphahEG5Wt8sI=",
+        "lastModified": 1739314552,
+        "narHash": "sha256-ggVf2BclyIW3jexc/uvgsgJH4e2cuG6Nyg54NeXgbFI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "f0a31d38e6de48970ce1fe93e6ea343e20a9c80a",
+        "rev": "83bd3a26ac0526ae04fa74df46738bb44b89dcdd",
         "type": "github"
       },
       "original": {
@@ -353,11 +353,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1738963943,
-        "narHash": "sha256-Al9NUnwjmKAYgc+oasfKM9RvIsFqHkCXD6IMHQs8dCA=",
+        "lastModified": 1739359049,
+        "narHash": "sha256-NEssclsyo6kM/bnmrxwEVldTnzMy3nGiv6ltSirVAss=",
         "ref": "refs/heads/main",
-        "rev": "df2251c767f09ee34784b72aedee6b839121d866",
-        "revCount": 56,
+        "rev": "3b829ba3e0a9b1888d0b91760f7778f39196a3e1",
+        "revCount": 57,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -415,11 +415,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1739296148,
-        "narHash": "sha256-q00GM94Rr4Sgh/phpJucXonWkL9C9zX/8pFXstZKJcY=",
+        "lastModified": 1739339370,
+        "narHash": "sha256-kvuVhsaVa8j0P9Genf96CLX2cNjForojX5aB1BN+Bwk=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "dc9e2366279f9c4f8586963e0aab3c0a4ebd9133",
+        "rev": "498e8bbc149b38fd14d4ff7fbf31c49fdaa23282",
         "type": "github"
       },
       "original": {
@@ -448,11 +448,11 @@
     "niri-unstable": {
       "flake": false,
       "locked": {
-        "lastModified": 1739287457,
-        "narHash": "sha256-0xpNX8oVKJSKglhfrxQxMhA5UWOu2OAUwNvxNuDmOI8=",
+        "lastModified": 1739336386,
+        "narHash": "sha256-H9E3lfJibzWwqV9C1pI81uhav1RLWRA8JbH3ADv3X/4=",
         "owner": "YaLTeR",
         "repo": "niri",
-        "rev": "213eafa2032897e7ce3132f179a135a65d327d9b",
+        "rev": "7e552333a993e83a2dba52392109617e486f5f60",
         "type": "github"
       },
       "original": {
@@ -599,11 +599,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1738797219,
-        "narHash": "sha256-KRwX9Z1XavpgeSDVM/THdFd6uH8rNm/6R+7kIbGa+2s=",
+        "lastModified": 1739138025,
+        "narHash": "sha256-M4ilIfGxzbBZuURokv24aqJTbdjPA9K+DtKUzrJaES4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1da52dd49a127ad74486b135898da2cef8c62665",
+        "rev": "b2243f41e860ac85c0b446eadc6930359b294e79",
         "type": "github"
       },
       "original": {
@@ -733,11 +733,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1739240901,
-        "narHash": "sha256-YDtl/9w71m5WcZvbEroYoWrjECDhzJZLZ8E68S3BYok=",
+        "lastModified": 1739327257,
+        "narHash": "sha256-rlGK8wxz/e50Z+PQRzuP+m03IrGkhcPGmgkBnkEZ9C8=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "03473e2af8a4b490f4d2cdb2e4d3b75f82c8197c",
+        "rev": "e01f2c035b7b8a428c119b183f4cbc55f2eef07c",
         "type": "github"
       },
       "original": {
