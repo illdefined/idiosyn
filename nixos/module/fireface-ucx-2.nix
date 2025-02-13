@@ -76,6 +76,18 @@
             "session.suspend-timeout-seconds" = 0;
           };
         }
+        {
+          matches = [ { "node.name" = "~alsa_input.usb-RME_Fireface_UCX_II.*"; } ];
+          actions.update-props = {
+            "latency.internal.rate" = 6; # 5.8
+          };
+        }
+        {
+          matches = [ { "node.name" = "~alsa_output.usb-RME_Fireface_UCX_II.*"; } ];
+          actions.update-props = {
+            "latency.internal.rate" = 5; # 5 for ≤ 96 kHz, 6 for > 96 kHz
+          };
+        }
       ];
     };
   };
