@@ -9,7 +9,7 @@ in {
       |> lib.mkDefault;
 
     extraLayouts.greedy = {
-      symbolsFiles = greedy;
+      symbolsFile = greedy;
       description = "Greedy keyboard layout";
       languages = [ "eng" "deu" "fra" "spa" ];
     };
