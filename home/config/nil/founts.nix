@@ -2,15 +2,7 @@
 let
   osConfig = args.osConfig or { };
 
-  iosevka = pkgs.iosevka.override {
-    set = "-idiosyn-sans-term";
-    privateBuildPlan = import ./iosevka.nix // {
-      family = "idiosyn sans term";
-      spacing = "term";
-    };
-  };
-
-  nerdfonts = pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; };
+  inherit (self.packages.${pkgs.system}) iosevka-idiosyn;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   fonts.fontconfig = {
     enable = true;
@@ -42,7 +34,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   home.packages = with pkgs; [
     fira-code
-    iosevka
+    iosevka-idiosyn
     julia-mono
     lato
     mplus-outline-fonts.githubRelease
