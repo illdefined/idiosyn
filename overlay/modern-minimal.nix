@@ -37,6 +37,15 @@ in genAttrs [
 ] (pkg: prev.${pkg}.override { enableXWayland = false; })
 
 // {
+  alsa-ucm-conf = prev.alsa-ucm-conf.overrideAttrs (prevAttrs: {
+    src = final.fetchFromGitHub {
+      owner = "illdefined";
+      repo = "alsa-ucm-conf";
+      rev = "5511fc69e474d178cc1c0da2caa890a819d33482";
+      hash = "sha256-420pkU5Np/WtZ8Y9OWoGRLVB0pl+uP0I8UrPbxWPutg=";
+    };
+  });
+
   xvfb-run = self.packages.${system}.wayland-headless;
 
   beam = prev.beam_nox;
