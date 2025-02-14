@@ -17,6 +17,7 @@ in {
         markdown-oxide
         nil
         python3Packages.python-lsp-server
+        rust-analyzer
         taplo
         texlab
         typescript-language-server
