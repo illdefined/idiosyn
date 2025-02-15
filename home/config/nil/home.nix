@@ -162,25 +162,26 @@ in {
     userName = "Mikael Voss";
     userEmail = "mvs@nyantec.com";
 
+    signing = {
+      key = "key::${key}";
+      format = "ssh";
+      signByDefault = true;
+    };
+
     extraConfig = {
       core = {
         eol = "lf";
         fsync = "committed";
       };
 
-      user.signingKey = "key::${key}";
-
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
       rebase.autoStash = true;
 
-      gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = toString (pkgs.writeText "allowed-signers" ''
         ${config.programs.git.userEmail} ${key}
       '');
-      commit.gpgSign = true;
-      tag.gpgSign = true;
     };
   };
 
