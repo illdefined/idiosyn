@@ -41,8 +41,8 @@ in genAttrs [
     src = final.fetchFromGitHub {
       owner = "illdefined";
       repo = "alsa-ucm-conf";
-      rev = "a76c1942e99e713f97d18ba0420d03b2743b3cab";
-      hash = "sha256-z0iPg1gcTFwJAqendv9auDF4JpPRe6TAXEpn3HWQN4M=";
+      rev = "43f6d51eae58c17547a734cd5d259b0abbbb5952";
+      hash = "sha256-qhyBBJk8F6bhVujY37+271/UOciHbbm2hjYvh56Mrbw=";
     };
   });
 
