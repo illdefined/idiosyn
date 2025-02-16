@@ -58,6 +58,17 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
+  programs.gh = {
+    enable = true;
+    extensions = with pkgs; [
+      gh-poi
+    ];
+
+    settings = {
+      git_protocol = "ssh";
+    };
+  };
+
   programs.niri.settings = {
     prefer-no-csd = true;
     hotkey-overlay.skip-at-startup = true;
