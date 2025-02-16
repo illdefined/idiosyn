@@ -50,7 +50,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       audio = {
         mixer = "none";
-        output = "pipewiresink";
+        output = "pipewiresink client-name=Mopidy";
       };
 
       file.media_dirs = [ "$XDG_MUSIC_DIR" ];
