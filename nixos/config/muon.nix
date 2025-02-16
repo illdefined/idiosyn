@@ -159,7 +159,7 @@ imports = [
     buildMachines = [
       {
         hostName = "integra.kyouma.net";
-        protocol = "ssh-ng";
+        protocol = "ssh";
         sshUser = "nix-ssh";
         maxJobs = 2;
         speedFactor = 4;
@@ -169,7 +169,7 @@ imports = [
       }
       {
         hostName = "nokotan.kyouma.net";
-        protocol = "ssh-ng";
+        protocol = "ssh";
         sshUser = "nix-ssh";
         maxJobs = 4;
         speedFactor = 8;
