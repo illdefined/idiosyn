@@ -6,7 +6,7 @@
           matches = [ { "node.name" = "~alsa_(input|output).usb-RME_Fireface_UCX_II.*"; } ];
           actions.update-props = {
             "api.alsa.htimestamp" = true;
-            "api.alsa.headroom" = 32;
+            "api.alsa.headroom" = 64;
             "session.suspend-timeout-seconds" = 0;
           };
         }
