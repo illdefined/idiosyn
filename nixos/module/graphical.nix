@@ -56,6 +56,14 @@
           ];
         };
       };
+
+      client = {
+        "10-channelmix" = {
+          "stream.properties" = {
+            "channelmix.normalize" = true;
+          };
+        };
+      };
     };
   };
 }
