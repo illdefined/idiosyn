@@ -10,6 +10,11 @@ in {
 
   python312 = prev.python312.override {
     packageOverrides = final: prev: {
+      imageio = prev.imageio.overrideAttrs ({
+        doCheck = false;
+        doInstallCheck = false;
+      });
+
       pywebview = prev.pywebview.overrideAttrs ({
         doCheck = false;
         doInstallCheck = false;
