@@ -369,38 +369,36 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1739828919,
-        "narHash": "sha256-1q/Jz7xLfSIuW6zxzTMMxUQeK9lA8OOgLL/Zbt2I1s4=",
-        "rev": "c68457a906b7610aa21150c4ba4f1e61908f170a",
+        "lastModified": 1737234286,
+        "narHash": "sha256-CCKIAE84dzkrnlxJCKFyffAxP3yfsOAbdvydUGqq24g=",
+        "rev": "2837da71ec1588c1187d2e554719b15904a46c8b",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/c68457a906b7610aa21150c4ba4f1e61908f170a.tar.gz?rev=c68457a906b7610aa21150c4ba4f1e61908f170a"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/2837da71ec1588c1187d2e554719b15904a46c8b.tar.gz?rev=2837da71ec1588c1187d2e554719b15904a46c8b"
       },
       "original": {
         "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/lix/archive/main.tar.gz"
+        "url": "https://git.lix.systems/lix-project/lix/archive/2.92.0.tar.gz"
       }
     },
     "lix-module": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "flakey-profile": "flakey-profile",
-        "lix": [
-          "lix"
-        ],
+        "lix": "lix",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1738176840,
-        "narHash": "sha256-NG3IRvRs3u3btVCN861FqHvgOwqcNT/Oy6PBG86F5/E=",
-        "rev": "621aae0f3cceaffa6d73a4fb0f89c08d338d729e",
+        "lastModified": 1737237494,
+        "narHash": "sha256-YMLrcBpf0TR5r/eaqm8lxzFPap2TxCor0ZGcK3a7+b8=",
+        "rev": "a3573779c9ba3d55b90aee6e9b4e70e23d34c1ba",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/nixos-module/archive/621aae0f3cceaffa6d73a4fb0f89c08d338d729e.tar.gz?rev=621aae0f3cceaffa6d73a4fb0f89c08d338d729e"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/nixos-module/archive/a3573779c9ba3d55b90aee6e9b4e70e23d34c1ba.tar.gz?rev=a3573779c9ba3d55b90aee6e9b4e70e23d34c1ba"
       },
       "original": {
         "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz"
+        "url": "https://git.lix.systems/lix-project/nixos-module/archive/stable.tar.gz"
       }
     },
     "niri": {
@@ -716,7 +714,6 @@
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "linux-hardened": "linux-hardened",
-        "lix": "lix",
         "lix-module": "lix-module",
         "niri": "niri",
         "nix-index-database": "nix-index-database",
