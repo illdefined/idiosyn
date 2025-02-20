@@ -83,6 +83,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       };
 
       focus-follows-mouse.enable = true;
+      power-key-handling.enable = false;
 
       touchpad = {
         dwt = true;
