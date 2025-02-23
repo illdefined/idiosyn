@@ -1,23 +1,19 @@
 name: nix flake check
 
 on:
-  push:
+  - push
+  - pull_request
+  - workflow_dispatch
 
 jobs:
   check:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        system: [ 'x86_64-linux', 'aarch64-linux' ]
+        system:
+          - ubuntu-latest
+
+    runs-on: ${{ matrix.system }}
     steps:
     - uses: actions/checkout@v4
-    - run: |
-        curl --proto '=https' --tlsv1.3 -sSf -L https://install.lix.systems/lix \
-        | sh -s -- install --no-confirm --enable-flakes --nix-build-user-count "$(nproc || sysctl -n hw.ncpu)" \
-        --extra-conf "
-        accept-flake-config = true
-        experimental-features = nix-command flakes pipe-operator
-        trusted-users = root $USER
-        "
-    - uses: DeterminateSystems/magic-nix-cache-action@v8
+    - uses: illdefined/nix@main
     - run: nix --option allow-import-from-derivation true flake check
