@@ -401,6 +401,26 @@
         "url": "https://git.lix.systems/lix-project/nixos-module/archive/stable.tar.gz"
       }
     },
+    "mpv-rtkit": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1740515836,
+        "narHash": "sha256-iNsufZYtuzbrBzXSeEcIq2zaeptq/CBXlo6NrMuayg4=",
+        "ref": "refs/heads/main",
+        "rev": "b25befd4a0da6c6324c6eb234a8895cb412d6203",
+        "revCount": 14,
+        "type": "git",
+        "url": "https://woof.rip/mikael/mpv-rtkit.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://woof.rip/mikael/mpv-rtkit.git"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -715,6 +735,7 @@
         "lanzaboote": "lanzaboote",
         "linux-hardened": "linux-hardened",
         "lix-module": "lix-module",
+        "mpv-rtkit": "mpv-rtkit",
         "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",

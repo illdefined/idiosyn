@@ -1,4 +1,4 @@
-{ ... }: { config, lib, pkgs, ... }@args:
+{ mpv-rtkit, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
@@ -49,6 +49,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     scripts = with pkgs.mpvScripts; [
+      mpv-rtkit.packages.${pkgs.system}.default
       mpris
       autocrop
       autodeint
