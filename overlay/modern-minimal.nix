@@ -232,6 +232,8 @@ in genAttrs [
     });
   });
 
+  libsecret = prev.libsecret.override { withTpm2Tss = true; };
+
   libxkbcommon = prev.libxkbcommon.overrideAttrs (prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
       |> removePackages [ "libxcb" ];
