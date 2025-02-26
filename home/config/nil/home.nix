@@ -74,7 +74,8 @@ in {
 
     ripgrep-all.packages.${system}.default
 
-    # Required for Carapace nix completer
+    # Carapace
+    carapace-bridge
     sqlite
   ];
 
