@@ -93,6 +93,8 @@ in {
         server = "matrix.solitary.social:443";
       };
 
+      ip_lookup_strategy = 4;
+
       unix_socket_path = "/run/conduwuit/socket";
     };
   };
