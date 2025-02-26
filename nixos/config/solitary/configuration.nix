@@ -420,28 +420,31 @@ in {
       http-request return status 404
   '';
 
-  services.matrix-synapse.enable = true;
-  services.matrix-synapse.settings = {
-    database_type = "psycopg2";
-    server_name = "solitary.social";
-    public_baseurl = "https://matrix.solitary.social/";
-    default_identity_server = "https://vector.im";
-    enable_registration = false;
+  services.matrix-synapse = {
+    enable = true;
+    withJemalloc = false;
+    settings = {
+      database_type = "psycopg2";
+      server_name = "solitary.social";
+      public_baseurl = "https://matrix.solitary.social/";
+      default_identity_server = "https://vector.im";
+      enable_registration = false;
 
-    listeners = [ {
-      bind_addresses = [ "::1" ];
-      port = ports.synapse;
-      type = "http";
-      tls = false;
-      x_forwarded = true;
+      listeners = [ {
+        bind_addresses = [ "::1" ];
+        port = ports.synapse;
+        type = "http";
+        tls = false;
+        x_forwarded = true;
 
-      resources = [ {
-        names = [ "client" "federation" ];
-        compress = true;
+        resources = [ {
+          names = [ "client" "federation" ];
+          compress = true;
+        } ];
       } ];
-    } ];
 
-    log_config = ./log_config.yaml;
+      log_config = ./log_config.yaml;
+    };
   };
 
   services.postfix = {
