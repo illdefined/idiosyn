@@ -110,6 +110,7 @@ in {
     MANROFFOPT = "-c";
     MANPAGER = "${sh} -c '${col} -bx | ${bat} -l man -p'";
     NIX_PATH = "nixpkgs=flake:nixpkgs";
+    SECRET_BACKEND = "file";
     TMPDIR = "$XDG_RUNTIME_DIR/tmp";
     XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
     XDG_STATE_HOME = "\${XDG_STATE_HOME:-$HOME/.local/state}";
@@ -348,7 +349,7 @@ in {
 
   systemd.user.sessionVariables = {
     inherit (config.home.sessionVariables)
-      TMPDIR XDG_CACHE_HOME XDG_STATE_HOME;
+      SECRET_BACKEND TMPDIR XDG_CACHE_HOME XDG_STATE_HOME;
   };
 
   systemd.user.tmpfiles.rules = [
