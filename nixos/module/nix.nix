@@ -1,4 +1,4 @@
-{ self, ... }: { lib, pkgs, ... }:
+{ self, ... }@inputs: { lib, pkgs, ... }:
 let
   inherit (pkgs.stdenv) hostPlatform;
 in {
@@ -55,16 +55,9 @@ in {
       ];
     };
 
-    registry = {
-      nixpkgs.to = {
-        type = "path";
-        path = pkgs.path;
-        narHash = lib.trim (builtins.readFile
-          (pkgs.runCommandLocal "get-nixpkgs-hash"
-            { nativeBuildInputs = [ pkgs.nix ]; }
-            "nix-hash --type sha256 --sri ${pkgs.path} > $out"));
-      };
-    };
+    registry = inputs
+      |> lib.filterAttrs (name: value: (lib.types.isType "flake" value) && name != "self")
+      |> lib.mapAttrs (name: flake: { inherit flake; });
   };
 
   systemd = {
