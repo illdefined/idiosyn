@@ -98,6 +98,7 @@ in {
   };
 
   home.preferXdgDirectories = true;
+  home.shell.enableNushellIntegration = true;
 
   i18n.glibcLocales = self.packages.${pkgs.system}.locale-en_EU.override {
     locales = [
