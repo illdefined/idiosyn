@@ -74,189 +74,9 @@ in {
       reloadServices = [ "haproxy.service" "unbound.service" ];
       extraDomainNames = [
         "matrix.solitary.social"
-        "media.solitary.social"
         "resolve.solitary.social"
       ];
     };
-  };
-
-  services.akkoma.enable = true;
-  services.akkoma.extraPackages = with pkgs; [ exiftool ffmpeg-headless imagemagick ];
-  services.akkoma.extraStatic."emoji/blobs.gg" = pkgs.akkoma-emoji.blobs_gg;
-  services.akkoma.extraStatic."static/terms-of-service.html" = pkgs.writeText "terms-of-service.html" ''
-    <h2>Commitments</h2>
-    <p>This was originally a single‐user instance and therefore I decided to formulate what would be <em>Terms of Service</em> for a multi‐user user instance as commitments. These are still incomplete and subject to expansion in the future.</p>
-    <ul>
-      <li>I shall observe and respect your boundaries.</li>
-      <li>I shall respect your right to disengage, and support you if you wish to disengage from others.</li>
-      <li>I shall accept that you may not want to be confronted with certain content and tag my posts appropriately.</li>
-    </ul>
-  '';
-
-  services.akkoma.extraStatic."favicon.png" = let
-    rev = "697a8211b0f427a921e7935a35d14bb3e32d0a2c";
-  in pkgs.stdenvNoCC.mkDerivation {
-    name = "favicon.png";
-
-    src = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/TilCreator/NixOwO/${rev}/NixOwO_plain.svg";
-      hash = "sha256-tWhHMfJ3Od58N9H5yOKPMfM56hYWSOnr/TGCBi8bo9E=";
-    };
-
-    nativeBuildInputs = with pkgs; [ librsvg ];
-
-    dontUnpack = true;
-    installPhase = ''
-      rsvg-convert -o $out -w 96 -h 96 $src
-    '';
-  };
-
-  services.akkoma.dist.extraFlags = [
-    "-MMlp" "on"
-    "-MMsco" "true"
-    "-MMscs" "1024"  
-  ];
-  
-  services.akkoma.config = let
-    elixir = pkgs.formats.elixirConf { };
-    attrsToTuples = lib.mapAttrsToList (name: value: elixir.lib.mkTuple [ name value ]);
-  in with elixir.lib; {
-    ":pleroma" = {
-      ":instance" = {
-        name = "solitary.social";
-        email = "mvs+solitary.social@nya.yt";
-        notify_email = "akkoma@solitary.social";
-        description = "Single‐user fediverse instance";
-        instance_thumbnail = "/instance/thumbnail.avif";
-        limit = 5120;
-        description_limit = 5120;
-        remote_limit = 131072;
-        upload_limit = 160 * 1024 * 1024;
-        avatar_upload_limit = 2097152;
-        background_upload_limit = 4194304;
-        banner_upload_limit = 4194304;
-        registrations_open = false;
-        account_approval_required = true;
-        remote_post_retention_days = 180;
-        user_bio_length = 5120;
-        user_name_length = 64;
-        max_account_fields = 8;
-        cleanup_attachments = true;
-        local_bubble = [
-          "florp.social"
-        ];
-      };
-
-      "Pleroma.Web.Endpoint" = {
-        secret_key_base._secret = "/var/lib/secrets/akkoma/key-base";
-        signing_salt._secret = "/var/lib/secrets/akkoma/signing-salt";
-        live_view.signing_salt._secret = "/var/lib/secrets/akkoma/liveview-salt";
-      };
-
-      "Pleroma.Emails.Mailer" = {
-        enabled = true;
-        adapter = mkRaw "Swoosh.Adapters.SMTP";
-        relay = "localhost";
-        dkim = {
-          a = "ed25519-sha256";
-          s = "akkoma";
-          d = config.networking.fqdn;
-          private_key = mkTuple [
-            (mkAtom ":pem_plain")
-            (mkRaw ''File.read!("/var/lib/akkoma/dkim.pem")'')
-          ];
-        };
-      };
-
-      ":database".rum_enabled = true;
-
-      "Pleroma.Upload".base_url = "https://media.solitary.social";
-
-      "Pleroma.Upload".filters = map mkRaw [
-        "Pleroma.Upload.Filter.Exiftool.ReadDescription"
-        "Pleroma.Upload.Filter.Exiftool.StripMetadata"
-        "Pleroma.Upload.Filter.Dedupe"
-        "Pleroma.Upload.Filter.AnonymizeFilename"
-      ];
-
-      ":mrf".policies = map mkRaw [
-        "Pleroma.Web.ActivityPub.MRF.SimplePolicy"
-        "Pleroma.Web.ActivityPub.MRF.ObjectAgePolicy"
-      ];
-
-      ":mrf_simple" = {
-        reject = attrsToTuples {
-          "bae.st" = "harassment";
-          "brighteon.social" = "incompatible";
-          "detroitriotcity.com" = "incompatible";
-          "freeatlantis.com" = "incompatible";
-          "freespeechextremist.com" = "incompatible";
-          "gab.com" = "incompatible";
-          "gleasonator.com" = "incompatible";
-          "kitsunemimi.club" = "incompatible";
-          "poa.st" = "incompatible";
-          "seal.cafe" = "harassment";
-          "social.quodverum.com" = "incompatible";
-          "spinster.xyz" = "incompatible";
-          "truthsocial.co.in" = "incompatible";
-          "varishangout.net" = "incompatible";
-
-          "activitypub-troll.cf" = "security";
-          "misskey-forkbomb.cf" = "security";
-          "repl.co" = "security";
-        };
-
-        followers_only = attrsToTuples {
-          "bitcoinhackers.org" = "annoying";
-        };
-      };
-
-      ":mrf_object_age".threshold = 90 * 24 * 3600;
-
-      ":frontend_configurations" = {
-        pleroma_fe = mkMap {
-          collapseMessageWithSubject = true;
-          hideSiteFavicon = true;
-          streaming = true;
-          webPushNotifications = true;
-          useStreamingApi = true;
-          scopeCopy = true;
-          showFeaturesPanel = false;
-          subjectLineBehavior = "masto";
-          alwaysShowSubjectInput = true;
-          postContentType = "text/markdown";
-          modalOnRepeat = true;
-          minimalScopesMode = true;
-          redirectRootNoLogin = "/mkl";
-          translationLanguage = "EN";
-        };
-      };
-
-      ":restrict_unauthenticated" = {
-        timelines = mkMap {
-          local = false;
-          federated = true;
-        };
-      };
-
-      ":translator" = {
-        enabled = true;
-        module = mkRaw "Pleroma.Akkoma.Translators.DeepL";
-      };
-
-      ":deepl" = {
-        tier = mkAtom ":free";
-        api_key._secret = "/var/lib/secrets/akkoma/deepl";
-      };
-    };
-
-    ":web_push_encryption".":vapid_details" = {
-      subject = "mailto:mvs+solitary.social@nya.yt";
-      public_key = "BPwdJZjBeZw_ZkWU_RQ48RdPI2pHIhMAYaNJc6xut4nQRi2YSaKnfP_kLrXzRjETQh5VJsDI-azYCeEhtk-C33s";
-      private_key._secret = "/var/lib/secrets/akkoma/vapid";
-    };
-
-    ":joken".":default_signer"._secret = "/var/lib/secrets/akkoma/jwt-signer";
   };
 
   services.haproxy.enable = true;
@@ -325,7 +145,6 @@ in {
       acl replay-safe method GET HEAD OPTIONS req.body_size eq 0
 
       acl host-solitary hdr(host),host_only solitary.social
-      acl host-media hdr(host),host_only media.solitary.social
       acl host-matrix hdr(host),host_only matrix.solitary.social
       acl host-resolve hdr(host),host_only resolve.solitary.social
 
@@ -333,8 +152,6 @@ in {
       acl path-well-known path_beg /.well-known/
       acl path-security.txt path /.well-known/security.txt
       acl path-matrix-well-known path_reg ^/\.well-known/matrix(/.*)?$
-      acl path-proxy path_reg ^/proxy(/.*)?$
-      acl path-media path_reg ^/media(/.*)?$
 
       #http-request normalize-uri fragment-strip
       #http-request normalize-uri path-strip-dot
@@ -349,13 +166,11 @@ in {
 
       http-request set-priority-class int(-1) if host-resolve
       http-request set-priority-class int(1) if host-solitary
-      http-request set-priority-class int(2) if host-media
       http-request set-priority-class int(-2) if path-well-known
       
       http-response set-tos 20 if host-resolve  # AF22 (low‐latency, med drop)
       http-response set-tos 10 if host-matrix  # AF11 (high‐throughput, low drop)
       http-response set-tos 12 if host-solitary  # AF12 (high‐throughput, med drop)
-      http-response set-tos 14 if host-media  # AF13 (high‐throughput, high drop)
       http-response set-tos 20 if path-well-known  # AF22 (low‐latency, med drop)
 
       http-request cache-use default
@@ -376,25 +191,16 @@ in {
       compression type ${concatStringsSep " " compTypes}
       http-response cache-store default
 
-      http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-solitary path-media
-      http-request redirect code 308 location https://media.solitary.social%[capture.req.uri,regsub("^/media","")] if host-media path-media
-      http-request set-path "/media%[path]" if host-media !path-acme !path-media
-
       use_backend acme if path-acme
       use_backend security.txt if path-security.txt
       use_backend unbound if host-resolve
       use_backend synapse if host-matrix
       use_backend wellknown-matrix if host-solitary path-matrix-well-known
-      use_backend akkoma if host-solitary
-      use_backend akkoma if host-media
       default_backend notfound
 
     backend acme
       server acme 127.0.0.1:${toString ports.acme}
       retry-on all-retryable-errors
-
-    backend akkoma
-      server akkoma /run/akkoma/socket
 
     backend synapse
       server synapse [::1]:${toString ports.synapse}
@@ -445,15 +251,6 @@ in {
 
       log_config = ./log_config.yaml;
     };
-  };
-
-  services.postfix = {
-    enable = true;
-    destination = [ ];
-    localRecipients = [ ];
-    networks = [ "localhost" ];
-    hostname = config.networking.fqdn;
-    masterConfig.smtp_inet.name = mkForce "localhost:smtp";
   };
 
   services.postgresql = {
@@ -559,14 +356,10 @@ in {
 
   systemd = let
     backendServices = [
-      "akkoma.service"
       "matrix-synapse.service"
       "unbound.service"
     ];
   in {
-    services.akkoma.confinement.enable = false;
-    services.akkoma.serviceConfig.BindReadOnlyPaths = [ "/var/lib/akkoma:/var/lib/akkoma:norbind" ];
-
     services.haproxy = {
       confinement.enable = false;
 
@@ -583,7 +376,6 @@ in {
           "/etc/haproxy.cfg"
           "/etc/hosts"
           "/etc/resolv.conf"
-          "/run/akkoma"
           config.security.acme.certs."solitary.social".directory
           security-txt
         ];
