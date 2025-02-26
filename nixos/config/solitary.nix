@@ -38,7 +38,7 @@ in {
   boot.kernelPackages = let
     inherit (linux-hardened.packages.aarch64-linux) paravirt;
   in pkgs.linuxPackagesFor (paravirt.override {
-    instSetArch = "neoverse-n1";
+    targetCPU = "neoverse-n1";
     extraConfig = with linux-hardened.lib.kernel; {
       NR_CPUS = 6;
 
