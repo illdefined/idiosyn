@@ -1,4 +1,4 @@
-{ self, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
+{ self, catppuccin, nix-index-database, niri, bash-env-nushell, ripgrep-all, ... }:
 { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
@@ -99,6 +99,22 @@ in {
   };
 
   home.preferXdgDirectories = true;
+
+  home.sessionVariables = let
+    ls-colours = pkgs.runCommand "ls-colours" { } ''
+      ${lib.getExe pkgs.vivid} generate catppuccin-mocha >$out
+    '';
+  in {
+    CARAPACE_BRIDGES = "bash";
+    LS_COLORS = "$(<${ls-colours})";
+    MANROFFOPT = "-c";
+    MANPAGER = "${sh} -c '${col} -bx | ${bat} -l man -p'";
+    NIX_PATH = "nixpkgs=flake:nixpkgs";
+    TMPDIR = "$XDG_RUNTIME_DIR/tmp";
+    XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
+    XDG_STATE_HOME = "\${XDG_STATE_HOME:-$HOME/.local/state}";
+  };
+
   home.shell.enableNushellIntegration = true;
 
   i18n.glibcLocales = self.packages.${pkgs.system}.locale-en_EU.override {
@@ -211,109 +227,97 @@ in {
     serverAliveCountMax = 60;
   };
 
-  programs.nushell = {
+  programs.nushell = let
+    inherit (lib.hm.nushell) mkNushellInline;
+  in {
     enable = true;
-    envFile.text = let
-      ls-colours = pkgs.runCommand "ls-colours" { } ''
-        ${lib.getExe pkgs.vivid} generate catppuccin-mocha >$out
-      '' |> builtins.readFile;
-    in ''
-      load-env {
-        CARAPACE_BRIDGES: `bash`
-        EDITOR: `${lib.getExe config.programs.helix.package}`
-        LS_COLORS: `${ls-colours}`
-        MANROFFOPT: `-c`
-        MANPAGER: `${sh} -c '${col} -bx | ${bat} -l man -p'`
-        NIX_PATH: `nixpkgs=flake:nixpkgs`
-
-        PROMPT_COMMAND: {
-          let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
-            null => $env.PWD
-            "" => '~'
-            $relative_pwd => ([~ $relative_pwd] | path join)
-          }
-
-          [
-            (if (is-admin) { ansi red_bold } else { ansi green_bold })
-            (sys host | get hostname)
-            (char space)
-            (ansi blue_bold)
-            ($dir | path split | last)
-            (ansi reset)
-            (char space)
-          ] | str join
+    environmentVariables = {
+      PROMPT_COMMAND = mkNushellInline ''{
+        let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
+          null => $env.PWD
+          "" => '~'
+          $relative_pwd => ([~ $relative_pwd] | path join)
         }
 
-        PROMPT_COMMAND_RIGHT: {
-          [
-            (ansi light_red)
-            ($env.CMD_DURATION_MS | into int | into duration --unit ms)
-          ] | str join
+        [
+          (if (is-admin) { ansi red_bold } else { ansi green_bold })
+          (sys host | get hostname)
+          (char space)
+          (ansi blue_bold)
+          ($dir | path split | last)
+          (ansi reset)
+          (char space)
+        ] | str join
+      }'';
+
+      PROMPT_COMMAND_RIGHT = mkNushellInline ''{
+        [
+          (ansi light_red)
+          ($env.CMD_DURATION_MS | into int | into duration --unit ms)
+        ] | str join
+      }'';
+
+      PROMPT_INDICATOR = mkNushellInline ''{ "› " }'';
+    };
+
+    settings = {
+      show_banner = false;
+
+      history = {
+        max_size = 131072;
+        sync_on_enter = true;
+        file_format = "sqlite";
+        isolation = true;
+      };
+
+      use_kitty_protocol = true;
+
+      keybindings = [
+        {
+          name = "completion_menu";
+          modifier = "control";
+          keycode = "char_i";
+          mode = [ "emacs" "vi_normal" "vi_insert" ];
+          event = {
+            until = [
+              { send = "menu"; name = "completion_menu"; }
+              { send = "menunext"; }
+              { edit = "complete"; }
+            ];
+          };
         }
+      ];
 
-        PROMPT_INDICATOR: { "› " }
+      hooks = {
+        command_not_found = mkNushellInline ''{
+          |cmd_name| (
+            try {
+              let pkgs = (
+                `${nix-locate}`
+                --db `${nix-index-database.packages.${pkgs.system}.nix-index-database}`
+                --top-level --type x --type s --no-group --whole-name --at-root --minimal
+                $"/bin/($cmd_name)"
+              )
 
-        TMPDIR: $"($env.XDG_RUNTIME_DIR)/tmp"
-      }
-
-      if SSH_AUTH_SOCK not-in $env {
-        $env.SSH_AUTH_SOCK = $"($env.XDG_RUNTIME_DIR)/ssh-agent"
-      }
-    '';
-
-    configFile.text = ''
-      $env.config = {
-        show_banner: false
-
-        history: {
-          max_size: 131072
-          sync_on_enter: true
-          file_format: "sqlite"
-          isolation: true
-        }
-
-        use_kitty_protocol: true
-
-        keybindings: [
-          {
-            name: completion_menu
-            modifier: control
-            keycode: char_i
-            mode: [ emacs vi_normal vi_insert ]
-            event: {
-              until: [
-                { send: menu name: completion_menu }
-                { send: menunext }
-                { edit: complete }
-              ]
-            }
-          }
-        ]
-
-        hooks: {
-          command_not_found: {
-            |cmd_name| (
-              try {
-                let pkgs = (
-                  `${nix-locate}`
-                  --db `${nix-index-database.packages.${pkgs.system}.nix-index-database}`
-                  --top-level --type x --type s --no-group --whole-name --at-root --minimal
-                  $"/bin/($cmd_name)"
-                )
-
-                if ($pkgs | is-empty) {
-                  null
-                } else {
-                  $pkgs | split row "\n"
-                  | each {|pkg| $"  nixpkgs#($pkg)\n"}
-                  | prepend $"($cmd_name) is provided by:\n"
-                  | append "\n" | str join
-                }
+              if ($pkgs | is-empty) {
+                null
+              } else {
+                $pkgs | split row "\n"
+                | each {|pkg| $"  nixpkgs#($pkg)\n"}
+                | prepend $"($cmd_name) is provided by:\n"
+                | append "\n" | str join
               }
-            )
-          }
-        }
-      }
+            }
+          )
+        }'';
+      };
+    };
+
+    extraEnv = let
+      bash-env = bash-env-nushell.packages.${pkgs.system}.default + /bash-env.nu;
+    in ''
+      use ${bash-env}
+      bash-env `${config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh}` | load-env
 
       tabs -4
     '';
@@ -343,9 +347,8 @@ in {
   services.ssh-agent.enable = true;
 
   systemd.user.sessionVariables = {
-    TMPDIR = "$XDG_RUNTIME_DIR/tmp";
-    XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
-    XDG_STATE_HOME = "\${XDG_STATE_HOME:-$HOME/.local/state}";
+    inherit (config.home.sessionVariables)
+      TMPDIR XDG_CACHE_HOME XDG_STATE_HOME;
   };
 
   systemd.user.tmpfiles.rules = [
