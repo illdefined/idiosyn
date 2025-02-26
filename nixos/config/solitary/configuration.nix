@@ -596,7 +596,7 @@ in {
       after = [ "acme-selfsigned-${config.networking.fqdn}.service" ];
     };
 
-    services.synapse-compress-state = {
+    services.synapse-state-compress = {
       confinement.enable = true;
 
       after = [ "postgresql.service" ];
@@ -604,7 +604,7 @@ in {
       serviceConfig = {
         Type = "oneshot";
         ExecStart = ''
-          ${pkgs.matrix-synapse-tools.rust-synapse-compress-state}/bin/synapse_auto_compressor \
+          ${pkgs.rust-synapse-state-compress}/bin/synapse_auto_compressor \
             -p "host=/run/postgresql \
             user=${config.services.matrix-synapse.settings.database.args.database} \
             dbname=${config.services.matrix-synapse.settings.database.args.database}" \
@@ -646,7 +646,7 @@ in {
       };
     };
 
-    timers.synapse-compress-state = {
+    timers.synapse-state-compress = {
       enable = true;
       description = "Compress Synapse state tables daily";
       timerConfig = {
