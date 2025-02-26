@@ -36,6 +36,8 @@
 
       CEPH_FS = true;
       CEPH_FS_POSIX_ACL = true;
+
+      CRYPTO_ZSTD = true;
     };
   });
 
