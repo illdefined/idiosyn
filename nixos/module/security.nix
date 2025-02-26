@@ -1,7 +1,11 @@
 { ... }: { lib, config, ... }: {
   boot.loader.systemd-boot.editor = false;
 
-  security.acme.acceptTerms = true;
+  security.acme = {
+    acceptTerms = true;
+    defaults.server = lib.mkDefault "https://api.buypass.com/acme/directory";
+  };
+
   security.pam.services.swaylock.fprintAuth = false;
   security.pam.services.login.fprintAuth = false;
   security.pam.services.sudo-rs = {
