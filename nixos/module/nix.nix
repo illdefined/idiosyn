@@ -7,8 +7,6 @@ in {
   ];
 
   nix = {
-    package = pkgs.lix.override { enableGC = true; };
-
     channel.enable = false;
 
     daemonCPUSchedPolicy = "batch";
