@@ -35,10 +35,6 @@ in {
     systemd-boot.enable = true;
   };
 
-  boot.kernelParams = [
-    "hugepagesz=1G" "hugepages=1"
-  ];
-
   boot.kernelPackages = let
     inherit (linux-hardened.packages.aarch64-linux) paravirt;
   in pkgs.linuxPackagesFor (paravirt.override {
