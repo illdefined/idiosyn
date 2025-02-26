@@ -30,9 +30,9 @@ in {
 
   nixpkgs.localSystem.system = "aarch64-linux";
 
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/vda";
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    systemd-boot.enable = true;
   };
 
   boot.kernelParams = [
@@ -56,8 +56,8 @@ in {
   environment.etc."machine-id".text = "1c97ae368741530de77aad42b5a6ae42";
 
   ephemeral.device = "UUID=07a91cc3-4dd4-48e6-81d7-eb5d31fcf720";
-  ephemeral.boot.device = "UUID=24c72e0c-b467-4def-a641-ae09100465f0";
-  ephemeral.boot.fsType = "ext4";
+  ephemeral.boot.device = "UUID=BA7E-F0B5";
+  ephemeral.boot.fsType = "vfat";
 
   i18n.supportedLocales = [ "C.UTF-8/UTF-8" "en_EU.UTF-8/UTF-8" "en_GB.UTF-8/UTF-8" ];
 
