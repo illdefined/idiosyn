@@ -28,6 +28,8 @@ in {
     acme-ocsp
   ];
 
+  nixpkgs.localSystem.system = "aarch64-linux";
+
   boot.loader.grub = {
     enable = true;
     device = "/dev/vda";
@@ -38,11 +40,11 @@ in {
   ];
 
   boot.kernelPackages = let
-    inherit (linux-hardened.packages.x86_64-linux) paravirt;
+    inherit (linux-hardened.packages.aarch64-linux) paravirt;
   in pkgs.linuxPackagesFor (paravirt.override {
-    instSetArch = "x86-64-v3";
+    instSetArch = "neoverse-n1";
     extraConfig = with linux-hardened.lib.kernel; {
-      NR_CPUS = 8;
+      NR_CPUS = 6;
 
       BTRFS_FS = true;
       BTRFS_FS_POSIX_ACL = true;
