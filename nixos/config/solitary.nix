@@ -3,7 +3,6 @@
 with lib; let
   ports = {
     acme = 1360;
-    synapse = 8008;
     unbound = 8484;
   };
 
@@ -79,6 +78,23 @@ in {
     };
   };
 
+  services.conduwuit = {
+    enable = true;
+    package = pkgs.conduwuit.override {
+      enableJemalloc = false;
+    };
+
+    settings.global = {
+      server_name = "solitary.social";
+      well_known = {
+        client = "https://matrix.solitary.social";
+        server = "matrix.solitary.social:443";
+      };
+
+      unix_socket_path = "/run/conduwuit/socket";
+    };
+  };
+
   services.haproxy.enable = true;
   services.haproxy.config =
   let
@@ -151,7 +167,6 @@ in {
       acl path-acme path_reg ^/\.well-known/acme-challenge(/.*)?$
       acl path-well-known path_beg /.well-known/
       acl path-security.txt path /.well-known/security.txt
-      acl path-matrix-well-known path_reg ^/\.well-known/matrix(/.*)?$
 
       #http-request normalize-uri fragment-strip
       #http-request normalize-uri path-strip-dot
@@ -194,16 +209,15 @@ in {
       use_backend acme if path-acme
       use_backend security.txt if path-security.txt
       use_backend unbound if host-resolve
-      use_backend synapse if host-matrix
-      use_backend wellknown-matrix if host-solitary path-matrix-well-known
+      use_backend conduwuit if host-matrix
       default_backend notfound
 
     backend acme
       server acme 127.0.0.1:${toString ports.acme}
       retry-on all-retryable-errors
 
-    backend synapse
-      server synapse [::1]:${toString ports.synapse}
+    backend conduwuit
+      server conduwuit /run/conduwuit/socket
 
     backend unbound
       server unbound [::1]:${toString ports.unbound} tfo ssl ssl-min-ver TLSv1.3 alpn h2 allow-0rtt ca-file ${acmeDir}/chain.pem
@@ -212,76 +226,9 @@ in {
     backend security.txt
       http-request return status 200 content-type text/plain file ${security-txt} if { path /.well-known/security.txt }
 
-    backend wellknown-matrix
-      http-request return status 200 content-type application/json file ${pkgs.writeText "client.json" (builtins.toJSON {
-        "m.homeserver".base_url = config.services.matrix-synapse.settings.public_baseurl;
-        "m.identity_server".base_url = "https://vector.im";
-      })} if { path /.well-known/matrix/client }
-
-      http-request return status 200 content-type application/json file ${pkgs.writeText "server.json" (builtins.toJSON {
-        "m.server" = "matrix.solitary.social:443";
-      })} if { path /.well-known/matrix/server }
-
     backend notfound
       http-request return status 404
   '';
-
-  services.matrix-synapse = {
-    enable = true;
-    withJemalloc = false;
-    settings = {
-      database_type = "psycopg2";
-      server_name = "solitary.social";
-      public_baseurl = "https://matrix.solitary.social/";
-      default_identity_server = "https://vector.im";
-      enable_registration = false;
-
-      listeners = [ {
-        bind_addresses = [ "::1" ];
-        port = ports.synapse;
-        type = "http";
-        tls = false;
-        x_forwarded = true;
-
-        resources = [ {
-          names = [ "client" "federation" ];
-          compress = true;
-        } ];
-      } ];
-
-      log_config = ./log_config.yaml;
-    };
-  };
-
-  services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_16;
-
-    extensions = with pkgs.postgresql_16.pkgs; [
-      rum
-    ];
-
-    settings = {
-      max_connections = 128;
-
-      shared_buffers = "768MB";
-      huge_pages = "try";
-      huge_page_size = "2MB";
-      work_mem = "16MB";
-
-      effective_io_concurrency = 128;
-
-      wal_compression = "zstd";
-    };
-
-    initialScript = pkgs.writeText "init.psql" ''
-      CREATE ROLE "matrix-synapse";
-      CREATE DATABASE "matrix-synapse" OWNER "matrix-synapse"
-        TEMPLATE template0
-        ENCODING 'utf8'
-        LOCALE 'C';
-    '';
-  };
 
   services.unbound = {
     enable = true;
@@ -356,7 +303,7 @@ in {
 
   systemd = let
     backendServices = [
-      "matrix-synapse.service"
+      "conduwuit.service"
       "unbound.service"
     ];
   in {
@@ -377,6 +324,7 @@ in {
           "/etc/hosts"
           "/etc/resolv.conf"
           config.security.acme.certs."solitary.social".directory
+          config.services.conduwuit.settings.global.unix_socket_path
           security-txt
         ];
 
@@ -390,68 +338,12 @@ in {
       wants = [ "acme-finished-${config.networking.fqdn}.service" ];
       after = [ "acme-selfsigned-${config.networking.fqdn}.service" ];
     };
-
-    services.synapse-state-compress = {
-      confinement.enable = true;
-
-      after = [ "postgresql.service" ];
-      description = "Compress Synapse state tables";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = ''
-          ${pkgs.rust-synapse-state-compress}/bin/synapse_auto_compressor \
-            -p "host=/run/postgresql \
-            user=${config.services.matrix-synapse.settings.database.args.database} \
-            dbname=${config.services.matrix-synapse.settings.database.args.database}" \
-            -c 512 -n 128
-        '';
-        User = "matrix-synapse";
-        WorkingDirectory = "/tmp";
-
-        BindReadOnlyPaths = [
-          "/run/postgresql"
-        ];
-
-        ProtectProc = "noaccess";
-        ProcSubset = "pid";
-        ProtectHome = true;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        PrivateIPC = true;
-        ProtectHostname = true;
-        ProtectClock = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
-        ProtectKernelLogs = true;
-        ProtectControlGroups = true;
-
-        RestrictAddressFamilies = [ "AF_UNIX" ];
-        RestrictNamespaces = true;
-        LockPersonality = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
-        RemoveIPC = true;
-
-        CapabilityBoundingSet = null;
-        NoNewPrivileges = true;
-        SystemCallFilter = [ "@system-service" "~@resources" "~@privileged" ];
-        SystemCallArchitectures = "native";
-
-        UMask = "0077";
-      };
-    };
-
-    timers.synapse-state-compress = {
-      enable = true;
-      description = "Compress Synapse state tables daily";
-      timerConfig = {
-        OnCalendar = "04:00";
-      };
-
-      wantedBy = [ "timers.target" ];
-    };
   };
 
-  users.users.${config.services.haproxy.user}.extraGroups = [ config.security.acme.certs.${config.networking.fqdn}.group ];
+  users.users.${config.services.haproxy.user}.extraGroups = [
+    config.security.acme.certs.${config.networking.fqdn}.group
+    config.services.conduwuit.group
+  ];
+
   users.users.${config.services.unbound.user}.extraGroups = [ config.security.acme.certs.${config.networking.fqdn}.group ];
 }
