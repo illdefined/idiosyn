@@ -11,10 +11,6 @@
     preferStaticEmulators = true;
   };
 
-  boot.kernelParams = [
-    "hugepagesz=1G" "hugepages=16"
-  ];
-
   boot.kernelPackages = let
     inherit (linux-hardened.packages.x86_64-linux) supermicro-h11ssw;
   in pkgs.linuxPackagesFor (supermicro-h11ssw.override {
