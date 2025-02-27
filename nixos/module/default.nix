@@ -9,7 +9,6 @@
     datacow
     email
     ephemeral
-    iosched
     kernel
     locale-en_EU
     network
