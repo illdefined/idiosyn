@@ -48,7 +48,10 @@ in {
       in pkgs.writeShellApplication {
         name = "env.sh";
         text = ''
-          ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
+          ${sources |> map lib.escapeShellArg |> map (src: ''
+            # shellcheck source=${src}
+            source ${src}
+          '') |> lib.concatLines}
 
           for var in "''${!__@}"; do
             unset "$var"
