@@ -60,11 +60,6 @@
       url = "git+https://woof.rip/mikael/mpv-rtkit.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    bash-env-nushell = {
-      url = "github:tesujimath/bash-env-nushell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   nixConfig = {

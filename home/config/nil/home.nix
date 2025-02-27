@@ -1,4 +1,4 @@
-{ self, catppuccin, nix-index-database, niri, bash-env-nushell, ripgrep-all, ... }:
+{ self, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
 { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
@@ -35,6 +35,35 @@ in {
   catppuccin = {
     enable = true;
     cursors.enable = true;
+  };
+
+  home.activation = {
+    nushell-environment = let
+      script = let
+        sources = lib.optionals (osConfig ? system.build.setEnvironment) [
+          osConfig.system.build.setEnvironment
+        ] ++ [
+          (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
+        ];
+      in pkgs.writeShellApplication {
+        name = "env.sh";
+        text = ''
+          ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
+
+          for var in "''${!__@}"; do
+            unset "$var"
+          done
+        '';
+      };
+    in lib.hm.dag.entryAfter [ "writeboundary" ] ''
+      if [[ -v DRY_RUN ]]; then
+        out=/dev/null
+      else
+        out=${config.xdg.configHome}/nushell/env.json
+      fi
+
+      run ${lib.getExe pkgs.bash-env-json} ${lib.getExe script} >"$out"
+    '';
   };
 
   home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
@@ -314,12 +343,8 @@ in {
       };
     };
 
-    extraEnv = let
-      bash-env = bash-env-nushell.packages.${pkgs.system}.default + /bash-env.nu;
-    in ''
-      use ${bash-env}
-      bash-env `${config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh}` | load-env
-
+    extraEnv = ''
+      open $"($nu.default-config-dir)/env.json" | load-env
       tabs -4
     '';
   };
