@@ -45,19 +45,13 @@ in {
         ] ++ [
           (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
         ];
-      in pkgs.writeShellApplication {
-        name = "env.sh";
-        text = ''
-          ${sources |> map lib.escapeShellArg |> map (src: ''
-            # shellcheck source=${src}
-            source ${src}
-          '') |> lib.concatLines}
+      in pkgs.writeText "env.sh" ''
+        ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
 
-          for var in "''${!__@}"; do
-            unset "$var"
-          done
-        '';
-      };
+        for var in "''${!__@}"; do
+          unset "$var"
+        done
+      '';
     in lib.hm.dag.entryAfter [ "writeboundary" ] ''
       if [[ -v DRY_RUN ]]; then
         out=/dev/null
@@ -65,7 +59,7 @@ in {
         out=${config.xdg.configHome}/nushell/env.json
       fi
 
-      run ${lib.getExe pkgs.bash-env-json} ${lib.getExe script} >"$out"
+      run ${lib.getExe pkgs.bash-env-json} ${script} >"$out"
     '';
   };
 
