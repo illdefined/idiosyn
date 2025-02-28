@@ -50,6 +50,7 @@ imports = [
     ];
 
     extraProfiles = {
+      lowlatency = true;
       dm-crypt = true;
     };
 
