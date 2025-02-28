@@ -2,7 +2,6 @@
   imports = [
     catppuccin.nixosModules.catppuccin
   ] ++ (with self.nixosModules; [
-    broken
     btrfs
     clusters
     datacow
