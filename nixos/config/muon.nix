@@ -24,6 +24,7 @@ imports = [
   boot.kernelParams = [
     "intel_iommu=on"
     "nouveau.config=NvGspRm=1"
+    "thinkpad_acpi.fan_control=1"
   ];
 
   boot.kernelPackages = let
