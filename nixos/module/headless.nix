@@ -1,6 +1,5 @@
 { self, ... }: { config, lib, pkgs, ... }: {
   imports = with self.nixosModules; [
-    autoupgrade
     mimalloc
   ];
 
