@@ -61,6 +61,7 @@
     defaultSchedulerRotational = "bfq";
     scheduler = {
       "mmcblk*" = "bfq";
+      "vd[a-z]" = "none";
     };
   };
 
