@@ -339,7 +339,12 @@ in {
     };
 
     extraEnv = ''
-      open $"($nu.default-config-dir)/env.json" | get env | load-env
+      open $"($nu.default-config-dir)/env.json" | get env
+        | transpose name value
+        | where name !~ '^__'
+        | transpose --header-row --as-record
+        | load-env
+
       tabs -4
     '';
   };
