@@ -16,10 +16,10 @@ imports = [
     preferStaticEmulators = true;
   };
 
-  boot.initrd = {
-    luks.devices."luks-2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75".device = "/dev/disk/by-uuid/2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75";
-    luks.devices."luks-ea77e674-847f-41b8-9e1d-8b6dd08710e6".device = "/dev/disk/by-uuid/ea77e674-847f-41b8-9e1d-8b6dd08710e6";
-  };
+  boot.initrd.luks.devices = {
+    "luks-2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75".device = "/dev/disk/by-uuid/2fb93d4f-a0fe-4a49-9e40-3ac38ffe4d75";
+    "luks-ea77e674-847f-41b8-9e1d-8b6dd08710e6".device = "/dev/disk/by-uuid/ea77e674-847f-41b8-9e1d-8b6dd08710e6";
+  } |> lib.mapAttrs (_: v: v // { bypassWorkqueues = true; });
 
   boot.kernelParams = [
     "intel_iommu=on"
