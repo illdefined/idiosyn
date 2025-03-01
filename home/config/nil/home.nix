@@ -46,11 +46,9 @@ in {
           (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
         ];
       in pkgs.writeText "env.sh" ''
+        HOME=${lib.escapeShellArg config.home.homeDirectory}
         ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
-
-        for var in "''${!__@}"; do
-          unset "$var"
-        done
+        unset "''${!__@}"
       '';
     in lib.hm.dag.entryAfter [ "writeboundary" ] ''
       if [[ -v DRY_RUN ]]; then
@@ -341,7 +339,7 @@ in {
     };
 
     extraEnv = ''
-      open $"($nu.default-config-dir)/env.json" | load-env
+      open $"($nu.default-config-dir)/env.json" | get env | load-env
       tabs -4
     '';
   };
