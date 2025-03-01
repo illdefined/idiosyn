@@ -47,6 +47,8 @@ in {
         ];
       in pkgs.writeText "env.sh" ''
         HOME=${lib.escapeShellArg config.home.homeDirectory}
+        XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
+
         ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
         unset "''${!__@}"
       '';
