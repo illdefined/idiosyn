@@ -27,6 +27,7 @@ in {
         "nix-command"
         "repl-flake"
         "pipe-operator"
+        "ca-derivations"
       ];
 
       allowed-users = [ "@users" ];
