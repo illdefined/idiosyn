@@ -37,32 +37,6 @@ in {
     cursors.enable = true;
   };
 
-  home.activation = {
-    nushell-environment = let
-      script = let
-        sources = lib.optionals (osConfig ? system.build.setEnvironment) [
-          osConfig.system.build.setEnvironment
-        ] ++ [
-          (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
-        ];
-      in pkgs.writeText "env.sh" ''
-        HOME=${lib.escapeShellArg config.home.homeDirectory}
-        XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
-
-        ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
-        unset "''${!__@}"
-      '';
-    in lib.hm.dag.entryAfter [ "writeboundary" ] ''
-      if [[ -v DRY_RUN ]]; then
-        out=/dev/null
-      else
-        out=${config.xdg.configHome}/nushell/env.json
-      fi
-
-      run ${lib.getExe pkgs.bash-env-json} ${script} >"$out"
-    '';
-  };
-
   home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
     nix-index-database.packages.${pkgs.system}.nix-channel-index-programs;
 
@@ -340,13 +314,25 @@ in {
       };
     };
 
-    extraEnv = ''
-      open $"($nu.default-config-dir)/env.json" | get env
+    extraLogin = let
+      source = pkgs.writeText "env.sh"
+      (lib.optionals (osConfig ? system.build.setEnvironment) [
+        osConfig.system.build.setEnvironment
+      ] ++ [
+        (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
+      ] |> map (src: "source ${lib.escapeShellArg src}")
+        |> lib.concatLines);
+    in ''
+      ${lib.getExe pkgs.bash-env-json} ${lib.escapeShellArg source}
+        | from json
+        | get env
         | transpose name value
         | where name !~ '^__'
         | transpose --header-row --as-record
         | load-env
+    '';
 
+    extraEnv = ''
       tabs -4
     '';
   };
