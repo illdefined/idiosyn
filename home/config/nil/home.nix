@@ -38,29 +38,7 @@ in {
   };
 
   home.activation = {
-    nushell-environment = let
-      script = let
-        sources = lib.optionals (osConfig ? system.build.setEnvironment) [
-          osConfig.system.build.setEnvironment
-        ] ++ [
-          (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
-        ];
-      in pkgs.writeText "env.sh" ''
-        HOME=${lib.escapeShellArg config.home.homeDirectory}
-        XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
-
-        ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
-        unset "''${!__@}"
-      '';
-    in lib.hm.dag.entryAfter [ "writeboundary" ] ''
-      if [[ -v DRY_RUN ]]; then
-        out=/dev/null
-      else
-        out=${config.xdg.configHome}/nushell/env.json
-      fi
-
-      run ${lib.getExe pkgs.bash-env-json} ${script} >"$out"
-    '';
+  
   };
 
   home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
@@ -256,6 +234,28 @@ in {
 
   programs.nushell = let
     inherit (lib.hm.nushell) mkNushellInline;
+
+    nushell-environment = let
+      script = let
+        sources = lib.optionals (osConfig ? system.build.setEnvironment) [
+          osConfig.system.build.setEnvironment
+        ] ++ [
+          (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
+        ];
+      in pkgs.writeText "env.sh" ''
+        ${lib.toShellVars {
+          UID = osConfig.users.users.${config.home.username}.uid;
+          USER = config.home.homeDirectory;
+          HOME = config.home.username;
+        }}
+        XDG_RUNTIME_DIR = "''${XDG_RUNTIME_DIR:-/run/user/$UID}"
+
+        ${sources |> map (src: "source ${lib.escapeShellArg src}") |> lib.concatLines}
+        unset "''${!__@}"
+      '';
+    in pkgs.runCommand "env.json" { } ''
+      ${lib.getExe pkgs.bash-env-json} ${script} >"$out"
+    '';
   in {
     enable = true;
     environmentVariables = {
@@ -341,9 +341,9 @@ in {
     };
 
     extraEnv = ''
-      open $"($nu.default-config-dir)/env.json" | get env
+      open `${nushell-environment}` | get env
         | transpose name value
-        | where name !~ '^__'
+        | where name !~ '^__' and name != PATH
         | transpose --header-row --as-record
         | load-env
 
