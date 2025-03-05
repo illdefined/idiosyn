@@ -288,6 +288,7 @@ imports = [
     bindsTo = [ "power-external.target" ];
     serviceConfig = {
       IOSchedulingClass = "idle";
+      IOSchedulingPriority = lib.mkForce null;
       CPUWeight = lib.mkForce "idle";
     };
   };
