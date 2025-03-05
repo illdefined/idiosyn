@@ -65,7 +65,7 @@
   nixConfig = {
     allow-import-form-derivation = true;
 
-    extra-experimental-features = [ "pipe-operator" ];
+    extra-experimental-features = [ "pipe-operator" "ca-derivations" ];
 
     extra-substituters = [
       "https://cache.kyouma.net"
