@@ -22,7 +22,6 @@ in {
     ./terminal.nix
     ./goldwarden.nix
     ./floorp.nix
-    ./thunderbird.nix
     ./sioyek.nix
     ./texlive.nix
     ./mpv.nix

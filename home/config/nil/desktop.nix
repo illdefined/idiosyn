@@ -1,4 +1,4 @@
-{ self, ... }: { config, lib, pkgs, ... }@args:
+{ self, firefox, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 
@@ -29,6 +29,8 @@ let
   in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
+    firefox.packages.${pkgs.system}.thunderbird
+
     calibre
     fractal
     inkscape
