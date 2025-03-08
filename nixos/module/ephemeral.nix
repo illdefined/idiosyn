@@ -1,4 +1,4 @@
-{ ... }: { config, lib, ...}:
+{ ... }: { config, lib, pkgs, ...}:
 
 let
   cfg = config.ephemeral;
@@ -174,8 +174,21 @@ in {
     boot.initrd.availableKernelModules = [ "zstd" ];
     boot.supportedFilesystems = [ "btrfs" ];
 
-    environment.etc.machine-id.source = lib.mkDefault "/etc/keys/machine-id";
-    environment.etc.secureboot.source = lib.mkDefault "/etc/keys/secureboot";
+    environment.etc = lib.mkMerge [
+      {
+        machine-id.source = lib.mkDefault "/etc/keys/machine-id";
+        secureboot.source = lib.mkDefault "/etc/keys/secureboot";
+      }
+      (lib.mkIf (with config.system.etc.overlay; enable && !mutable) ((subvolumeDefaults // cfg.subvolumes)
+        |> lib.filterAttrs (path: _: lib.hasPrefix "/etc/" path)
+        |> lib.mapAttrs' (path: _: {
+          name = "${lib.removePrefix "/etc/" path}/.keep";
+          value = {
+            mode = "0000";
+            source = pkgs.emptyFile;
+          };
+        })))
+    ];
 
     fileSystems = {
         "/boot" = {
