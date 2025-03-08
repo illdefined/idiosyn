@@ -76,8 +76,12 @@
 
   services.dbus.implementation = "broker";
   services.lvm.enable = lib.mkDefault false;
+  services.userborn.enable = true;
 
-  system.etc.overlay.enable = true;
+  system.etc = {
+    overlay.enable = true;
+    overlay.mutable = false;
+  };
 
   system.stateVersion = "25.05";
 
