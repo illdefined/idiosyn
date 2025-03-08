@@ -18,7 +18,7 @@
     zram
   ]);
 
-  #boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.enable = true;
   boot.tmp.useTmpfs = true;
 
   catppuccin.enable = true;
@@ -77,7 +77,7 @@
   services.dbus.implementation = "broker";
   services.lvm.enable = lib.mkDefault false;
 
-  #system.etc.overlay.enable = true;
+  system.etc.overlay.enable = true;
 
   system.stateVersion = "25.05";
 
