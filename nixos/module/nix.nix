@@ -22,6 +22,7 @@ in {
 
     settings = {
       experimental-features = [
+        "auto-allocate-uids"
         "cgroups"
         "flakes"
         "nix-command"
@@ -33,6 +34,7 @@ in {
       allowed-users = [ "@users" ];
       trusted-users = [ "@wheel" ];
 
+      auto-allocate-uids = true;
       builders-use-substitutes = true;
       download-attempts = 8;
       http-connections = 128;
