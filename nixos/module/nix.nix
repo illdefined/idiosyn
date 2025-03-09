@@ -1,4 +1,4 @@
-{ self, ... }@inputs: { lib, pkgs, ... }:
+{ self, ... }@inputs: { lib, config, pkgs, ... }:
 let
   inherit (pkgs.stdenv) hostPlatform;
 in {
@@ -64,8 +64,17 @@ in {
   };
 
   systemd = {
-    services.nix-daemon.serviceConfig.Slice = "nix-build.slice";
-    slices.nix-build = { };
+    services.nix-daemon.serviceConfig = {
+      CPUAccounting = true;
+      CPUWeight = 20;
+
+      MemoryAccounting = true;
+      MemoryHigh = "80%";
+
+      IOAccounting = true;
+      IOWeight = 20;
+    };
+
     timers.nix-gc.bindsTo = [ "power-external.target" ];
   };
 }
