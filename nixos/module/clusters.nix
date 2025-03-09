@@ -32,6 +32,10 @@ in {
 
     nix.settings.cores = builtins.length cfg.performance |> lib.mkDefault;
 
+    systemd.services.nix-daemon = lib.mkIf (cfg.performance != [ ]) {
+      serviceConfig.AllowedCPUs = performance;
+    };
+
     systemd.slices = lib.genAttrs [ "system" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
     });
