@@ -213,7 +213,7 @@ in {
 
     controlMaster = "auto";
     controlPath = "\${XDG_RUNTIME_DIR}/ssh/%r@%n:%p";
-    controlPersist = "1m";
+    controlPersist = "10m";
 
     matchBlocks = {
       "*.nyantec.com".user = "mvs";
