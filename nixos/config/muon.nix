@@ -188,6 +188,16 @@ imports = [
         supportedFeatures = base ++ riscv ++ [ "riscv64-linux-native" ];
         sshKey = "/etc/keys/nix-ssh";
       }
+      {
+        hostName = "2a01:4f9:3100:28a4::1";
+        protocol = "ssh";
+        sshUser = "nix-ssh";
+        maxJobs = 8;
+        speedFactor = 16;
+        systems = [ "x86_64-linux" ];
+        supportedFeatures = base ++ x86-64;
+        sshKey = "/etc/keys/nix-ssh";
+      }
     ] ++ (lib.range 9 11 |> map (num: {
       hostName = "build-worker-${lib.fixedWidthNumber 2 num}";
       protocol = "ssh-ng";
@@ -207,6 +217,7 @@ imports = [
 
   programs.ssh = {
     knownHosts = {
+      "2a01:4f9:3100:28a4::1".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJKU/sFJB0ksfoh8Is9mPWENJgcTXxP3/rjKHFjCLNv5";
       "[build-worker-kyoumanet.fly.dev]:2200".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUGzlilikAUfUGKXVCoTeDvPRoWUgDDkNU5WaRUBzls";
       "[build-worker-kyoumanet.fly.dev]:2201".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDL2M97UBHg9aUfjDUxzmzg1r0ga0m3/stummBVwuEAB";
       "[build-worker-kyoumanet.fly.dev]:2202".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTwVKL0P0chPM2Gz23rbT94844+w1CGJdCaZdzfjThz";
