@@ -80,7 +80,7 @@
 
   system.etc = {
     overlay.enable = true;
-    overlay.mutable = false;
+    overlay.mutable = lib.mkDefault config.services.avahi.enable;
   };
 
   system.stateVersion = "25.05";
