@@ -192,7 +192,11 @@ in {
         fsync = "committed";
       };
 
-      init.defaultBranch = "main";
+      init = {
+        defaultBranch = "main";
+        defaultObjectFormat = "sha256";
+      };
+
       pull.rebase = true;
       push.autoSetupRemote = true;
       rebase.autoStash = true;
