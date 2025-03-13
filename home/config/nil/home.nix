@@ -210,7 +210,13 @@ in {
 
   programs.man.generateCaches =
     osConfig.documentation.man.generateCaches or false;
-  programs.ripgrep.enable = true;
+
+  programs.ripgrep = {
+    enable = true;
+    arguments = [
+      "--hyper-link-format=default"
+    ];
+  };
 
   programs.ssh = {
     enable = true;
