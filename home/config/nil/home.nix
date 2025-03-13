@@ -195,6 +195,7 @@ in {
       init = {
         defaultBranch = "main";
         defaultObjectFormat = "sha256";
+        defaultRefFormat = "reftable";
       };
 
       pull.rebase = true;
