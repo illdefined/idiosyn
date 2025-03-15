@@ -74,7 +74,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.niri.settings = {
     prefer-no-csd = true;
     hotkey-overlay.skip-at-startup = true;
-    screenshot-path = "~/tmp/%Y-%m-%d %H:%M:%S.png";
 
     input = {
       keyboard = {
@@ -263,9 +262,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "Mod+Shift+Numbersign".action = set-window-height "+10%";
 
       # Screenshots
-      "Mod+Print".action = screenshot;
-      "Mod+Ctrl+Print".action = screenshot-window;
-      "Mod+Shift+Print".action = screenshot-screen;
+      "Mod+Print".action = screenshot { show-pointer = false; };
+      "Mod+Ctrl+Print".action = screenshot-window { write-to-disk = false; };
+      #"Mod+Shift+Print".action = screenshot-screen { write-to-disk = false; };
 
       # Window & compositor termination
       "Mod+Shift+K".action = close-window;
