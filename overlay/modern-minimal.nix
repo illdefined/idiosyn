@@ -24,7 +24,6 @@ in {
   xvfb-run = self.packages.${system}.wayland-headless;
 
   beam = prev.beam_nox;
-  graphviz = prev.graphviz-nox;
   jdk8 = prev.jdk8_headless;
   jre8 = prev.jre8_headless;
   openjdk8 = prev.openjdk_headless;
