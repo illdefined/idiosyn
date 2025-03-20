@@ -15,6 +15,8 @@ in {
 
   programs.dconf.enable = lib.mkIf graphical true;
 
+  security.pam.mount.enable = true;
+
   services.udev.packages = [
     (pkgs.writeTextDir "/etc/udev/rules.d/98-user-power-supply.rules" ''
       SUBSYSTEM=="power_supply", KERNEL=="AC", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}+="power-internal.target power-external.target"
@@ -53,6 +55,23 @@ in {
       [ "wheel" ]
       (lib.mkIf config.security.tpm2.enable [ config.security.tpm2.tssGroup ])
     ];
+
+    pamMount = {
+      fstype = "tmpfs";
+      path = "tmpfs";
+      mountpoint = "~/tmp";
+      options = lib.concatStringsSep "," [
+        "nodev"
+        "noexec"
+        "nosuid"
+        "strictatime"
+        "size=15%"
+        "mode=0700"
+        "gid=%(USERGID)"
+        "uid=%(USERUID)"
+        "huge=within_size"
+      ];
+    };
 
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo= primary"
