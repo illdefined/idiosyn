@@ -324,6 +324,10 @@ in {
       };
     };
 
+    extraConfig = ''
+      tabs -4
+    '';
+
     extraLogin = let
       source = pkgs.writeText "env.sh"
       (lib.optionals (osConfig ? system.build.setEnvironment) [
@@ -340,10 +344,6 @@ in {
         | where name !~ '^__'
         | transpose --header-row --as-record
         | load-env
-    '';
-
-    extraEnv = ''
-      tabs -4
     '';
   };
 
