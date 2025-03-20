@@ -51,8 +51,6 @@ in {
       ++ [ "-DWITH_X11:BOOL=OFF" ];
   });
 
-  libsecret = prev.libsecret.override { withTpm2Tss = true; };
-
   mpv-unwrapped = prev.mpv-unwrapped.override {
     alsaSupport = false;
     cacaSupport = false;
