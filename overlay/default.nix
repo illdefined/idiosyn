@@ -9,7 +9,6 @@ nixpkgs.lib.composeManyExtensions [
   niri.overlays.niri
   self.overlays.mimalloc
   self.overlays.modern-minimal
-  self.overlays.fixes
   self.overlays.riscv
   self.overlays.aarch
 ] final prev
