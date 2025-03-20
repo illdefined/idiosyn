@@ -21,14 +21,6 @@ in {
     };
   });
 
-  xvfb-run = self.packages.${system}.wayland-headless;
-
-  beam = prev.beam_nox;
-  graphviz = prev.graphviz-nox;
-  jdk8 = prev.jdk8_headless;
-  jre8 = prev.jre8_headless;
-  openjdk8 = prev.openjdk_headless;
-
   electron = prev.electron.override {
     electron-unwrapped = prev.electron.unwrapped.overrideAttrs (prevAttrs: {
       gnFlags = prevAttrs.gnFlags or "" + ''
@@ -45,13 +37,6 @@ in {
 
   gammastep = prev.gammastep.override {
     withRandr = false;
-  };
-
-  gd = prev.gd.override { withXorg = false; };
-
-  imagemagick = prev.imagemagick.override {
-    libX11Support = false;
-    libXtSupport = false;
   };
 
   imv = (prev.imv.overrideAttrs(prevAttrs: {
