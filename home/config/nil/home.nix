@@ -327,7 +327,7 @@ in {
     extraConfig = ''
       use std/dirs
 
-      def nixpkgs-review [cmd: string, ...args: string] {
+      def --wrapped nixpkgs-review [cmd: string, ...args: string] {
         dirs add ~/dev/nixpkgs
         ^nixpkgs-review $cmd --run $env.SHELL --systems linux ...$args
         dirs drop
