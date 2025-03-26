@@ -26,6 +26,7 @@ in {
     ./texlive.nix
     ./mpv.nix
     ./music.nix
+    ./yazi.nix
   ];
 
   home.stateVersion = "25.05";
