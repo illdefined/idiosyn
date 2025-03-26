@@ -212,7 +212,7 @@ in {
   programs.ripgrep = {
     enable = true;
     arguments = [
-      "--hyper-link-format=default"
+      "--hyperlink-format=default"
     ];
   };
 
