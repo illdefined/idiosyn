@@ -358,10 +358,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   xdg.portal = {
     enable = true;
-    configPackages = [ config.programs.niri.package ];
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
       xdg-desktop-portal-gnome
     ];
+
+    config.common.default = [ "gtk" "gnome" ];
   };
 }
