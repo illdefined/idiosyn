@@ -46,6 +46,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     restic
     simple-scan
     tokei
+
+    config.programs.niri.package
   ];
 
   gtk.enable = true;
