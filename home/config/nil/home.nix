@@ -20,6 +20,7 @@ in {
     ./desktop.nix
     ./bar.nix
     ./terminal.nix
+    ./secrets.nix
     ./goldwarden.nix
     ./floorp.nix
     ./sioyek.nix
