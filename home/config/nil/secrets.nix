@@ -18,5 +18,21 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         WantedBy = [ "default.target" ];
       };
     };
+
+    oo7-portal = {
+      Unit = {
+        Description = "oo7 Secret portal service";
+        PartOf = [ "graphical-session.target" ];
+        Requisite = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        BusName = "org.freedesktop.impl.portal.desktop.oo7";
+        ExecStart = "${pkgs.oo7-portal}/libexec/oo7-portal";
+      };
+    };
   };
+
+  xdg.portal.configPackages = with pkgs; [ oo7-portal ];
 }
