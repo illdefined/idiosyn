@@ -98,7 +98,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       outputs = {
         eDP-1 = {
-          scale = 1;
+          scale = 1.25;
           variable-refresh-rate = true;
         };
 
