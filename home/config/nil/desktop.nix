@@ -16,14 +16,43 @@ let
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 
   askpass = let
+    withIcons = set: set
+      |> lib.mapAttrsToList (text: icon: ''${text}\0icon\x1f${icon}\n'')
+      |> lib.concatStrings
+      |> lib.escapeShellArg;
+
     pkg = pkgs.writeShellApplication {
       name = "fuzzel-askpass";
       text = ''
-        exec ${fuzzel} \
-          --prompt="󰣀 " \
-          --password \
-          --lines=0 \
-          --dmenu
+        for arg; do
+          case "$arg" in
+            -*)
+              shift
+              ;&
+            --)
+              break
+              ;;
+          esac
+        done
+
+        case "''${SSH_ASKPASS_PROMPT-}" in
+          confirm)
+            echo -en ${withIcons {
+              yes = "checkbox-checked";
+              no = "checkbox-mixed";
+            }} | exec ${fuzzel} \
+              --prompt="''${1-❓} " \
+              --lines=2 \
+              --dmenu
+            ;;
+          *)
+            exec ${fuzzel} \
+              --prompt="''${1-󰣀} " \
+              --password \
+              --lines=0 \
+              --dmenu
+            ;;
+        esac
       '';
     };
   in lib.getExe pkg;
