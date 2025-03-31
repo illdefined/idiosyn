@@ -11,7 +11,7 @@ in {
   imports = [
     self.homeModules.greedy
     self.homeModules.locale-en_EU
-    catppuccin.homeManagerModules.catppuccin
+    catppuccin.homeModules.catppuccin
     niri.homeModules.config
   ] ++ self.lib.mods [
     ./gammarelay.nix
