@@ -79,7 +79,13 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     config.programs.niri.package
   ];
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+  };
 
   programs.fuzzel = {
     enable = true;
