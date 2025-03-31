@@ -254,7 +254,17 @@ imports = [
     brlaser
   ];
 
-  services.udev.packages = with pkgs; [ utsushi ];
+  services.udev = {
+    packages = with pkgs; [ utsushi ];
+    extraRules = lib.concatStringsSep ", " [
+      ''ACTION="add|change"''
+      ''SUBSYSTEM=="video4linux"''
+      ''ATTRS{idVendor}="0x046d"''
+      ''ATTRS{idProduct}=="0x085e"''
+      ''ATTR{index}=="0"''
+      ''RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl --device $devnode --set-ctrl pan_absolute=10800,tilt_absolute=-36000,zoom_absolute=150"''
+    ];
+  };
 
   systemd.services."beesd@root" = {
     bindsTo = [ "power-external.target" ];
