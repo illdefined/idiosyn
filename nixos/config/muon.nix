@@ -254,43 +254,6 @@ imports = [
     brlaser
   ];
 
-  services.thinkfan = {
-    enable = true;
-    sensors = [
-      {
-        type = "hwmon";
-        query = "/sys/bus/platform/devices/thinkpad_hwmon";
-        indices = [ 1 2 ];
-      }
-      {
-        type = "hwmon";
-        query = "/sys/block/nvme0n1/device/hwmon4";
-        indices = [ 1 ];
-        correction = [ 12 ];
-      }
-      {
-        type = "hwmon";
-        query = "/sys/block/nvme1n1/device/hwmon5";
-        indices = [ 1 ];
-        correction = [ 12 ];
-      }
-    ];
-
-    fans = [
-      {
-        type = "tpacpi";
-        query = "/proc/acpi/ibm/fan";
-      }
-    ];
-
-    levels = [
-      [ 0   0  72 ]
-      [ 1  64  80 ]
-      [ 2  72  96 ]
-      [ 3  80 255 ]
-    ];
-  };
-
   services.udev.packages = with pkgs; [ utsushi ];
 
   systemd.services."beesd@root" = {
