@@ -9,13 +9,13 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       };
 
       Service = {
-        BusName = "org.freedesktop.Secrets";
+        BusName = "org.freedesktop.secrets";
         ExecStart = "${pkgs.oo7-server}/libexec/oo7-daemon";
         Restart = "on-failure";
       };
 
       Install = {
-        Alias = "org.freedesktop.Secrets.service";
+        Alias = "org.freedesktop.secrets.service";
       };
     };
 
@@ -39,9 +39,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   xdg.dataFile = {
-    "dbus-1/services/org.freedesktop.Secrets.service".text = ''
+    "dbus-1/services/org.freedesktop.secrets.service".text = ''
       [D-BUS Service]
-      Name=org.freedesktop.Secrets
+      Name=org.freedesktop.secrets
       SystemdService=oo7-server.service
     '';
 
