@@ -9,13 +9,13 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       };
 
       Service = {
-        BusName = "org.freedesktop.Secret";
+        BusName = "org.freedesktop.Secrets";
         ExecStart = "${pkgs.oo7-server}/libexec/oo7-daemon";
         Restart = "on-failure";
       };
 
       Install = {
-        WantedBy = [ "default.target" ];
+        Alias = "org.freedesktop.Secrets.service";
       };
     };
 
@@ -31,7 +31,25 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         BusName = "org.freedesktop.impl.portal.desktop.oo7";
         ExecStart = "${pkgs.oo7-portal}/libexec/oo7-portal";
       };
+
+      Install = {
+        Alias = "org.freedesktop.impl.portal.desktop.oo7.service";
+      };
     };
+  };
+
+  xdg.dataFile = {
+    "dbus-1/services/org.freedesktop.Secrets.service".text = ''
+      [D-BUS Service]
+      Name=org.freedesktop.Secrets
+      SystemdService=oo7-server.service
+    '';
+
+    "dbus-1/services/org.freedesktop.impl.portal.desktop.oo7.service".text = ''
+      [D-BUS Service]
+      Name=org.freedesktop.impl.portal.desktop.oo7
+      SystemdService=oo7-portal.service
+    '';
   };
 
   xdg.portal.configPackages = with pkgs; [ oo7-portal ];
