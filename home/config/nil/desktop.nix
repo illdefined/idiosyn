@@ -5,6 +5,8 @@ let
   brightnessctl = lib.getExe pkgs.brightnessctl;
   dbus-update = pkgs.dbus + /bin/dbus-update-activation-environment;
   fuzzel = lib.getExe config.programs.fuzzel.package;
+  grim = lib.getExe pkgs.grim;
+  jaq = lib.getExe pkgs.jaq;
   kitty = lib.getExe config.programs.kitty.package;
   loginctl = osConfig.systemd.package + /bin/loginctl;
   niri = lib.getExe config.programs.niri.package;
@@ -12,6 +14,7 @@ let
   playerctl = config.services.playerctld.package + /bin/playerctl;
   swaylock = lib.getExe config.programs.swaylock.package;
   systemctl = osConfig.systemd.package + /bin/systemctl;
+  vips = lib.getExe pkgs.vips;
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 
@@ -338,12 +341,30 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
-  programs.swaylock = {
+  programs.swaylock = let
+    swaylock-wrapper = pkgs.writeShellApplication {
+      name = "swaylock";
+      runtimeInputs = with pkgs; [ busybox ];
+      text = ''
+        tmp=$(mktemp -d)
+        declare -a args
+
+        trap '${lib.getExe pkgs.swaylock-plugin} "''${args[@]}"; rm -r $tmp' EXIT
+
+        mapfile -t outputs < <(${niri} msg --json outputs | ${jaq} -r '.[] | .name')
+
+        for output in "''${outputs[@]}"; do
+          (${grim} -t ppm -o "$output" - | ${vips} gaussblur stdin "$tmp/$output.ppm" 3) &
+          args+=(-i "$output:$tmp/$output.ppm")
+        done
+
+        wait
+      '';
+    };
+  in {
     enable = true;
-    package = pkgs.swaylock-effects;
+    package = swaylock-wrapper;
     settings = {
-      screenshots = true;
-      effect-blur = "5x3";
       grace = 2;
     };
   };
