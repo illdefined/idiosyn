@@ -189,7 +189,7 @@ imports = [
         sshKey = "/etc/keys/nix-ssh";
       }
       {
-        hostName = "2a01:4f9:3100:28a4::1";
+        hostName = "ci-builder.nyantec.com";
         protocol = "ssh";
         sshUser = "nix-ssh";
         maxJobs = 8;
@@ -215,7 +215,6 @@ imports = [
 
   programs.ssh = {
     knownHosts = {
-      "2a01:4f9:3100:28a4::1".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJKU/sFJB0ksfoh8Is9mPWENJgcTXxP3/rjKHFjCLNv5";
       "[build-worker-kyoumanet.fly.dev]:2200".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJUGzlilikAUfUGKXVCoTeDvPRoWUgDDkNU5WaRUBzls";
       "[build-worker-kyoumanet.fly.dev]:2201".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDL2M97UBHg9aUfjDUxzmzg1r0ga0m3/stummBVwuEAB";
       "[build-worker-kyoumanet.fly.dev]:2202".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOTwVKL0P0chPM2Gz23rbT94844+w1CGJdCaZdzfjThz";
@@ -228,6 +227,7 @@ imports = [
       "[build-worker-kyoumanet-cdg.fly.dev]:2209".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGlQD/3fLn/Kyb7v0RIycHRcArGi75jURj803EMpW0S";
       "[build-worker-kyoumanet-cdg.fly.dev]:2210".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQm1FSGBGdCR5f8MvBvdKM0M4yIQVnH1po7hHO5T1qz";
       "[build-worker-kyoumanet-cdg.fly.dev]:2211".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlH+v2ZlcDQY3itw4b7aRbwRTqDsTE0R5Ua3vF0VaGr";
+      "ci-builder.nyantec.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJKU/sFJB0ksfoh8Is9mPWENJgcTXxP3/rjKHFjCLNv5";
       "integra.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBwEQiSfaDrUAwgul4mktusBPcIVxI4pLNDh9DPopVU";
       "nokotan.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII4QwwbDcIYr64gp9WM+gNX9hr7vqCeVXdr0DmldsNX7";
       "schrodinger.kyouma.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKo7vZ6lS1wx76YsbAdhOsGcc20YMAW52ep8SZ/FCHDp";
