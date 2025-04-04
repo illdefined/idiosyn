@@ -349,7 +349,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         tmp=$(mktemp -d)
         declare -a args
 
-        trap '${lib.getExe pkgs.swaylock-plugin} "''${args[@]}"; rm -r $tmp' EXIT
+        trap '${lib.getExe pkgs.swaylock-plugin} "''${args[@]}" "$@"; rm -r $tmp' EXIT
 
         mapfile -t outputs < <(${niri} msg --json outputs | ${jaq} -r '.[] | .name')
 
