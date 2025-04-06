@@ -18,47 +18,6 @@ let
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 
-  askpass = let
-    withIcons = set: set
-      |> lib.mapAttrsToList (text: icon: ''${text}\0icon\x1f${icon}\n'')
-      |> lib.concatStrings
-      |> lib.escapeShellArg;
-
-    pkg = pkgs.writeShellApplication {
-      name = "fuzzel-askpass";
-      text = ''
-        for arg; do
-          case "$arg" in
-            -*)
-              shift
-              ;&
-            --)
-              break
-              ;;
-          esac
-        done
-
-        case "''${SSH_ASKPASS_PROMPT-}" in
-          confirm)
-            echo -en ${withIcons {
-              yes = "checkbox-checked";
-              no = "checkbox-mixed";
-            }} | exec ${fuzzel} \
-              --prompt="''${1-❓} " \
-              --lines=2 \
-              --dmenu
-            ;;
-          *)
-            exec ${fuzzel} \
-              --prompt="''${1-󰣀} " \
-              --password \
-              --lines=0 \
-              --dmenu
-            ;;
-        esac
-      '';
-    };
-  in lib.getExe pkg;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
     firefox.packages.${pkgs.system}.thunderbird
@@ -81,6 +40,31 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     config.programs.niri.package
   ];
+
+  home.file."${config.xdg.configHome}/wayprompt/config.ini".text = lib.generators.toINI {
+    mkKeyValue = k: v: (lib.generators.mkKeyValueDefault { } "=" k v) + ";";
+  } {
+    general = {
+      border = 1;
+      pin-square-border = 0;
+      button-border = 0;
+    };
+
+    colours = {
+      background = "0x1e1e2e";
+      border = "0xf5c2e7";
+      text = "0xcdd6f4";
+      error-text = "0xf38ba8";
+      pin-background = "0x181825";
+      pin-square = "0x45475a";
+      ok-button = "0x313244";
+      ok-button-text = "0xa6e3a1";
+      not-ok-button = "0x313244";
+      not-ok-button-text = "0xeba0ac";
+      cancel-button = "0x313244";
+      cancel-button-text = "0xa6adc8";
+    };
+  };
 
   gtk = {
     enable = true;
@@ -334,7 +318,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       environment = {
         ELECTRON_OZONE_PLATFORM_HINT = "wayland";
         NIXOS_OZONE_WL = "1";
-        SSH_ASKPASS = askpass;
+        SSH_ASKPASS = lib.getExe' pkgs.wayprompt "wayprompt-ssh-askpass";
         SSH_ASKPASS_REQUIRE = "force";
         TERMINAL = kitty;
       };
