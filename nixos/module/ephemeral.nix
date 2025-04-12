@@ -240,7 +240,7 @@ in {
         mode = "1775";
         user = "root";
         group = "nixbld";
-        age = "1d";
+        age = "~1d";
       };
     };
   };
