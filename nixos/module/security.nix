@@ -7,6 +7,7 @@
   };
 
   security.pam.services.swaylock.fprintAuth = false;
+  security.pam.services.swaylock-plugin.fprintAuth = false;
   security.pam.services.login.fprintAuth = false;
   security.pam.services.sudo-rs = {
     fprintAuth = config.services.fprintd.enable;
