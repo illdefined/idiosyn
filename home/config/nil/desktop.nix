@@ -325,33 +325,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
-  programs.swaylock = let
-    swaylock-wrapper = pkgs.writeShellApplication {
-      name = "swaylock";
-      runtimeInputs = with pkgs; [ busybox ];
-      text = ''
-        tmp=$(mktemp -d)
-        declare -a args
-
-        trap '${lib.getExe pkgs.swaylock-plugin} "''${args[@]}" "$@"; rm -r $tmp' EXIT
-
-        mapfile -t outputs < <(${niri} msg --json outputs | ${jaq} -r '.[] | .name')
-
-        for output in "''${outputs[@]}"; do
-          (${grim} -t ppm -o "$output" - | ${vips} gaussblur stdin "$tmp/$output.ppm" 3) &
-          args+=(-i "$output:$tmp/$output.ppm")
-        done
-
-        wait
-      '';
-    };
-  in {
-    enable = true;
-    package = swaylock-wrapper;
-    settings = {
-      grace = 2;
-    };
-  };
+  programs.swaylock.enable = true;
 
   services.mako = {
     enable = true;
