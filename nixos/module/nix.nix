@@ -26,7 +26,6 @@ in {
         "cgroups"
         "flakes"
         "nix-command"
-        "repl-flake"
         "pipe-operator"
         "ca-derivations"
       ];

@@ -369,15 +369,15 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1737234286,
-        "narHash": "sha256-pgDJZjj4jpzkFxsqBTI/9Yb0n3gW+DvDtuv9SwQZZcs=",
-        "rev": "079528098f5998ba13c88821a2eca1005c1695de",
+        "lastModified": 1742622332,
+        "narHash": "sha256-z652gNdFc/95Fheq4DzVObERYRo+j9RdCF6tzkR8r80=",
+        "rev": "6059cbb031e49e05dd5d16208e2e50d3ab2611db",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/079528098f5998ba13c88821a2eca1005c1695de.tar.gz?rev=079528098f5998ba13c88821a2eca1005c1695de"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/6059cbb031e49e05dd5d16208e2e50d3ab2611db.tar.gz?rev=6059cbb031e49e05dd5d16208e2e50d3ab2611db"
       },
       "original": {
         "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/lix/archive/release-2.92.tar.gz"
+        "url": "https://git.lix.systems/lix-project/lix/archive/main.tar.gz"
       }
     },
     "lix-module": {
@@ -390,15 +390,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1741892773,
-        "narHash": "sha256-8oUT6D7VlsuLkms3zBsUaPBUoxucmFq62QdtyVpjq0Y=",
-        "rev": "ed7a2fa83145868ecb830d6b3c73ebfd81a9e911",
+        "lastModified": 1742945498,
+        "narHash": "sha256-MB/b/xcDKqaVBxJIIxwb81r8ZiGLeKEcqokATRRroo8=",
+        "rev": "fa69ae26cc32dda178117b46487c2165c0e08316",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/nixos-module/archive/ed7a2fa83145868ecb830d6b3c73ebfd81a9e911.tar.gz?rev=ed7a2fa83145868ecb830d6b3c73ebfd81a9e911"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/nixos-module/archive/fa69ae26cc32dda178117b46487c2165c0e08316.tar.gz?rev=fa69ae26cc32dda178117b46487c2165c0e08316"
       },
       "original": {
         "type": "tarball",
-        "url": "https://git.lix.systems/lix-project/nixos-module/archive/stable.tar.gz"
+        "url": "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz"
       }
     },
     "mpv-rtkit": {
