@@ -113,6 +113,10 @@ imports = [
 
   hardware.uinput.enable = true;
 
+  environment.variables = {
+    ANV_VIDEO_DECODE = "1";
+  };
+
   i18n.supportedLocales = [
     "C.UTF-8/UTF-8"
     "en_EU.UTF-8/UTF-8"
