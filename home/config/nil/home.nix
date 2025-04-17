@@ -171,7 +171,12 @@ in {
     ];
   };
 
-  programs.fd.enable = true;
+  programs.fd = {
+    enable = true;
+    extraOptions = [
+      "--hyperlink=auto"
+    ];
+  };
 
   programs.git = let
     key = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=";
