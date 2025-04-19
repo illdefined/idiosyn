@@ -63,7 +63,7 @@ in {
 
     # Filesystem
     file
-    #xcp
+    xcp
 
     # Development
     pijul
@@ -247,6 +247,11 @@ in {
     inherit (lib.hm.nushell) mkNushellInline;
   in {
     enable = true;
+
+    shellAliases = {
+      cp = "xcp --workers 0 --driver parblock --fsync";
+    };
+
     environmentVariables = {
       PROMPT_COMMAND = mkNushellInline ''{
         let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
