@@ -62,6 +62,8 @@ in {
       |> lib.mapAttrs (name: flake: { inherit flake; });
   };
 
+  nixpkgs.config.contentAddressedByDefault = true;
+
   systemd = {
     services.nix-daemon.serviceConfig = {
       CPUAccounting = true;
