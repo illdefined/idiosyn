@@ -16,7 +16,7 @@ in {
         lldb
         markdown-oxide
         nil
-        python3Packages.python-lsp-server
+        ruff
         rust-analyzer
         taplo
         texlab
