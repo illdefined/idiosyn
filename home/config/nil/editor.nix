@@ -8,19 +8,24 @@ in {
     defaultEditor = true;
     extraPackages = lib.mkIf (osConfig.hardware.graphics.enable or false)
       (with pkgs; [
+        awk-language-server
         bash-language-server
+        bitbake-language-server
         clang-tools
         cmake-language-server
         dot-language-server
         elixir-ls
         lldb
-        markdown-oxide
+        marksman
+        mesonlsp
         nil
+        perlnavigator
         ruff
         rust-analyzer
         taplo
         texlab
         typescript-language-server
+        vscode-langservers-extracted
         yaml-language-server
       ]);
 
