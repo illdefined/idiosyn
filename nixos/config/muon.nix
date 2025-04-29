@@ -245,6 +245,13 @@ imports = [
     '') |> lib.concatStrings;
   };
 
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark-qt;
+    dumpcap.enable = true;
+    usbmon.enable = true;
+  };
+
   services.beesd.filesystems.root = {
     spec = "UUID=039aa386-a39d-4329-bcf0-48936b938db1";
     hashTableSizeMB = 1024;
@@ -281,6 +288,6 @@ imports = [
 
   users.users.nil.hashedPasswordFile = "/etc/keys/users/nil";
   users.users.nil.extraGroups = [
-    "audio" "input" "uinput" "plugdev" "video" "render" "scanner" "nitrokey"
+    "audio" "input" "uinput" "plugdev" "video" "render" "scanner" "nitrokey" "wireshark"
   ];
 }
