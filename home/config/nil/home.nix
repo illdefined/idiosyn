@@ -337,10 +337,28 @@ in {
     extraConfig = ''
       use std/dirs
 
-      def --wrapped nixpkgs-review [cmd: string, ...args: string] {
-        dirs add ~/dev/nixpkgs
-        ^nixpkgs-review $cmd --run $env.SHELL --systems linux ...$args
-        dirs drop
+      def --wrapped nixpkgs-review [
+        cmd: string,
+        --run: string = $env.SHELL,
+        --systems: string = "linux",
+        ...args: string
+      ] {
+        cd ~/dev/nixpkgs
+        ^nixpkgs-review $cmd --run $run --systems $systems ...$args
+      }
+
+      def --wrapped "nix build" [
+        --log-format: string = "multiline-with-logs",
+        ...args: string
+      ] {
+        ^nix build --log-format $log_format ...$args
+      }
+
+      # View package in nixpkgs
+      def np [
+        pkg: string  # package name
+      ] {
+        EDITOR=`${bat}` nix edit --file ~/dev/nixpkgs $pkg
       }
 
       tabs -4
