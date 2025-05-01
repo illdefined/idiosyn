@@ -31,6 +31,7 @@ in {
 
     settings = {
       editor = {
+        text-width = 132;
         rulers = [ 80 132 ];
 
         indent-guides = {
