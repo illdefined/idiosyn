@@ -383,27 +383,6 @@ in {
     '';
   };
 
-  services.pueue = {
-    enable = true;
-    settings = {
-      shared = {
-        use_unix_socket = true;
-      };
-
-      client = {
-        status_time_format = "%H:%M:%S %Z";
-        status_datetime_format = "%Y-%m-%d %H:%M:%S %Z";
-      };
-
-      daemon = {
-        groups.default = 0;
-        callback = lib.mkIf (osConfig.hardware.graphics.enable or false)
-          ''${lib.getExe pkgs.libnotify} "Task {{ id }} {{ result }}" "Command: {{ command }}\nPath: {{ path }}\nStatus: {{ exit_code }}'';
-        callback_log_lines = 4;
-      };
-    };
-  };
-
   services.ssh-agent.enable = true;
 
   systemd.user.sessionVariables = {
