@@ -5,6 +5,7 @@ let
 
   bat = lib.getExe config.programs.bat.package;
   col = lib.getExe' pkgs.util-linux "col";
+  ov = lib.getExe pkgs.ov;
   nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
   sh = lib.getExe self.packages.${pkgs.system}.hush;
 in {
@@ -111,6 +112,7 @@ in {
     MANROFFOPT = "-c";
     MANPAGER = "${sh} -c '${col} -bx | ${bat} -l man -p'";
     NIX_PATH = "nixpkgs=flake:nixpkgs";
+    PAGER = "${ov} --plain";
     SECRET_BACKEND = "file";
     TMPDIR = "$XDG_RUNTIME_DIR/tmp";
     XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
@@ -142,7 +144,26 @@ in {
     };
   };
 
-  programs.bat.enable = true;
+  programs.bat = {
+    enable = true;
+    config = {
+      style = lib.concatStringsSep "," [
+        "numbers"
+        "changes"
+        "rule"
+        "snip"
+      ];
+
+      set-terminal-title = true;
+
+      italic-text = "always";
+      nonprintable-notation = "unicode";
+      tabs = "0";
+      wrap = "never";
+
+      pager = "${ov} --plain -F";
+    };
+  };
 
   programs.bottom = {
     enable = true;
@@ -396,6 +417,12 @@ in {
     "d %t/ssh 700"
     "d %t/tmp 700 - - 24h"
   ];
+
+  xdg.configFile."ov/config.yaml".text = builtins.toJSON {
+    General = {
+      TabWidth = 4;
+    };
+  };
 
   xdg.userDirs =
   let
