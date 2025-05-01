@@ -34,6 +34,8 @@ in {
         text-width = 132;
         rulers = [ 80 132 ];
 
+        default-line-ending = "lf";
+
         indent-guides = {
           render = true;
           character = "│";
