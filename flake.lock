@@ -353,11 +353,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1745409307,
-        "narHash": "sha256-8Rti1mF5EVARpJXKA4muNTxJG6LagVFIXqjY18WkK/0=",
+        "lastModified": 1746475249,
+        "narHash": "sha256-eXieHWusrmqcK9HWBcFYxSbwFRSghjOhSylIFD40RgM=",
         "ref": "refs/heads/main",
-        "rev": "b91d60df3e4a3a7b2705ef538a40e84cdc837058",
-        "revCount": 88,
+        "rev": "5cfc48fb2f1fda3d88c4e73d52fd1c85a2850f8c",
+        "revCount": 89,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -522,11 +522,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1746427242,
-        "narHash": "sha256-KvZ6G5sdBdcrglsqcOx8BT6NpHVMVHc8wssMRhv/+1g=",
+        "lastModified": 1746468201,
+        "narHash": "sha256-hSOSlrvMJwGr8hX/gc0mnhUf5UIClMDUAadfXlSXzfc=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "a4bb30a9000cf0444ecc8fdca8096d072f77f9e8",
+        "rev": "6aabf68429c0a414221d1790945babfb6a0bd068",
         "type": "github"
       },
       "original": {
