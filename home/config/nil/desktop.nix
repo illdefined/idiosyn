@@ -329,7 +329,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   services.mako = {
     enable = true;
-    defaultTimeout = 5000;
+    settings = {
+      defaultTimeout = 5000;
+    };
   };
 
   services.playerctld.enable = true;
