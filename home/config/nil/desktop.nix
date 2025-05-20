@@ -274,6 +274,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         "Mod+Ctrl+WheelScrollUp" = { cooldown-ms = 150; action = move-column-to-workspace-up; };
         "Mod+Ctrl+Shift+WheelScrollDown" = { cooldown-ms = 150; action = move-column-right; };
         "Mod+Ctrl+Shift+WheelScrollUp" = { cooldown-ms = 150; action = move-column-left; };
+        "Mod+WheelScrollLeft" = { cooldown-ms = 150; action = focus-column-right; };
+        "Mod+WheelScrollRight" = { cooldown-ms = 150; action = focus-column-left; };
+        "Mod+Ctrl+WheelScrollLeft" = { cooldown-ms = 150; action = move-column-right; };
+        "Mod+Ctrl+WheelScrollRight" = { cooldown-ms = 150; action = move-column-left; };
 
         # Column & window size (rough)
         "Mod+Y".action = switch-preset-column-width;
