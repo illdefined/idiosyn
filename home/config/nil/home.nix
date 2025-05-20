@@ -7,6 +7,7 @@ let
   col = lib.getExe' pkgs.util-linux "col";
   ov = lib.getExe pkgs.ov;
   nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
+  nu = lib.getExe config.programs.nushell.package;
   sh = lib.getExe self.packages.${pkgs.system}.hush;
 in {
   imports = [
@@ -360,7 +361,7 @@ in {
 
       def --wrapped nixpkgs-review [
         cmd: string,
-        --run: string = $env.SHELL,
+        --run: string = ${nu},
         --systems: string = "linux",
         ...args: string
       ] {
