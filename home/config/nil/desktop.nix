@@ -334,7 +334,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   services.mako = {
     enable = true;
     settings = {
-      defaultTimeout = 5000;
+      default-timeout = 5000;
     };
   };
 
