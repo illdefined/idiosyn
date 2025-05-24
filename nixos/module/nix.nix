@@ -27,7 +27,6 @@ in {
         "flakes"
         "nix-command"
         "pipe-operator"
-        "ca-derivations"
       ];
 
       allowed-users = [ "@users" ];
@@ -61,8 +60,6 @@ in {
       |> lib.filterAttrs (name: value: (lib.types.isType "flake" value) && name != "self")
       |> lib.mapAttrs (name: flake: { inherit flake; });
   };
-
-  nixpkgs.config.contentAddressedByDefault = true;
 
   systemd = {
     services.nix-daemon.serviceConfig = {
