@@ -64,6 +64,7 @@ imports = [
 
       ETHERNET = true;
       AQTION = true;
+      USB_IPHETH = true;
 
       INPUT_JOYDEV = true;
 
@@ -276,6 +277,8 @@ imports = [
       ''RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl --device $devnode --set-ctrl pan_absolute=10800,tilt_absolute=-36000,zoom_absolute=150"''
     ];
   };
+
+  services.usbmuxd.enable = true;
 
   systemd.services."beesd@root" = {
     bindsTo = [ "power-external.target" ];
