@@ -420,6 +420,7 @@ in {
   ];
 
   xdg.configFile."ov/config.yaml".text = builtins.toJSON {
+    DisableMouse = true;
     General = {
       TabWidth = 4;
     };
