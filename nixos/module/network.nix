@@ -1,7 +1,5 @@
 { ... }: { lib, name, ... }: {
   networking.nameservers = [
-    "[2a05:f480:1800:d2e::1]:853#resolve.solitary.social"
-    "80.240.30.163:853#resolve.solitary.social"
     "[2a01:4f8:1c0c:6c89::1]:853#resolve.nyantec.com"
     "116.203.220.161:853#resolve.nyantec.com"
   ];
