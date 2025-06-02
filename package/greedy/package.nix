@@ -1,10 +1,6 @@
 { ... }: { stdenvNoCC, lib }:
 
 stdenvNoCC.mkDerivation {
-  __contentAddressed = true;
-  outputHashMode = "recursive";
-  outputHashAlgo = "sha256";
-
   name = "greedy";
 
   buildCommand = ''

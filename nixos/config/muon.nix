@@ -156,7 +156,7 @@ imports = [
   ];
 
   nix = let
-    base = [ "nixos-test" "benchmark" "big-parallel" "kvm" "ca-derivations" ];
+    base = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     x86-64 = [ "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
     riscv = [ "gccarch-rv64imac" "gccarch-rv64imacfd" "gccarch-rv64gc" ];
     aarch = [ "gccarch-armv8-a" ];
