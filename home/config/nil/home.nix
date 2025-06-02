@@ -113,7 +113,7 @@ in {
     MANROFFOPT = "-c";
     MANPAGER = "${sh} -c '${col} -bx | ${bat} -l man -p'";
     NIX_PATH = "nixpkgs=flake:nixpkgs";
-    PAGER = "${ov} --plain";
+    PAGER = "${ov}";
     SECRET_BACKEND = "file";
     TMPDIR = "$XDG_RUNTIME_DIR/tmp";
     XDG_CACHE_HOME = "\${XDG_CACHE_HOME:-$HOME/.cache}";
@@ -162,7 +162,7 @@ in {
       tabs = "0";
       wrap = "never";
 
-      pager = "${ov} --plain -F";
+      pager = "${ov} -F";
     };
   };
 
