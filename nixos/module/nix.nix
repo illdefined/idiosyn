@@ -61,6 +61,8 @@ in {
       |> lib.mapAttrs (name: flake: { inherit flake; });
   };
 
+  system.rebuild.enableNg = lib.mkDefault true;
+
   systemd = {
     services.nix-daemon.serviceConfig = {
       CPUAccounting = true;
