@@ -47,11 +47,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     };
     search = {
-      default = "Google Search";
+      default = "DuckDuckGo";
       force = true;
       engines = {
-        "Google Search" = {
-          urls = [{ template = "https://www.google.com/search?q={searchTerms}"; }];
+        "DuckDuckGo" = {
+          urls = [{ template = "https://duckduckgo.com/?q={searchTerms}"; }];
           definedAliases = [ "g" ];
         };
 
