@@ -82,6 +82,15 @@ in {
     sqlite
   ];
 
+  home.activation = let
+    inherit (lib) escapeShellArg;
+  in {
+    cachedir-tag = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run eval echo -n \'Signature: 8a477f597d28d172789f06886806bc55\' \
+        \>${escapeShellArg (escapeShellArg config.xdg.cacheHome)}/CACHEDIR.TAG
+    '';
+  };
+
   editorconfig = {
     enable = true;
     settings = {
