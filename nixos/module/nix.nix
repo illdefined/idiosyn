@@ -13,12 +13,7 @@ in {
     daemonIOSchedClass = "best-effort";
     daemonIOSchedPriority = 7;
 
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      randomizedDelaySec = "24h";
-      options = "--delete-older-than 10d";
-    };
+    gc.automatic = false;
 
     settings = {
       experimental-features = [
@@ -54,6 +49,10 @@ in {
         "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
+
+      # If free storage space drops below 1 GiB, collect garbage until 4 GiB are free
+      min-free = 1073741824;
+      max-free = 4294967296;
     };
 
     registry = inputs
@@ -64,17 +63,36 @@ in {
   system.rebuild.enableNg = lib.mkDefault true;
 
   systemd = {
-    services.nix-daemon.serviceConfig = {
-      CPUAccounting = true;
-      CPUWeight = 20;
+    services = {
+      nix-daemon.serviceConfig = {
+        CPUAccounting = true;
+        CPUWeight = 20;
 
-      MemoryAccounting = true;
-      MemoryHigh = "80%";
+        MemoryAccounting = true;
+        MemoryHigh = "80%";
 
-      IOAccounting = true;
-      IOWeight = 20;
+        IOAccounting = true;
+        IOWeight = 20;
+      };
+
+      nix-gc-gen = {
+        description = "Delete old Nix profile generations";
+        startAt = "daily";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${lib.getExe' config.nix.package "nix-env"} --delete-generations 7d";
+        };
+      };
     };
 
-    timers.nix-gc.bindsTo = [ "power-external.target" ];
+    timers.nix-gc-gen = {
+      description = "Regularly delete old Nix profile generations";
+      bindsTo = [ "power-external.target" ];
+      timerConfig = {
+        RandomizedDelaySec = "6h";
+        AccuracySec = "1d";
+        Persistent = true;
+      };
+    };
   };
 }
