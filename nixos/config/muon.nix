@@ -156,7 +156,10 @@ imports = [
   ];
 
   nix = let
-    base = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    base = [ "nixos-test" "benchmark" ];
+    phys = base ++ [ "big-parallel" "kvm" ];
+    virt = base;
+
     x86-64 = [ "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
     riscv = [ "gccarch-rv64imac" "gccarch-rv64imacfd" "gccarch-rv64gc" ];
     aarch = [ "gccarch-armv8-a" ];
@@ -170,7 +173,7 @@ imports = [
         maxJobs = 2;
         speedFactor = 4;
         systems = [ "aarch64-linux" ];
-        supportedFeatures = base ++ aarch;
+        supportedFeatures = phys ++ aarch;
         sshKey = "/etc/keys/nix-ssh";
       }
       {
@@ -180,7 +183,7 @@ imports = [
         maxJobs = 4;
         speedFactor = 8;
         systems = [ "aarch64-linux" ];
-        supportedFeatures = base ++ aarch;
+        supportedFeatures = phys ++ aarch;
         sshKey = "/etc/keys/nix-ssh";
       }
       {
@@ -190,7 +193,7 @@ imports = [
         maxJobs = 2;
         speedFactor = 4;
         systems = [ "riscv64-linux" ];
-        supportedFeatures = base ++ riscv;
+        supportedFeatures = phys ++ riscv;
         sshKey = "/etc/keys/nix-ssh";
       }
       {
@@ -200,7 +203,7 @@ imports = [
         maxJobs = 8;
         speedFactor = 16;
         systems = [ "x86_64-linux" ];
-        supportedFeatures = base ++ x86-64;
+        supportedFeatures = phys ++ x86-64;
         sshKey = "/etc/keys/nix-ssh";
       }
     ] ++ (lib.range 9 11 |> map (num: {
@@ -210,12 +213,12 @@ imports = [
       maxJobs = 2;
       speedFactor = 8;
       systems = [ "x86_64-linux" "i686-linux" "riscv64-linux" "aarch64-linux" ];
-      supportedFeatures = base ++ x86-64;
+      supportedFeatures = virt ++ x86-64;
       sshKey = "/etc/keys/nix-ssh";
     }));
 
     gc.options = lib.mkForce "--delete-older-than 90d";
-    settings.system-features = base ++ x86-64 ++ riscv ++ aarch;
+    settings.system-features = phys ++ x86-64 ++ riscv ++ aarch;
   };
 
   programs.ssh = {
