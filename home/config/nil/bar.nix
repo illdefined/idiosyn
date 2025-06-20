@@ -20,10 +20,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     package = pkgs.waybar.override {
       cavaSupport = false;
-      hyprlandSupport = false;
       jackSupport = false;
       mpdSupport = false;
       sndioSupport = false;
+      upowerSupport = false;
     };
 
     style = ''
