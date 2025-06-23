@@ -321,6 +321,22 @@
         "type": "github"
       }
     },
+    "iosevka": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1750677630,
+        "narHash": "sha256-IKEHmrUmE7R4o5xFkbBsN7Ncmc8/jBsEdNLh3EsbeSA=",
+        "rev": "575dec54bdbd2265476dbd6de8cd682ff3730f10",
+        "type": "tarball",
+        "url": "https://woof.rip/api/v1/repos/mikael/iosevka/archive/575dec54bdbd2265476dbd6de8cd682ff3730f10.tar.gz?rev=575dec54bdbd2265476dbd6de8cd682ff3730f10"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://woof.rip/mikael/iosevka/archive/main.tar.gz"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -350,7 +366,7 @@
     },
     "linux-hardened": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1750507736,
@@ -583,6 +599,19 @@
     "nixpkgs_3": {
       "locked": {
         "lastModified": 315532800,
+        "narHash": "sha256-vgABH4JbYS1uEpSY3hwfA9ZXdcdCYMZshvHiWDHKjE8=",
+        "rev": "3078b9a9e75f1790e6d6ef9955fdc6a2d1740cc6",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre820016.3078b9a9e75f/nixexprs.tar.xz?rev=3078b9a9e75f1790e6d6ef9955fdc6a2d1740cc6"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 315532800,
         "narHash": "sha256-G8NlvWGtbHDXaCFizKerV0hTrpwBZf3XlMrKwZHeJU8=",
         "rev": "5395fb3ab3f97b9b7abca147249fa2e8ed27b192",
         "type": "tarball",
@@ -593,7 +622,7 @@
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 315532800,
         "narHash": "sha256-EH+3V8xT2zi2Vr8QLPyE705K5HspYMipvguJVXWOkB8=",
@@ -689,6 +718,7 @@
         "colmena": "colmena",
         "firefox": "firefox",
         "home-manager": "home-manager",
+        "iosevka": "iosevka",
         "lanzaboote": "lanzaboote",
         "linux-hardened": "linux-hardened",
         "lix-module": "lix-module",
@@ -696,7 +726,7 @@
         "niri": "niri",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "ripgrep-all": "ripgrep-all",
         "rust-overlay": "rust-overlay"
       }

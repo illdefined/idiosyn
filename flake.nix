@@ -60,6 +60,8 @@
       url = "git+https://woof.rip/mikael/mpv-rtkit.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    iosevka.url = "https://woof.rip/mikael/iosevka/archive/main.tar.gz";
   };
 
   nixConfig = {

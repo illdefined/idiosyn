@@ -1,8 +1,8 @@
-{ self, ... }: { config, lib, pkgs, ... }@args:
+{ iosevka, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
 
-  inherit (self.packages.${pkgs.system}) iosevka-idiosyn;
+  inherit (iosevka.packages.${pkgs.system}) iosevka-idiosyn-sans-term;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   fonts.fontconfig = {
     enable = true;
@@ -34,7 +34,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   home.packages = with pkgs; [
     fira-code
-    iosevka-idiosyn
+    iosevka-idiosyn-sans-term
     julia-mono
     lato
     mplus-outline-fonts.githubRelease
