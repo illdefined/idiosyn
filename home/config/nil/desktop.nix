@@ -100,6 +100,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     settings = {
       prefer-no-csd = true;
       hotkey-overlay.skip-at-startup = true;
+      xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite-unstable;
 
       input = {
         keyboard = {
