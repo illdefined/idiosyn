@@ -373,6 +373,21 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         After = [ "graphical-session.target" ];
       };
     };
+
+    ausweisapp = {
+      Unit = {
+        Description = "AusweisApp eID client";
+        After = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        ExecStart = "${lib.getExe pkgs.ausweisapp} --no-logfile";
+      };
+
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
   };
 
   xdg.mimeApps.enable = true;

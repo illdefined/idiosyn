@@ -11,6 +11,11 @@
 
   hardware.graphics.enable = true;
 
+  programs.ausweisapp = {
+    enable = true;
+    openFirewall = true;
+  };
+
   security.pam.loginLimits = [
     {
       domain = "@users";
