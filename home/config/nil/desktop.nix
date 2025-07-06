@@ -382,6 +382,58 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       Service = {
         ExecStart = "${lib.getExe pkgs.ausweisapp} --no-logfile";
+
+        ConfigurationDirectory = "AusweisApp";
+        CacheDirectory = "AusweisApp";
+
+        ConfigurationDirectoryMode = "0700";
+        CacheDirectoryMode = "0700";
+
+        CapabilityBoundingSet = [ ];
+        AmbientCapabilities = [ ];
+        NoNewPrivileges = true;
+        SecureBits = toString [ "noroot" "noroot-locked" ];
+
+        ProtectSystem = "strict";
+        ProtectHome = "tmpfs";
+        ReadWritePaths = toString [ "/run/user" ];
+
+        PrivateTmp = "disconnected";
+        PrivateIPC = true;
+        PrivateUsers = "self";
+        ProtectClock = true;
+        ProtectKernelTunables = true;
+        ProtectKernelModules = true;
+        ProtectKernelLogs = true;
+        ProtectControlGroups = "strict";
+
+        RestrictAddressFamilies = toString [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
+
+        RestrictFileSystems = toString [
+          "~@privileged-api"
+          "~@security"
+        ];
+
+        RestrictNamespaces = true;
+
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictSUIDSGID = true;
+
+        SystemCallFilter = toString [ "@system-service" "@sandbox" ];
+
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+
+        SocketBindAllow = toString [ "24727" ];
+        SocketBindDeny = "any";
+
+        DeviceAllow = toString [ "char-drm" ];
       };
 
       Install = {
