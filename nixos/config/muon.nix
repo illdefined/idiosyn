@@ -264,6 +264,11 @@ imports = [
 
   services.fprintd.enable = true;
 
+  services.pcscd = {
+    enable = true;
+    plugins = with pkgs; [ pcsc-cyberjack ];
+  };
+
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [
     brlaser
@@ -271,14 +276,23 @@ imports = [
 
   services.udev = {
     packages = with pkgs; [ utsushi ];
-    extraRules = lib.concatStringsSep ", " [
-      ''ACTION=="add|change"''
-      ''SUBSYSTEM=="video4linux"''
-      ''ATTRS{idVendor}=="0x046d"''
-      ''ATTRS{idProduct}=="0x085e"''
-      ''ATTR{index}=="0"''
-      ''RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl --device $devnode --set-ctrl pan_absolute=10800,tilt_absolute=-36000,zoom_absolute=150"''
-    ];
+    extraRules = [
+      [
+        ''ACTION=="add|change"''
+        ''SUBSYSTEM=="video4linux"''
+        ''ATTRS{idVendor}=="0x046d"''
+        ''ATTRS{idProduct}=="0x085e"''
+        ''ATTR{index}=="0"''
+        ''RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl --device $devnode --set-ctrl pan_absolute=10800,tilt_absolute=-36000,zoom_absolute=150"''
+      ]
+      [
+        ''ACTION=="add|change"''
+        ''SUBSYSTEM=="usb"''
+        ''ATTRS{idVendor}=="20a0"''
+        ''ENV{PCSCLITE_IGNORE}="1"''
+      ]
+    ] |> map (lib.concatStringsSep ", ")
+      |> lib.concatLines;
   };
 
   services.usbmuxd.enable = true;
