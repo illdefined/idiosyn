@@ -109,11 +109,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1750507472,
-        "narHash": "sha256-DlIm/m/S8sDvlTP3c1hJ3E5K4Mf8T3WE+jRtd88ymaE=",
+        "lastModified": 1752660348,
+        "narHash": "sha256-F+wU2bVxHuez0AZ7VayxoXCvq+4vk9maVJAOSi4nlM8=",
         "ref": "refs/heads/main",
-        "rev": "8d5a4f595cd465860255d978c12fa8fd5845388c",
-        "revCount": 51,
+        "rev": "5a8eec0e10fa9f97bfa658abe1439ee30a3e5d3c",
+        "revCount": 52,
         "type": "git",
         "url": "https://woof.rip/mikael/firefox.git"
       },
@@ -538,11 +538,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1752048960,
-        "narHash": "sha256-gATnkOe37eeVwKKYCsL+OnS2gU4MmLuZFzzWCtaKLI8=",
+        "lastModified": 1752666637,
+        "narHash": "sha256-P8J72psdc/rWliIvp8jUpoQ6qRDlVzgSDDlgkaXQ0Fw=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "7ced9122cff2163c6a0212b8d1ec8c33a1660806",
+        "rev": "d1bfa8f6ccfb5c383e1eba609c1eb67ca24ed153",
         "type": "github"
       },
       "original": {
@@ -586,10 +586,10 @@
     "nixpkgs_2": {
       "locked": {
         "lastModified": 315532800,
-        "narHash": "sha256-G8NlvWGtbHDXaCFizKerV0hTrpwBZf3XlMrKwZHeJU8=",
-        "rev": "5395fb3ab3f97b9b7abca147249fa2e8ed27b192",
+        "narHash": "sha256-X5WIcIkFxPhw7mS219TbEOgrugbMx/2cin09OlWobT8=",
+        "rev": "dab3a6e781554f965bde3def0aa2fda4eb8f1708",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre816812.5395fb3ab3f9/nixexprs.tar.xz?rev=5395fb3ab3f97b9b7abca147249fa2e8ed27b192"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre830668.dab3a6e78155/nixexprs.tar.xz?rev=dab3a6e781554f965bde3def0aa2fda4eb8f1708"
       },
       "original": {
         "type": "tarball",
