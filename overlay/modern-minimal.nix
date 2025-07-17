@@ -12,13 +12,6 @@ let
   prev' = prev;
 
 in {
-  alsa-ucm-conf = prev.alsa-ucm-conf.overrideAttrs (prevAttrs: {
-    src = final.fetchFromGitHub {
-      owner = "illdefined";
-      repo = "alsa-ucm-conf";
-      rev = "fb1239d1a1e56bf51da23bce0d3c4b93b7d7b56f";
-      hash = "sha256-5rHOZbRJEHkHORTERBli20ivHDcDJ8ssNa6TZExoyNs=";
-    };
   });
 
   electron = prev.electron.override {
