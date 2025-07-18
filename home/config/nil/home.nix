@@ -192,6 +192,7 @@ in {
 
   programs.eza = {
     enable = true;
+    enableNushellIntegration = true;
     icons = "auto";
     git = true;
 
