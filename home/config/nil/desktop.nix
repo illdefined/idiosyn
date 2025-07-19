@@ -24,6 +24,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
     calibre
     fractal
+    horizon-eda
     inkscape
     jellyfin-mpv-shim
     keepassxc
