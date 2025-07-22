@@ -27,7 +27,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     horizon-eda
     inkscape
     jellyfin-mpv-shim
-    keepassxc
     man-pages
     man-pages-posix
     nix-update
@@ -183,7 +182,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
             { app-id = ''^firefox\.private$''; }
             { app-id = ''^kitty\.private$''; }
             { app-id = ''^org\.gnome\.Fractal$''; }
-            { app-id = ''^org\.keepassxc\.KeePassXC$''; }
             { app-id = ''^signal$''; }
           ];
 
