@@ -350,7 +350,7 @@ in {
               let pkgs = (
                 `${nix-locate}`
                 --db `${nix-index-database.packages.${pkgs.system}.nix-index-database}`
-                --top-level --type x --type s --no-group --whole-name --at-root --minimal
+                --type x --type s --no-group --whole-name --at-root --minimal
                 $"/bin/($cmd_name)"
               )
 
