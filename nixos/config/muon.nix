@@ -53,7 +53,6 @@ imports = [
     extraProfiles = {
       lowlatency = true;
       dm-crypt = true;
-      virthost = true;
     };
 
     extraConfig = with linux-hardened.lib.kernel; {
