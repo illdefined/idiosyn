@@ -8,6 +8,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     languagePacks = [ "en-GB" ];
     nativeMessagingHosts = [ pkgs.goldwarden ];
     profiles = let
+    extensions.force = true;
     settings = {
       # use OS locale
       "intl.regional_prefs.use_os_locales" = true;
@@ -141,11 +142,11 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
     in {
       default = {
-        inherit settings search;
+        inherit extensions settings search;
         isDefault = true;
       };
       sneaky = {
-        inherit settings search;
+        inherit extensions settings search;
         id = 1;
       };
     };
