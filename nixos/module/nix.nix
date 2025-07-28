@@ -83,10 +83,29 @@ in {
           ExecStart = "${lib.getExe' config.nix.package "nix-env"} --delete-generations 7d";
         };
       };
+
+      nix-db-vaccuum = {
+        description = "Vacuum Nix SQLite database";
+        startAt = "weekly";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${lib.getExe pkgs.sqlite} /nix/var/nix/db/db.sqlite 'VACUUM;'";
+        };
+      };
     };
 
     timers.nix-gc-gen = {
       description = "Regularly delete old Nix profile generations";
+      bindsTo = [ "power-external.target" ];
+      timerConfig = {
+        RandomizedDelaySec = "6h";
+        AccuracySec = "1d";
+        Persistent = true;
+      };
+    };
+
+    timers.nix-db-vacuum = {
+      description = "Regularly vacuum Nix SQLite database";
       bindsTo = [ "power-external.target" ];
       timerConfig = {
         RandomizedDelaySec = "6h";
