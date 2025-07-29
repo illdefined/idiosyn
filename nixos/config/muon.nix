@@ -114,7 +114,33 @@ imports = [
 
   hardware.uinput.enable = true;
 
-  environment.variables = {
+  environment.variables = let
+    alsa-ucm-conf = pkgs.alsa-ucm-conf.overrideAttrs (finalAttrs: prevAttrs: {
+      version = "1.2.14";
+
+      src = prevAttrs.src.override {
+        url = "mirror://alsa/lib/alsa-ucm-conf-${finalAttrs.version}.tar.bz2";
+        hash = "sha256-MumAn1ktkrl4qhAy41KTwzuNDx7Edfk3Aiw+6aMGnCE=";
+      };
+
+      installPhase = ''
+        runHook preInstall
+
+        substituteInPlace ucm2/lib/card-init.conf \
+          --replace-fail "/bin/rm" "${pkgs.coreutils}/bin/rm" \
+          --replace-fail "/bin/mkdir" "${pkgs.coreutils}/bin/mkdir"
+
+        substituteInPlace ucm2/common/ctl/led.conf \
+          --replace-fail '/sbin/modprobe' '${pkgs.kmod}/bin/modprobe'
+
+        mkdir -p $out/share/alsa
+        cp -r ucm ucm2 $out/share/alsa
+
+        runHook postInstall
+      '';
+    });
+  in {
+    ALSA_CONFIG_UCM2 = "${alsa-ucm-conf}/share/alsa/ucm2";
     ANV_VIDEO_DECODE = "1";
   };
 
