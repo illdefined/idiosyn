@@ -109,11 +109,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1753707775,
-        "narHash": "sha256-DSJxFgWJGDKG8CFpmWJGzCk4yrvEX/3iPz5f3B55XHc=",
+        "lastModified": 1753779793,
+        "narHash": "sha256-TXQ59BshZ3VmaGpRvRIalyjEIz2rhm4d/hAx/H1O4FM=",
         "ref": "refs/heads/main",
-        "rev": "a7ce0d0266c44e284dfd2725c6c65dc94659ee1d",
-        "revCount": 57,
+        "rev": "638d0e4d6bc6b4b9f050d3641538c06874e4f101",
+        "revCount": 58,
         "type": "git",
         "url": "https://woof.rip/mikael/firefox.git"
       },
