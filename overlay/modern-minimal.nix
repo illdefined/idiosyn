@@ -12,6 +12,12 @@ let
   prev' = prev;
 
 in {
+  gnome-settings-daemon = null;
+  libselinux = null;
+  networkmanager = null;
+
+  bubblewrap = prev.bubblewrap.overrideAttrs (prevAttrs : {
+    mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
   });
 
   electron = prev.electron.override {
@@ -31,6 +37,14 @@ in {
   gammastep = prev.gammastep.override {
     withRandr = false;
   };
+
+  glib = prev.glib.overrideAttrs(prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
+  });
+
+  gnome-keyring = prev.gnome-keyring.overrideAttrs(prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
+  });
 
   imv = (prev.imv.overrideAttrs(prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
@@ -56,6 +70,10 @@ in {
   mpv = final.mpv-unwrapped.wrapper {
     mpv = final.mpv-unwrapped;
   };
+
+  pipewire = prev.pipewire.overrideAttrs(prevAttrs: {
+    mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
+  });
 
   svt-av1 = final.svt-av1-psy;
 
