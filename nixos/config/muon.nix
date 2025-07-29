@@ -118,7 +118,7 @@ imports = [
     alsa-ucm-conf = pkgs.alsa-ucm-conf.overrideAttrs (finalAttrs: prevAttrs: {
       version = "1.2.14";
 
-      src = prevAttrs.src.override {
+      src = pkgs.fetchurl {
         url = "mirror://alsa/lib/alsa-ucm-conf-${finalAttrs.version}.tar.bz2";
         hash = "sha256-MumAn1ktkrl4qhAy41KTwzuNDx7Edfk3Aiw+6aMGnCE=";
       };
