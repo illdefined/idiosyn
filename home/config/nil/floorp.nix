@@ -20,10 +20,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       # founts
       "font.default.x-unicode" = "sans-serif";
       "font.default.x-western" = "sans-serif";
-      "font.name.sans-serif.x-unicode" = "Lato";
-      "font.name.sans-serif.x-western" = "Lato";
-      "font.name.monospace.x-unicode" = "Fira Code";
-      "font.name.monospace.x-western" = "Fira Code";
+      "font.name.sans-serif.x-unicode" = "sans-serif";
+      "font.name.sans-serif.x-western" = "sans-serif";
+      "font.name.monospace.x-unicode" = "monospace";
+      "font.name.monospace.x-western" = "monospace";
 
       # hardware acceleration
       "layers.acceleration.force-enabled" = true;
