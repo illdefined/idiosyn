@@ -76,6 +76,7 @@ in {
           Wants = [ "ausweisapp-dbus-proxy.service" ];
           After = [
             "graphical-session.target"
+            "tray.target"
             "ausweisapp-dbus-proxy.service"
           ];
         };
