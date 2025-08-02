@@ -66,13 +66,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
-  gtk = {
-    enable = true;
-    iconTheme = {
-      package = pkgs.adwaita-icon-theme;
-      name = "Adwaita";
-    };
-  };
+  gtk.enable = true;
 
   programs.fuzzel = {
     enable = true;
