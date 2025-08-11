@@ -182,8 +182,8 @@ imports = [
   ];
 
   nix = let
-    base = [ "nixos-test" "benchmark" ];
-    phys = base ++ [ "big-parallel" "kvm" ];
+    base = [ "nixos-test" "benchmark" "big-parallel" ];
+    phys = base ++ [ "kvm" ];
     virt = base;
 
     x86-64 = [ "gccarch-x86-64" "gccarch-x86-64-v2" "gccarch-x86-64-v3" ];
