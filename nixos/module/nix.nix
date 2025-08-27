@@ -82,7 +82,7 @@ in {
         startAt = "daily";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${lib.getExe' config.nix.package "nix-env"} --delete-generations 7d";
+          ExecStart = "${lib.getExe' config.nix.package "nix-env"} --profile /nix/var/nix/profiles/system --delete-generations 7d";
         };
       };
 
