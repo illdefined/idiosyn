@@ -259,22 +259,25 @@ in {
 
   programs.ssh = {
     enable = true;
-    compression = true;
-
-    controlMaster = "auto";
-    controlPath = "\${XDG_RUNTIME_DIR}/ssh/%r@%n:%p";
-    controlPersist = "10m";
 
     matchBlocks = {
+      "*" = {
+        compression = true;
+
+        controlMaster = "auto";
+        controlPath = "\${XDG_RUNTIME_DIR}/ssh/%r@%n:%p";
+        controlPersist = "10m";
+
+        serverAliveInterval = 10;
+        serverAliveCountMax = 60;
+      };
+
       "*.nyantec.com".user = "mvs";
       "solitary.social" = {
         user = "nil";
         forwardAgent = true;
       };
     };
-
-    serverAliveInterval = 10;
-    serverAliveCountMax = 60;
   };
 
   programs.nushell = let
