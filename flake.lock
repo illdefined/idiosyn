@@ -308,11 +308,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756903364,
-        "narHash": "sha256-vZh/YH2D7oDFek10r0TbGn3qJrqGv69sSP+oF8PFDqQ=",
+        "lastModified": 1756991914,
+        "narHash": "sha256-4ve/3ah5H/SpL2m3qmZ9GU+VinQYp2MN1G7GamimTds=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6159629d05a0e92bb7fb7211e74106ae1d552401",
+        "rev": "b08f8737776f10920c330657bee8b95834b7a70f",
         "type": "github"
       },
       "original": {
@@ -369,11 +369,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1756125846,
-        "narHash": "sha256-mDhZOxGbUGNyhH01SuVJzD5HsWVSIW1XyeIFqcx+ZXA=",
+        "lastModified": 1756920551,
+        "narHash": "sha256-Vojc+sJqTrgV/bw6yqmn3oJ7/oL5aAvjGMJ0C17I/qE=",
         "ref": "refs/heads/main",
-        "rev": "74d210845563976db48e8965763e3f9b9b0cb91b",
-        "revCount": 135,
+        "rev": "e62cf8b3e10d370b4201ccbf76ae8e9647ecd0d2",
+        "revCount": 136,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -449,11 +449,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1756907248,
-        "narHash": "sha256-YQyug4zPtKLck1Aq3CPWy3AuH83riQRy00hsZLi22e0=",
+        "lastModified": 1756929727,
+        "narHash": "sha256-PpO9te01GFghe/+TEjlhMcs1nt4RQz0u99Ek05bp578=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "4c144345fffa3841072dbb083cea06e75201331d",
+        "rev": "2457f2433e485bab5e1e60dc786c7d42c1ef17ac",
         "type": "github"
       },
       "original": {
@@ -482,11 +482,11 @@
     "niri-unstable": {
       "flake": false,
       "locked": {
-        "lastModified": 1756895668,
-        "narHash": "sha256-hgrDHt8dZXRvBiX/M5qevexN6w7yHslW/osNpqe6qBA=",
+        "lastModified": 1756926064,
+        "narHash": "sha256-5/1vyFRLvJWxhBgpPaV2orC0pjSgIny6JM6+joLyZok=",
         "owner": "YaLTeR",
         "repo": "niri",
-        "rev": "0c5beaac40ea29752316a9eccccf2a640dfafc71",
+        "rev": "c69464c1288789020d9a086f86c970a7dc49b8c7",
         "type": "github"
       },
       "original": {
@@ -538,11 +538,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1756750488,
-        "narHash": "sha256-e4ZAu2sjOtGpvbdS5zo+Va5FUUkAnizl4wb0/JlIL2I=",
+        "lastModified": 1756925795,
+        "narHash": "sha256-kUb5hehaikfUvoJDEc7ngiieX88TwWX/bBRX9Ar6Tac=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "47eb4856cfd01eaeaa7bb5944a0f27db8fb9b94a",
+        "rev": "ba6fab29768007e9f2657014a6e134637100c57d",
         "type": "github"
       },
       "original": {
@@ -738,11 +738,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756866691,
-        "narHash": "sha256-YWJsM0HfdFLcaoP5OeyzjX6MjGnJ0Acm+bg1QN8MKjo=",
+        "lastModified": 1756953131,
+        "narHash": "sha256-alhjsmCdJDNZCP824NB21ZfqepVsGwpIiRBmSHUvp7U=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "fb6dab6f320291a8edd31c1d67f078c6f7384a02",
+        "rev": "c2e69d21d6a1c83de3326c975d484c4c79893896",
         "type": "github"
       },
       "original": {
