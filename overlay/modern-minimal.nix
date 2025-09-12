@@ -80,7 +80,6 @@ in {
   systemd = prev.systemd.override {
     withApparmor = false;
     withHomed = false;
-    withIptables = false;
   };
 
   w3m = prev.w3m.override {
