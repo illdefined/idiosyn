@@ -2,9 +2,9 @@
 let
   osConfig = args.osConfig or { };
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
-  programs.floorp = {
+  programs.firefox = {
     enable = true;
-    package = firefox.packages.${pkgs.system}.floorp;
+    package = firefox.packages.${pkgs.system}.firefox;
     languagePacks = [ "en-GB" ];
     nativeMessagingHosts = [ pkgs.goldwarden ];
     profiles = let
@@ -26,7 +26,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "font.name.monospace.x-western" = "monospace";
 
       # hardware acceleration
+      "gfx.webrender.all" = true;
+      "gfx.webrender.compositor" = true;
+      "gfx.webrender.compositor.force-enabled" = true;
       "layers.acceleration.force-enabled" = true;
+      "layers.gpu-process.enabled" = true;
+      "layers.gpu-process.force-enabled" = true;
+      "media.ffmpeg.vaapi.enabled" = true;
+      "media.gpu-process-decoder" = true;
 
       # always ask for download location
       "browser.download.useDownloadDir" = false;
@@ -153,6 +160,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   };
 
   xdg.mimeApps.defaultApplications = {
-    default-web-browser = [ "floorp.desktop" ];
+    default-web-browser = [ "firefox.desktop" ];
   };
 }

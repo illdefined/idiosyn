@@ -25,7 +25,7 @@ in {
     ./terminal.nix
     ./secrets.nix
     ./goldwarden.nix
-    ./floorp.nix
+    ./firefox.nix
     ./sioyek.nix
     ./texlive.nix
     ./mpv.nix
