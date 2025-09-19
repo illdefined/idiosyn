@@ -24,7 +24,6 @@ in {
     ./bar.nix
     ./terminal.nix
     ./secrets.nix
-    ./goldwarden.nix
     ./firefox.nix
     ./sioyek.nix
     ./texlive.nix

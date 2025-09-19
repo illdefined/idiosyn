@@ -6,7 +6,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     enable = true;
     package = firefox.packages.${pkgs.system}.firefox;
     languagePacks = [ "en-GB" ];
-    nativeMessagingHosts = [ pkgs.goldwarden ];
     profiles = let
     extensions.force = true;
     settings = {
