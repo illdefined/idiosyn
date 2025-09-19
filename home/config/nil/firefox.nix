@@ -10,9 +10,6 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     profiles = let
     extensions.force = true;
     settings = {
-      # use OS locale
-      "intl.regional_prefs.use_os_locales" = true;
-
       # localisation
       "intl.accept_languages" = "en-gb,en,de,fr,es-es,es,pt,ja";
       "intl.locale.requested" = "en-GB,en,de,fr,es-ES,es,pt,ja";
@@ -25,28 +22,12 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       "font.name.monospace.x-unicode" = "monospace";
       "font.name.monospace.x-western" = "monospace";
 
-      # hardware acceleration
-      "gfx.webrender.all" = true;
-      "gfx.webrender.compositor" = true;
-      "gfx.webrender.compositor.force-enabled" = true;
-      "layers.acceleration.force-enabled" = true;
-      "layers.gpu-process.enabled" = true;
-      "layers.gpu-process.force-enabled" = true;
-      "media.ffmpeg.vaapi.enabled" = true;
-      "media.gpu-process-decoder" = true;
-
       # always ask for download location
       "browser.download.useDownloadDir" = false;
-
-      # private containor for new tab page thumbnails
-      "privacy.usercontext.about_newtab_segregation.enabled" = true;
 
       # disable access to device sensors
       "device.sensors.enabled" = false;
       "dom.battery.enabled" = false;
-
-      # disable media auto‐play
-      "media.autoplay.enabled" = false;
 
       # disable password auto‐fill
       "signon.autofillForms" = false;
