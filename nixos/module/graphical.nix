@@ -29,6 +29,8 @@
 
   services.avahi.enable = true;
 
+  services.dbus.packages = with pkgs; [ oo7-server oo7-portal ];
+
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -71,4 +73,7 @@
       };
     };
   };
+
+  systemd.packages = with pkgs; [ oo7-server oo7-portal ];
+  xdg.portal.configPackages = with pkgs; [ oo7-portal ];
 }

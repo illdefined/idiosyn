@@ -23,7 +23,6 @@ in {
     ./desktop.nix
     ./bar.nix
     ./terminal.nix
-    ./secrets.nix
     ./firefox.nix
     ./sioyek.nix
     ./texlive.nix
