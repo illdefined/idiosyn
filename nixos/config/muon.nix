@@ -56,6 +56,8 @@ imports = [
     };
 
     extraConfig = with linux-hardened.lib.kernel; {
+      IA32_EMULATION = true;
+
       IP_MULTICAST = true;
 
       IPV6_ROUTER_PREF = true;
@@ -94,9 +96,11 @@ imports = [
 
   hardware.glasgow.enable = true;
 
-  hardware.graphics.extraPackages = with pkgs; [
-    intel-media-driver
-  ];
+  hardware.graphics = {
+    enable32Bit = true;
+    extraPackages = with pkgs; [ intel-media-driver ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [ intel-media-driver ];
+  };
 
   hardware.keyboard.qmk.enable = true;
   hardware.nitrokey.enable = true;
@@ -273,6 +277,11 @@ imports = [
         Hostname build-worker-kyoumanet${lib.optionalString (num > 8) "-cdg"}.fly.dev
         Port ${toString (2200 + num)}
     '') |> lib.concatStrings;
+  };
+
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
 
   programs.wireshark = {
