@@ -34,6 +34,9 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
       # enable user profile customisation
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+      # dark mode by default
+      "layout.css.prefers-color-scheme.content-override" = 0;
     };
     search = {
       default = "Google Search";
