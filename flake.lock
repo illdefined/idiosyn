@@ -109,11 +109,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1758297219,
-        "narHash": "sha256-zqvnZI+uyn79CuiKrANTSxGXcmfzGRXL+8rOx0Z+p1M=",
+        "lastModified": 1758306831,
+        "narHash": "sha256-y4aPVmtHvy94C4pvnWQFZ5aE+YhkaRj5pc7LozZFBl8=",
         "ref": "refs/heads/main",
-        "rev": "3e4f196f959d3b26b2f1c845ee1f6c94ed46259f",
-        "revCount": 78,
+        "rev": "9d42547d3ce9db188b14dd610b4fc9c973cf439e",
+        "revCount": 79,
         "type": "git",
         "url": "https://woof.rip/mikael/firefox.git"
       },
@@ -369,11 +369,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1756920551,
-        "narHash": "sha256-Vojc+sJqTrgV/bw6yqmn3oJ7/oL5aAvjGMJ0C17I/qE=",
+        "lastModified": 1758321544,
+        "narHash": "sha256-N5n7e3SHxf1RlcuLc5bl6WSwJfExqn0z5hUE35GjhO4=",
         "ref": "refs/heads/main",
-        "rev": "e62cf8b3e10d370b4201ccbf76ae8e9647ecd0d2",
-        "revCount": 136,
+        "rev": "8aa269736b72c98b846c90ceb52d3261b21ece63",
+        "revCount": 138,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -385,11 +385,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1758287362,
-        "narHash": "sha256-uUrxqFd28tWzuERiFrmCSBeN0l3Ybl6GfVQk7gUMSws=",
-        "rev": "a25a5739c7765a7f7fd70ba4e843c153da2ac5fc",
+        "lastModified": 1758307909,
+        "narHash": "sha256-aZ9gNCx5OtT++i6dUNbU4kRE9Nj9aLuOx7hNZW7FTn8=",
+        "rev": "3a4f9488f0a9ca46b22b38de7e0a760a9a63129a",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/a25a5739c7765a7f7fd70ba4e843c153da2ac5fc.tar.gz?rev=a25a5739c7765a7f7fd70ba4e843c153da2ac5fc"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/3a4f9488f0a9ca46b22b38de7e0a760a9a63129a.tar.gz?rev=3a4f9488f0a9ca46b22b38de7e0a760a9a63129a"
       },
       "original": {
         "type": "tarball",
@@ -612,10 +612,10 @@
     "nixpkgs_4": {
       "locked": {
         "lastModified": 315532800,
-        "narHash": "sha256-0uqFYuxH4XR+bGVeEhgMRR27F+LSWRMX+9jYlL9yBnE=",
-        "rev": "6b0b1559e918d4f7d1df398ee1d33aeac586d4d6",
+        "narHash": "sha256-8r/4FEFTGoeVUP6sjnNvvDANaDmbXJnBflzNPYZPPLo=",
+        "rev": "12bd230118a1901a4a5d393f9f56b6ad7e571d01",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre850990.6b0b1559e918/nixexprs.tar.xz?rev=6b0b1559e918d4f7d1df398ee1d33aeac586d4d6"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre863969.12bd230118a1/nixexprs.tar.xz?rev=12bd230118a1901a4a5d393f9f56b6ad7e571d01"
       },
       "original": {
         "type": "tarball",
