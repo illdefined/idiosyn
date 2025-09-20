@@ -62,6 +62,8 @@ in {
       |> lib.mapAttrs (name: flake: { inherit flake; });
   };
 
+  nixpkgs.config.allowUnfree = lib.mkDefault true;
+
   system.rebuild.enableNg = lib.mkDefault true;
 
   systemd = {
