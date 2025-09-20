@@ -5,7 +5,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.firefox = {
     enable = true;
     package = firefox.packages.${pkgs.system}.firefox;
-    languagePacks = [ "en-GB" ];
+    languagePacks = [ "en-GB" "de" "fr" "es-ES" "pt-PT" "ja" ];
     profiles = let
     extensions.force = true;
     settings = {
