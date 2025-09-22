@@ -57,6 +57,7 @@ imports = [
 
     extraConfig = with linux-hardened.lib.kernel; {
       IA32_EMULATION = true;
+      COMPAT_32BIT_TIME = true;
 
       IP_MULTICAST = true;
 
