@@ -58,6 +58,7 @@
     defaultScheduler = "kyber";
     defaultSchedulerRotational = "bfq";
     scheduler = {
+      "nvme*" = "none";
       "mmcblk*" = "bfq";
       "vd[a-z]" = "none";
     };
