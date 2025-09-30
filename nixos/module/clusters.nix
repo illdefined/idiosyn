@@ -51,9 +51,17 @@ in {
       sliceConfig.StartupAllowedCPUs = combined;
     });
 
-    systemd.user.services = lib.genAttrs [ "geoclue-agent" ] (service: {
+    systemd.user.services = let
       serviceConfig.Slice = "app-efficiency.slice";
-    });
+    in {
+      dconf = lib.mkIf config.programs.dconf.enable {
+        inherit serviceConfig;
+      };
+
+      geoclue-agent = lib.mkIf (config.location.provider == "geoclue2") {
+        inherit serviceConfig;
+      };
+    };
 
     assertions = lib.singleton {
       assertion = lib.mutuallyExclusive cfg.performance cfg.efficiency;
