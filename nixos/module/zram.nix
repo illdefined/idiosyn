@@ -39,6 +39,7 @@
           echo "$dev" >"$RUNTIME_DIRECTORY/device"
 
           echo zstd >"/sys/block/zram$dev/comp_algorithm"
+          echo "algo=zstd level=1" >"/sys/block/zram$dev/algorithm_params"
           echo "$((pages * pagesize * 3 / 2))" >"/sys/block/zram$dev/disksize"
 
           mkswap "/dev/zram$dev"
