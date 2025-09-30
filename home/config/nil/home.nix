@@ -432,6 +432,8 @@ in {
     "d %t/tmp 700 - - 24h"
   ];
 
+  systemd.user.services.ssh-agent.Service.Slice = "app-efficiency.slice";
+
   xdg.configFile."ov/config.yaml".text = builtins.toJSON {
     DisableMouse = true;
     General = {
