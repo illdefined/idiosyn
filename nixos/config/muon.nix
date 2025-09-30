@@ -162,7 +162,7 @@ imports = [
   ephemeral.boot.fsType = "vfat";
   ephemeral.subvolumes."/home" = {
     options = [ "nodev" "nosuid" ];
-    extraOptions = [ "noatime" "compress=zstd" ];
+    extraOptions = [ "lazytime" "compress=zstd:1" ];
   };
 
   networking.firewall.extraInputRules = ''
