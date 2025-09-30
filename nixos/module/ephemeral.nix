@@ -118,7 +118,7 @@ let
       options = [ "nodev" "noexec" "nosuid" ];
     };
   } |> lib.mapAttrs (name: subvol: subvol // {
-    extraOptions = [ "lazytime" "autodefrag" "compress=zstd" ];
+    extraOptions = [ "lazytime" "autodefrag" "compress=zstd:1" ];
   });
 in {
   options = {
@@ -163,7 +163,7 @@ in {
         example = {
           "/home" = {
             options = [ "nodev" "noexec" "nosuid" ];
-            extraOptions = [ "lazytime" "compress=zstd" ];
+            extraOptions = [ "lazytime" "compress=zstd:1" ];
           };
         };
       };
