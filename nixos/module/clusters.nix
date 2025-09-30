@@ -3,9 +3,14 @@
 let
   cfg = config.hardware.cpu.clusters;
 
-  concat = lib.concatMapStringsSep "," toString;
+  concat = set: set
+    |> lib.sort (p: q: p < q)
+    |> lib.unique
+    |> lib.concatMapStringsSep "," toString;
+
   performance = concat cfg.performance;
   efficiency = concat cfg.efficiency;
+  combined = concat (cfg.performance ++ cfg.efficiency);
 in {
   options = {
     hardware.cpu.clusters = {
@@ -38,10 +43,12 @@ in {
 
     systemd.slices = lib.genAttrs [ "system" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
+      sliceConfig.StartupAllowedCPUs = combined;
     });
 
     systemd.user.slices = lib.genAttrs [ "session" "background" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
+      sliceConfig.StartupAllowedCPUs = combined;
     });
 
     assertions = lib.singleton {
