@@ -51,6 +51,10 @@ in {
       sliceConfig.StartupAllowedCPUs = combined;
     });
 
+    systemd.user.services = lib.genAttrs [ "geoclue-agent" ] (service: {
+      serviceConfig.Slice = "app-efficiency.slice";
+    });
+
     assertions = lib.singleton {
       assertion = lib.mutuallyExclusive cfg.performance cfg.efficiency;
       message = "Performance and efficiency clusters must not overlap";
