@@ -46,7 +46,7 @@ in {
       sliceConfig.StartupAllowedCPUs = combined;
     });
 
-    systemd.user.slices = lib.genAttrs [ "session" "background" ] (slice: {
+    systemd.user.slices = lib.genAttrs [ "session" "app-efficiency" "background" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
       sliceConfig.StartupAllowedCPUs = combined;
     });
