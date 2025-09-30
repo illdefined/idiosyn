@@ -368,6 +368,8 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         After = [ "graphical-session.target" ];
       };
     };
+
+    syncthing.Service.Slice = "background.slice";
   };
 
   xdg.mimeApps.enable = true;
