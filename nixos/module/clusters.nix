@@ -40,7 +40,7 @@ in {
       sliceConfig.AllowedCPUs = efficiency;
     });
 
-    systemd.user.slices = lib.genAttrs [ "session" ] (slice: {
+    systemd.user.slices = lib.genAttrs [ "session" "background" ] (slice: {
       sliceConfig.AllowedCPUs = efficiency;
     });
 
