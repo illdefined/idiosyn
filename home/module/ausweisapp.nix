@@ -67,6 +67,7 @@ in {
           ] |> toString;
 
           RuntimeDirectory = "ausweisapp";
+          Slice = "app-efficiency.slice";
         };
       };
 
@@ -170,6 +171,8 @@ in {
 
           SocketBindAllow = toString [ "24727" ];
           SocketBindDeny = "any";
+
+          Slice = "app-efficiency.slice";
         };
 
         Install = {

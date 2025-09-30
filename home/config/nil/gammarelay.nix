@@ -12,6 +12,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
         BusName = "rs.wl-gammarelay";
         ExecStart = lib.getExe pkgs.wl-gammarelay-rs;
         Restart = "on-failure";
+        Slice = "app-efficiency.slice";
       };
 
       Install = {

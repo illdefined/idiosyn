@@ -370,7 +370,14 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     syncthing.Service.Slice = "background.slice";
-  };
+  } // lib.genAttrs [
+    "mopidy"
+    "playerctld"
+    "swayidle"
+    "waybar"
+  ] (_: {
+    Service.Slice = "app-efficiency.slice";
+  });
 
   xdg.mimeApps.enable = true;
 
