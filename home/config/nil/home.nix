@@ -20,6 +20,7 @@ in {
     ./gammarelay.nix
     ./founts.nix
     ./editor.nix
+    ./clang.nix
     ./rust.nix
     ./desktop.nix
     ./bar.nix
