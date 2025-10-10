@@ -18,7 +18,7 @@ in {
         lldb
         marksman
         mesonlsp
-        nil
+        nixd
         perlnavigator
         ruff
         rust-analyzer
