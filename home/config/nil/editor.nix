@@ -32,8 +32,8 @@ in {
 
     settings = {
       editor = {
-        text-width = 132;
-        rulers = [ 80 132 ];
+        text-width = 120;
+        rulers = [ 80 120 ];
 
         default-line-ending = "lf";
 
