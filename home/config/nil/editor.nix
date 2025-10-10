@@ -15,6 +15,7 @@ in {
         cmake-language-server
         dot-language-server
         elixir-ls
+        gopls
         lldb
         marksman
         mesonlsp
