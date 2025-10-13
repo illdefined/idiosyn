@@ -53,12 +53,10 @@ imports = [
     extraProfiles = {
       lowlatency = true;
       dm-crypt = true;
+      emu32 = true;
     };
 
     extraConfig = with linux-hardened.lib.kernel; {
-      IA32_EMULATION = true;
-      COMPAT_32BIT_TIME = true;
-
       IP_MULTICAST = true;
 
       IPV6_ROUTER_PREF = true;
