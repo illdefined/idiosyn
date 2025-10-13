@@ -57,12 +57,6 @@ imports = [
     };
 
     extraConfig = with linux-hardened.lib.kernel; {
-      IP_MULTICAST = true;
-
-      IPV6_ROUTER_PREF = true;
-      IPV6_ROUTE_INFO = true;
-      IPV6_OPTIMISTIC_DAD = true;
-
       ETHERNET = true;
       AQTION = true;
       USB_IPHETH = true;
