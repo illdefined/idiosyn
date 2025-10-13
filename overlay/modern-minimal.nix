@@ -12,7 +12,6 @@ let
   prev' = prev;
 
 in {
-  gnome-settings-daemon = null;
   libselinux = null;
   networkmanager = null;
 
@@ -45,6 +44,15 @@ in {
   gnome-keyring = prev.gnome-keyring.overrideAttrs(prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
   });
+
+  gnome-settings-daemon = final.stdenv.mkDerivation {
+    pname = "gnome-settings-daemon-stub";
+    version = "0";
+
+    buildCommand = ''
+      mkdir -p "$out/share/gsettings-schemas"
+    '';
+  };
 
   imv = (prev.imv.overrideAttrs(prevAttrs: {
     buildInputs = prevAttrs.buildInputs or [ ]
