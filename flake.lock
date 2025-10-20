@@ -369,11 +369,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1760985744,
-        "narHash": "sha256-lc9RZgOzCI6E3Frtv2fdSmbQVxJhUF/21p2ySj9mV74=",
+        "lastModified": 1760990078,
+        "narHash": "sha256-4kfg+N4QsxBY3TRXjp+3qsrlAFJ6e3hC17zKNr518uo=",
         "ref": "refs/heads/main",
-        "rev": "1f9223bf5af3533134661eb8d50f6f11a2184668",
-        "revCount": 159,
+        "rev": "63fd62d314b1784b335a65730ddf4a411ec28deb",
+        "revCount": 160,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
