@@ -50,6 +50,7 @@ in {
 
       # Enable transparent hugepages
       "transparent_hugepage=always"
+      "transparent_hugepage_tmpfs=within_size"
 
       # Suspend USB devices without delay
       "usbcore.autosuspend=0"
