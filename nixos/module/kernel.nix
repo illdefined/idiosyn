@@ -1,4 +1,6 @@
-{ self, linux-hardened, ... }: { lib, pkgs, ... }: {
+{ self, linux-hardened, ... }: { lib, pkgs, ... }: let
+  inherit (pkgs.stdenv) hostPlatform;
+in {
   boot.consoleLogLevel = lib.mkDefault 3;
 
   boot.initrd = {
@@ -6,6 +8,20 @@
     includeDefaultModules = lib.mkDefault false;
     luks.cryptoModules = lib.mkDefault [ ];
     verbose = lib.mkDefault false;
+
+    compressor = lib.mkDefault "xz";
+    compressorArgs = [
+      "--check=crc32"
+      "--threads=1"
+    ] ++ (
+      with hostPlatform;
+        if isRiscV then [ "--riscv" ]
+        else if isAarch64 then [ "--arm64" ]
+        else if isx86 then [ "--x86" ]
+        else [ ]
+    ) ++ [
+      "--lzma2=${lib.optionalString (with hostPlatform; isRiscV || isAarch64) "lp=2,lc=2,"}dict=128MiB"
+    ] |> lib.mkDefault;
   };
 
   boot.kernelPackages = lib.mkDefault
