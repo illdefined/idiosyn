@@ -28,30 +28,35 @@ in {
     (pkgs.linuxPackagesFor linux-hardened.packages.${pkgs.system}.default);
   boot.modprobeConfig.enable = lib.mkDefault false;
 
-  boot.kernelParams = [
-    # Disable kernel messages on the console
-    "quiet"
+  boot.kernelParams = lib.mkMerge [
+    [
+      # Disable kernel messages on the console
+      "quiet"
 
-    # Zero‐fill page and slab allocations on free
-    "init_on_free=1"
+      # Zero‐fill page and slab allocations on free
+      "init_on_free=1"
 
-    # Disable I/O delay
-    "io_delay=none"
+      # Disable I/O delay
+      "io_delay=none"
 
-    # Enable page allocator free list randomisation
-    "page_alloc.shuffle=1"
+      # Enable page allocator free list randomisation
+      "page_alloc.shuffle=1"
 
-    # Disable slab merging
-    "slab_nomerge"
+      # Disable slab merging
+      "slab_nomerge"
 
-    # Disable vsyscall mechanism
-    "vsyscall=none"
+      # Disable vsyscall mechanism
+      "vsyscall=none"
 
-    # Enable transparent hugepages
-    "transparent_hugepage=always"
+      # Enable transparent hugepages
+      "transparent_hugepage=always"
 
-    # Suspend USB devices without delay
-    "usbcore.autosuspend=0"
+      # Suspend USB devices without delay
+      "usbcore.autosuspend=0"
+    ]
+    (lib.mkIf pkgs.stdenv.hostPlatform.isx86 [
+      "split_lock_detect=ratelimit:1000"
+    ])
   ];
 
   boot.kernel.sysctl = {
