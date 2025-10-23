@@ -13,6 +13,7 @@
     nix
     openssh
     powersupply
+    pstore
     security
     users
     zram
