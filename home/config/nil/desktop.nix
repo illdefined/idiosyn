@@ -36,6 +36,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     qpdf
     restic
     simple-scan
+    threema-desktop
     tokei
 
     config.programs.niri.package
