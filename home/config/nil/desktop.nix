@@ -35,6 +35,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     openssl
     qpdf
     restic
+    signal-desktop
     simple-scan
     threema-desktop
     tokei
