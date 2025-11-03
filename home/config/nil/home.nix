@@ -190,6 +190,11 @@ in {
 
   programs.carapace.enable = true;
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+  };
+
   programs.eza = {
     enable = true;
     enableNushellIntegration = true;
@@ -216,7 +221,6 @@ in {
     key = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICczPHRwY9MAwDGlcB0QgMOJjcpLJhVU3covrW9RBS62AAAABHNzaDo=";
   in {
     enable = true;
-    delta.enable = true;
     lfs.enable = true;
 
     signing = {
