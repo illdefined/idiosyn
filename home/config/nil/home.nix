@@ -7,6 +7,7 @@ let
 
   bat = lib.getExe config.programs.bat.package;
   col = lib.getExe' pkgs.util-linux "col";
+  ffmpeg = lib.getExe pkgs.ffmpeg-headless;
   ov = lib.getExe pkgs.ov;
   nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
   nu = lib.getExe config.programs.nushell.package;
@@ -433,6 +434,27 @@ in {
         | transpose --header-row --as-record
         | load-env
     '';
+  };
+
+  programs.yt-dlp = lib.mkIf (osConfig.hardware.graphics.enable or false) {
+    enable = true;
+    settings = {
+      concurrent-fragments = 2;
+
+      trim-filenames = 255;
+
+      remux-video = "mkv";
+      video-multistreams = true;
+      audio-multistreams = true;
+      embed-subs = true;
+      embed-thumbnail = true;
+      embed-metadata = true;
+      embed-chapters = true;
+      embed-info-json = true;
+      ffmpeg-location = ffmpeg;
+
+      sponsorblock-mark = "all";
+    };
   };
 
   services.ssh-agent.enable = true;
