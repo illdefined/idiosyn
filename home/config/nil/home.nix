@@ -3,12 +3,14 @@
 let
   osConfig = args.osConfig or { };
 
+  inherit (pkgs.stdenv) hostPlatform;
+
   bat = lib.getExe config.programs.bat.package;
   col = lib.getExe' pkgs.util-linux "col";
   ov = lib.getExe pkgs.ov;
   nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
   nu = lib.getExe config.programs.nushell.package;
-  sh = lib.getExe self.packages.${pkgs.system}.hush;
+  sh = lib.getExe self.packages.${hostPlatform.system}.hush;
 in {
   imports = [
     self.homeModules.greedy
@@ -42,14 +44,14 @@ in {
   };
 
   home.file.".nix-defexpr/channels/nixpkgs/programs.sqlite".source =
-    nix-index-database.packages.${pkgs.system}.nix-channel-index-programs;
+    nix-index-database.packages.${hostPlatform.system}.nix-channel-index-programs;
 
   home.packages = with pkgs; [
     # Terminfo
     kitty.terminfo
 
     # Minimal POSIX shell
-    self.packages.${system}.hush
+    self.packages.${hostPlatform.system}.hush
 
     # Core utilities
     (lib.meta.setPrio 0 uutils-coreutils-noprefix)
@@ -76,7 +78,7 @@ in {
 
     jaq
 
-    ripgrep-all.packages.${system}.default
+    ripgrep-all.packages.${hostPlatform.system}.default
 
     # Carapace
     carapace-bridge
@@ -133,7 +135,7 @@ in {
 
   home.shell.enableNushellIntegration = true;
 
-  i18n.glibcLocales = self.packages.${pkgs.system}.locale-en_EU.override {
+  i18n.glibcLocales = self.packages.${hostPlatform.system}.locale-en_EU.override {
     locales = [
       "en_EU.UTF-8/UTF-8"
       "en_US.UTF-8/UTF-8"
@@ -359,7 +361,7 @@ in {
             try {
               let pkgs = (
                 `${nix-locate}`
-                --db `${nix-index-database.packages.${pkgs.system}.nix-index-database}`
+                --db `${nix-index-database.packages.${hostPlatform.system}.nix-index-database}`
                 --type x --type s --no-group --whole-name --at-root --minimal
                 $"/bin/($cmd_name)"
               )

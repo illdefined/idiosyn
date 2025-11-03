@@ -25,7 +25,7 @@ in {
   };
 
   boot.kernelPackages = lib.mkDefault
-    (pkgs.linuxPackagesFor linux-hardened.packages.${pkgs.system}.default);
+    (pkgs.linuxPackagesFor linux-hardened.packages.${hostPlatform.system}.default);
   boot.modprobeConfig.enable = lib.mkDefault false;
 
   boot.kernelParams = lib.mkMerge [

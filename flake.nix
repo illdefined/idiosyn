@@ -164,7 +164,7 @@
 
       nixos = self.nixosConfigurations
       |> lib.mapAttrs (name: host: {
-        ${host.pkgs.system} = host.config.system.build.toplevel;
+        ${host.pkgs.stdenv.hostPlatform.system} = host.config.system.build.toplevel;
       });
     };
   };

@@ -2,13 +2,15 @@
 let
   osConfig = args.osConfig or { };
 
+  inherit (pkgs.stdenv) hostPlatform;
+
   helix = lib.getExe config.programs.helix.package;
   mpv = lib.getExe config.programs.mpv.package;
   xdg-open = lib.getExe' pkgs.xdg-utils "xdg-open";
 in {
   programs.yazi = {
     enable = true;
-    plugins = with self.packages.${pkgs.system}; {
+    plugins = with self.packages.${hostPlatform.system}; {
       git = yazi-git;
       hexyl = yazi-hexyl;
       mdcat = yazi-mdcat;

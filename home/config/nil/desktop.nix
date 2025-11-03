@@ -2,6 +2,8 @@
 let
   osConfig = args.osConfig or { };
 
+  inherit (pkgs.stdenv) hostPlatform;
+
   brightnessctl = lib.getExe pkgs.brightnessctl;
   dbus-update = pkgs.dbus + /bin/dbus-update-activation-environment;
   fuzzel = lib.getExe config.programs.fuzzel.package;
@@ -20,7 +22,7 @@ let
 
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
-    firefox.packages.${pkgs.system}.thunderbird
+    firefox.packages.${hostPlatform.system}.thunderbird
 
     calibre
     fractal

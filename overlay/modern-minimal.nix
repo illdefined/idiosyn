@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }: final: prev:
 
 let
-  inherit (final) system;
+  inherit (final.stdenv) hostPlatform;
   inherit (nixpkgs.lib.attrsets) genAttrs mapAttrsToList;
   inherit (nixpkgs.lib.lists) remove subtractLists toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;

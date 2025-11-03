@@ -1,6 +1,8 @@
 { mpv-rtkit, ... }: { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
+
+  inherit (pkgs.stdenv) hostPlatform;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   programs.mpv = {
     enable = true;
@@ -49,7 +51,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
 
     scripts = with pkgs.mpvScripts; [
-      mpv-rtkit.packages.${pkgs.system}.default
+      mpv-rtkit.packages.${hostPlatform.system}.default
       mpris
       autocrop
       autodeint

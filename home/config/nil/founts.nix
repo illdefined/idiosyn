@@ -2,7 +2,8 @@
 let
   osConfig = args.osConfig or { };
 
-  inherit (iosevka.packages.${pkgs.system}) iosevka-idiosyn-sans-term;
+  inherit (pkgs.stdenv) hostPlatform;
+  inherit (iosevka.packages.${hostPlatform.system}) iosevka-idiosyn-sans-term;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   fonts.fontconfig = {
     enable = true;

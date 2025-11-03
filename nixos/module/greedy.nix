@@ -1,6 +1,6 @@
 { self, ... }: { config, lib, pkgs, ... }:
 let
-  inherit (self.packages.${pkgs.system}) greedy;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) greedy;
 in {
   services.xserver.xkb = {
     layout = "greedy" |> lib.mkDefault;
