@@ -66,6 +66,35 @@ in {
       ++ [ "-DWITH_X11:BOOL=OFF" ];
   });
 
+  mesa = (prev.mesa.override {
+    galliumDrivers = [
+      "llvmpipe"
+      "virgl"
+      "zink"
+
+      "asahi"
+      "freedreno"
+
+      "iris"
+      "nouveau"
+      "radeonsi"
+    ];
+
+    vulkanDrivers = [
+      "swrast"
+      "virtio"
+
+      "asahi"
+      "freedreno"
+
+      "amd"
+      "intel"
+      "nouveau"
+    ];
+  }).overrideAttrs (prevAttrs: {
+    outputs = remove "spirv2dxil" prevAttrs.outputs;
+  });
+
   mpv-unwrapped = prev.mpv-unwrapped.override {
     alsaSupport = false;
     cacaSupport = false;
