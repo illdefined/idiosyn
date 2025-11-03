@@ -217,6 +217,7 @@ in {
   in {
     enable = true;
     delta.enable = true;
+    lfs.enable = true;
 
     userName = "Mikael Voss";
     userEmail = "mvs@nyantec.com";
