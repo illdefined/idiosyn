@@ -219,16 +219,18 @@ in {
     delta.enable = true;
     lfs.enable = true;
 
-    userName = "Mikael Voss";
-    userEmail = "mvs@nyantec.com";
-
     signing = {
       key = "key::${key}";
       format = "ssh";
       signByDefault = true;
     };
 
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Mikael Voss";
+        email = "mvs@nyantec.com";
+      };
+
       core = {
         eol = "lf";
         fsync = "committed";
@@ -243,7 +245,7 @@ in {
       rebase.autoStash = true;
 
       gpg.ssh.allowedSignersFile = toString (pkgs.writeText "allowed-signers" ''
-        ${config.programs.git.userEmail} ${key}
+        ${config.programs.git.settings.user.email} ${key}
       '');
     };
   };
