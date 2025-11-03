@@ -11,6 +11,10 @@ let
   nix-locate = lib.getExe' config.programs.nix-index.package "nix-locate";
   nu = lib.getExe config.programs.nushell.package;
   sh = lib.getExe self.packages.${hostPlatform.system}.hush;
+
+  userAgent = let
+    rv = lib.versions.majorMinor (config.programs.firefox.package.version or pkgs.firefox.version);
+  in "Mozilla/5.0 (X11; ${hostPlatform.uname.system} ${hostPlatform.uname.processor}; rv:${rv}) Gecko/20100101 Firefox/${rv}";
 in {
   imports = [
     self.homeModules.greedy
@@ -143,6 +147,10 @@ in {
   programs.aria2 = {
     enable = true;
     settings = {
+      user-agent = userAgent;
+      load-cookies = lib.mkIf config.programs.firefox.enable
+        "${config.home.homeDirectory}/.mozilla/firefox/default/cookies.sqlite";
+
       max-concurrent-downloads = 4;
       max-connection-per-server = 2;
       min-split-size = "16M";
