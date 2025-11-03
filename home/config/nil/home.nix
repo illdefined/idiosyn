@@ -1,4 +1,4 @@
-{ self, catppuccin, nix-index-database, niri, ripgrep-all, ... }:
+{ self, catppuccin, nix-index-database, niri, ... }:
 { config, lib, pkgs, ... }@args:
 let
   osConfig = args.osConfig or { };
@@ -77,8 +77,6 @@ in {
     fend
 
     jaq
-
-    ripgrep-all.packages.${hostPlatform.system}.default
 
     # Carapace
     carapace-bridge

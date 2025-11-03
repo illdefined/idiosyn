@@ -56,12 +56,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ripgrep-all = {
-      url = "github:phiresky/ripgrep-all";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rust-overlay.follows = "rust-overlay";
-    };
-
     mpv-rtkit = {
       url = "git+https://woof.rip/mikael/mpv-rtkit.git";
       inputs.nixpkgs.follows = "nixpkgs";
