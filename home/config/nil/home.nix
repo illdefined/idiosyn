@@ -167,6 +167,14 @@ in {
 
   programs.bat = {
     enable = true;
+
+    package = pkgs.bat.overrideAttrs (prevAttrs: {
+      src = prevAttrs.src.overrideAttrs {
+        # fetch syntax assets
+        fetchSubmodules = true;
+      };
+    });
+
     config = {
       style = lib.concatStringsSep "," [
         "numbers"
