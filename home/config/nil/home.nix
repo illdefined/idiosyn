@@ -472,12 +472,12 @@ in {
       SECRET_BACKEND TMPDIR XDG_CACHE_HOME XDG_STATE_HOME;
   };
 
-  systemd.user.tmpfiles.settings.home.rules = {
-    "%C".d.age = "90 days";
-    "%S".d.age = "270 days";
-    "%t/ssh".d = { };
-    "%t/tmp".d.age = "24 hours";
-  };
+  systemd.user.tmpfiles.rules = [
+    "d %C 700 - - 90d"
+    "d %S 700 - - 270d"
+    "d %t/ssh 700"
+    "d %t/tmp 700 - - 24h"
+  ];
 
   systemd.user.services.ssh-agent.Service.Slice = "app-efficiency.slice";
 
