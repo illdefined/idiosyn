@@ -11,10 +11,12 @@ in {
   programs.yazi = {
     enable = true;
     plugins = with self.packages.${hostPlatform.system}; {
-      git = yazi-git;
+      inherit (pkgs.yaziPlugins)
+        git
+        mediainfo;
+
       hexyl = yazi-hexyl;
       mdcat = yazi-mdcat;
-      mediainfo = yazi-mediainfo;
       office = lib.mkIf osConfig.hardware.graphics.enable or false
         yazi-office;
     };
