@@ -27,6 +27,7 @@ in {
         python3Packages.python-lsp-server
         ruff
         rust-analyzer
+        systemd-lsp
         taplo
         texlab
         typescript-language-server
