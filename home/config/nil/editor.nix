@@ -23,6 +23,8 @@ in {
         neocmakelsp
         nixd
         perlnavigator
+        python3Packages.jedi
+        python3Packages.python-lsp-server
         ruff
         rust-analyzer
         taplo
