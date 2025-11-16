@@ -18,7 +18,7 @@ in {
         elixir-ls
         gopls
         lldb
-        marksman
+        markdown-oxide
         mesonlsp
         neocmakelsp
         nixd
