@@ -8,6 +8,7 @@ in {
     defaultEditor = true;
     extraPackages = lib.mkIf (osConfig.hardware.graphics.enable or false)
       (with pkgs; [
+        asm-lsp
         awk-language-server
         bash-language-server
         bitbake-language-server
