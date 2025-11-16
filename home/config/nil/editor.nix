@@ -13,6 +13,7 @@ in {
         bitbake-language-server
         clang-tools
         cmake-language-server
+        crates-lsp
         dot-language-server
         elixir-ls
         gopls
@@ -29,6 +30,33 @@ in {
         vscode-langservers-extracted
         yaml-language-server
       ]);
+
+    languages = {
+      language-server = {
+        crates-lsp = {
+          command = lib.getExe pkgs.crates-lsp;
+          except-features = [ "format" ];
+        };
+      };
+
+      language = [
+        {
+          name = "toml";
+          language-servers = [
+            "crates-lsp"
+            "taplo"
+          ];
+
+          formatter = {
+            command = lib.getExe pkgs.taplo;
+            args = [
+              "fmt"
+              "-"
+            ];
+          };
+        }
+      ];
+    };
 
     settings = {
       editor = {
