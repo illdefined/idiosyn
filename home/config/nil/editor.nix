@@ -12,7 +12,6 @@ in {
         bash-language-server
         bitbake-language-server
         clang-tools
-        cmake-language-server
         crates-lsp
         dot-language-server
         elixir-ls
@@ -20,6 +19,7 @@ in {
         lldb
         marksman
         mesonlsp
+        neocmakelsp
         nixd
         perlnavigator
         ruff
