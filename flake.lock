@@ -78,11 +78,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1764702207,
-        "narHash": "sha256-wviO24KOzUoOLBrsEhFacPeP2nxEANPrItYj8EAjVwM=",
+        "lastModified": 1764715019,
+        "narHash": "sha256-4tnVSnmr7ZqGvulR534Oefyh1a6BeWj28i6nQX33KIw=",
         "ref": "refs/heads/main",
-        "rev": "3c2b8c2cdf811c05006f3cf3682691860e4ee3df",
-        "revCount": 103,
+        "rev": "87c5eedd453d5c162e46710c19c924e1d9248ad7",
+        "revCount": 104,
         "type": "git",
         "url": "https://woof.rip/mikael/firefox.git"
       },
@@ -220,9 +220,8 @@
       "locked": {
         "lastModified": 1750677630,
         "narHash": "sha256-IKEHmrUmE7R4o5xFkbBsN7Ncmc8/jBsEdNLh3EsbeSA=",
-        "rev": "575dec54bdbd2265476dbd6de8cd682ff3730f10",
         "type": "tarball",
-        "url": "https://woof.rip/api/v1/repos/mikael/iosevka/archive/575dec54bdbd2265476dbd6de8cd682ff3730f10.tar.gz?rev=575dec54bdbd2265476dbd6de8cd682ff3730f10"
+        "url": "https://woof.rip/mikael/iosevka/archive/main.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -259,11 +258,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1764682393,
-        "narHash": "sha256-5gDuVer8EZS2JOSC03aWMp2NysCfH7YuHOCHvdnTWIE=",
+        "lastModified": 1764714965,
+        "narHash": "sha256-UHlnyEeIK/97jVSfvtU+7D+H2sNj77NAqRDbXHhqpWY=",
         "ref": "refs/heads/main",
-        "rev": "e238c96f15ce467f37742dfc0b253aaf4c02afc7",
-        "revCount": 178,
+        "rev": "e2841d5c27d09cba0daedd3c7ec0210f8d8dc305",
+        "revCount": 180,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -275,11 +274,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1764672350,
-        "narHash": "sha256-BSfur4W4yq35UOPdEN21A4sk+lGJS/U1M9fD7Pgz1qc=",
-        "rev": "06f987fb0c8f96730edc15599dd62705a37cfca5",
+        "lastModified": 1764705158,
+        "narHash": "sha256-odDOzewTaSFY47OAhKPox8NOfYKmeJ9EBAr1Y+ghPF8=",
+        "rev": "8353b3cc6a3e07b4a83518e9d8d90fb2d3492239",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/06f987fb0c8f96730edc15599dd62705a37cfca5.tar.gz?rev=06f987fb0c8f96730edc15599dd62705a37cfca5"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/8353b3cc6a3e07b4a83518e9d8d90fb2d3492239.tar.gz?rev=8353b3cc6a3e07b4a83518e9d8d90fb2d3492239"
       },
       "original": {
         "type": "tarball",
@@ -339,11 +338,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1764659906,
-        "narHash": "sha256-GV5/TfQCW37mZ5R2oyrklptgRdSZrOoXs5cpz1I/8Uk=",
+        "lastModified": 1764683594,
+        "narHash": "sha256-hWFL1ZJCHx2DdusmWFkNPmIPx5cx0ncQORYXUH/zsQg=",
         "owner": "sodiboo",
         "repo": "niri-flake",
-        "rev": "6e349f78f8df536aac24e04a64fdc79ae0e02ed3",
+        "rev": "e6076aa9ff269a723cf8f558ee7471c4efce3a67",
         "type": "github"
       },
       "original": {
@@ -372,11 +371,11 @@
     "niri-unstable": {
       "flake": false,
       "locked": {
-        "lastModified": 1764485473,
-        "narHash": "sha256-RlGEcuZFB/IdvYLrYsf0RpgvNtCMyIuBLt3lS+GZvP8=",
+        "lastModified": 1764678181,
+        "narHash": "sha256-TMs2Px19UAG06zITXAH7efl7X8G7BDyMCy1ilX/8wy0=",
         "owner": "YaLTeR",
         "repo": "niri",
-        "rev": "311ca6b5da19f5acd7d3e481620de57240ce8f7c",
+        "rev": "f874b2fce50e0f7ba21e270c86cfa168a1506b82",
         "type": "github"
       },
       "original": {
@@ -475,11 +474,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1764611609,
-        "narHash": "sha256-HKuzFDYOPi7phsIylpki5NdWiWRNepMKgYJvSrUU8Lo=",
-        "rev": "8c29968b3a942f2903f90797f9623737c215737c",
+        "lastModified": 1764642553,
+        "narHash": "sha256-4bdSI51wM5D29KfMM1vu4gNEwZMNsg9WMtZIABmExB4=",
+        "rev": "f720de59066162ee879adcc8c79e15c51fe6bfb4",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905078.8c29968b3a94/nixexprs.tar.xz?lastModified=1764611609&rev=8c29968b3a942f2903f90797f9623737c215737c"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905319.f720de590661/nixexprs.tar.xz?lastModified=1764642553&rev=f720de59066162ee879adcc8c79e15c51fe6bfb4"
       },
       "original": {
         "type": "tarball",
@@ -501,11 +500,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1764611609,
-        "narHash": "sha256-HKuzFDYOPi7phsIylpki5NdWiWRNepMKgYJvSrUU8Lo=",
-        "rev": "8c29968b3a942f2903f90797f9623737c215737c",
+        "lastModified": 1764642553,
+        "narHash": "sha256-4bdSI51wM5D29KfMM1vu4gNEwZMNsg9WMtZIABmExB4=",
+        "rev": "f720de59066162ee879adcc8c79e15c51fe6bfb4",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905078.8c29968b3a94/nixexprs.tar.xz?lastModified=1764611609&rev=8c29968b3a942f2903f90797f9623737c215737c"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905319.f720de590661/nixexprs.tar.xz?lastModified=1764642553&rev=f720de59066162ee879adcc8c79e15c51fe6bfb4"
       },
       "original": {
         "type": "tarball",
@@ -514,11 +513,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1764611609,
-        "narHash": "sha256-HKuzFDYOPi7phsIylpki5NdWiWRNepMKgYJvSrUU8Lo=",
-        "rev": "8c29968b3a942f2903f90797f9623737c215737c",
+        "lastModified": 1764642553,
+        "narHash": "sha256-4bdSI51wM5D29KfMM1vu4gNEwZMNsg9WMtZIABmExB4=",
+        "rev": "f720de59066162ee879adcc8c79e15c51fe6bfb4",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905078.8c29968b3a94/nixexprs.tar.xz?lastModified=1764611609&rev=8c29968b3a942f2903f90797f9623737c215737c"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre905319.f720de590661/nixexprs.tar.xz?lastModified=1764642553&rev=f720de59066162ee879adcc8c79e15c51fe6bfb4"
       },
       "original": {
         "type": "tarball",
