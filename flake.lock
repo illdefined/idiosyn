@@ -78,11 +78,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1764682428,
-        "narHash": "sha256-BE0SqDqQu6T0RUiEgL4KuKrUtWXj5c+A2dTUmthDtYs=",
+        "lastModified": 1764702207,
+        "narHash": "sha256-wviO24KOzUoOLBrsEhFacPeP2nxEANPrItYj8EAjVwM=",
         "ref": "refs/heads/main",
-        "rev": "86813adac8ca1e2d47878f1f1f58cafa04822047",
-        "revCount": 102,
+        "rev": "3c2b8c2cdf811c05006f3cf3682691860e4ee3df",
+        "revCount": 103,
         "type": "git",
         "url": "https://woof.rip/mikael/firefox.git"
       },
@@ -275,11 +275,11 @@
     "lix": {
       "flake": false,
       "locked": {
-        "lastModified": 1764637364,
-        "narHash": "sha256-QFnWVaNNEhM9Q5RP52yj2zeB1mUfKVY96IFegnWLH94=",
-        "rev": "716a885def4eadc4a031a931eea1e8dc135341ad",
+        "lastModified": 1764672350,
+        "narHash": "sha256-BSfur4W4yq35UOPdEN21A4sk+lGJS/U1M9fD7Pgz1qc=",
+        "rev": "06f987fb0c8f96730edc15599dd62705a37cfca5",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/716a885def4eadc4a031a931eea1e8dc135341ad.tar.gz?rev=716a885def4eadc4a031a931eea1e8dc135341ad"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/archive/06f987fb0c8f96730edc15599dd62705a37cfca5.tar.gz?rev=06f987fb0c8f96730edc15599dd62705a37cfca5"
       },
       "original": {
         "type": "tarball",
