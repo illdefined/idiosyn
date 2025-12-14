@@ -66,8 +66,6 @@ in {
 
   nixpkgs.config.allowUnfree = lib.mkDefault true;
 
-  system.rebuild.enableNg = lib.mkDefault true;
-
   systemd = {
     services = {
       nix-daemon.serviceConfig = {
