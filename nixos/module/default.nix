@@ -85,7 +85,7 @@
     overlay.mutable = lib.mkDefault config.services.avahi.enable;
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   time.timeZone = lib.mkDefault "CET";
 
