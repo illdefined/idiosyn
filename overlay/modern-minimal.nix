@@ -104,10 +104,6 @@ in {
     x11Support = false;
   };
 
-  mpv = final.mpv-unwrapped.wrapper {
-    mpv = final.mpv-unwrapped;
-  };
-
   opensc = prev.opensc.overrideAttrs (prevAttrs: {
     version = "0.26.1-unstable-2025-09-15";
 
