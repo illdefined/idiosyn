@@ -67,7 +67,7 @@ in {
     skim
 
     # Networking
-    dogdns
+    dogedns
     whois
     xh
 
