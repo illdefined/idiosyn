@@ -314,11 +314,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744920434,
-        "narHash": "sha256-r1NbaDlJGnXhb007z3Khm+J4hK0HnOfvnfGFHwm0Las=",
+        "lastModified": 1767630228,
+        "narHash": "sha256-nWkLuPw8CzZLo0LrUIg/JdvI+gxN4fp9IIG0pRN/y1o=",
         "ref": "refs/heads/main",
-        "rev": "cf75e8a461e02152c8b7cdede855ee70568f5428",
-        "revCount": 23,
+        "rev": "3cf278060e870b84c375d96f2a57fbc84b2b108a",
+        "revCount": 24,
         "type": "git",
         "url": "https://woof.rip/mikael/mpv-rtkit.git"
       },
