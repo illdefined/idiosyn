@@ -31,7 +31,7 @@ in {
       description = "The AusweisApp2 package to use.";
       default = pkgs.ausweisapp.overrideAttrs (prevAttrs: {
         hardeningEnable = prevAttrs.hardeningEnable or [ ]
-          ++ [ "pie" "trivialautovarinit" ];
+          ++ [ "trivialautovarinit" ];
       });
     };
 
