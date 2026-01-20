@@ -32,7 +32,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     man-pages
     man-pages-posix
     nix-update
-    nixfmt-rfc-style
+    nixfmt
     nixpkgs-review
     openssl
     qpdf
