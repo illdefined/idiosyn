@@ -342,10 +342,10 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
 
   services.swayidle = {
     enable = true;
-    events = [
-      { event = "lock"; command = "${swaylock} -f"; }
-      { event = "before-sleep"; command = "${loginctl} lock-session"; }
-    ];
+    events = {
+      lock = "${swaylock} -f";
+      before-sleep = "${loginctl} lock-session";
+    };
 
     timeouts = [
       {
