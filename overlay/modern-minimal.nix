@@ -104,6 +104,8 @@ in {
     x11Support = false;
   };
 
+  nix = final.lixPackageSets.stable.lix;
+
   opensc = prev.opensc.overrideAttrs (prevAttrs: {
     version = "0.26.1-unstable-2025-09-15";
 

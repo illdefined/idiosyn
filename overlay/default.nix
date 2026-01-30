@@ -1,9 +1,8 @@
-{ self, nixpkgs, lix-module, colmena, rust-overlay, niri, ... }:
+{ self, nixpkgs, colmena, rust-overlay, niri, ... }:
 
 final: prev:
 
 nixpkgs.lib.composeManyExtensions [
-  lix-module.overlays.default
   colmena.overlays.default
   rust-overlay.overlays.default
   niri.overlays.niri

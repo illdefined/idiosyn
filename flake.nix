@@ -5,17 +5,6 @@
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        lix = {
-          url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
-          flake = false;
-        };
-      };
-    };
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
