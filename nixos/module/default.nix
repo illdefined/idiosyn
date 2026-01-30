@@ -76,6 +76,7 @@
 
   location.provider = lib.mkIf config.hardware.graphics.enable "geoclue2";
 
+  services.automatic-timezoned.enable = lib.mkDefault true;
   services.dbus.implementation = "broker";
   services.lvm.enable = lib.mkDefault false;
   services.userborn.enable = true;
@@ -86,8 +87,6 @@
   };
 
   system.stateVersion = "26.05";
-
-  time.timeZone = lib.mkDefault "CET";
 
   users.mutableUsers = false;
 }
