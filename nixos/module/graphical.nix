@@ -27,7 +27,11 @@
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
-  services.avahi.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+  };
 
   services.dbus.packages = with pkgs; [ oo7-server oo7-portal ];
 
