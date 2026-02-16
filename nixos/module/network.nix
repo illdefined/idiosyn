@@ -1,27 +1,69 @@
-{ ... }: { lib, name, ... }: {
-  networking.nameservers = [
-    "[2a01:4f8:1c0c:6c89::1]:853#resolve.nyantec.com"
-    "116.203.220.161:853#resolve.nyantec.com"
-  ];
-
+{ ... }: { config, lib, pkgs, name, ... }: {
   networking.hostName = lib.mkDefault name;
   networking.nftables.enable = true;
+  networking.resolvconf.enable = false;
   networking.useNetworkd = true;
 
-  services.resolved = {
-    enable = true;
-    settings = {
-      Resolve = {
-        DNSOverTLS = true;
-        DNSSEC = true;
+  environment.etc."resolv.conf".text = ''
+    nameserver ::1
+    nameserver 127.0.0.1
+    options timeout:30 edns0 trust-ad
+  '';
 
-        FallbackDNS = [
-          "2001:67c:930::1#wikimedia-dns.org"
-          "2620:fe::11#dns11.quad9.net"
-          "185.71.138.138#wikimedia-dns.org"
-          "9.9.9.11#dns11.quad9.net"
+  services.resolved.enable = false;
+
+  services.unbound = {
+    enable = true;
+    package = pkgs.unbound-with-systemd.override {
+      withTFO = true;
+    };
+
+    settings = {
+      server = {
+        num-threads = lib.max 2 (builtins.length config.hardware.cpu.clusters.efficiency);
+
+        interface = [ "lo" ];
+        access-control = [
+          "::1/128 allow"
+          "127.0.0.0/8 allow"
         ];
+
+        # upstream
+        tls-upstream = true;
+        tls-cert-bundle = config.security.pki.caBundle;
+
+        # downstream buffer sizes
+        edns-buffer-size = 65552;
+        max-udp-size = 65536;
+        stream-wait-size = "64m";
+
+        # cache
+        msg-cache-size = "16m";
+        rrset-cache-size = "32m";
+        cache-min-ttl = 60;
+        cache-max-negative-ttl = 300;
+
+        # serve expired cache entries
+        prefetch = true;
+        prefetch-key = true;
+        serve-expired = true;
+        ede = true;
+        ede-serve-expired = true;
+        val-log-level = 2;  # allow descriptive EDNS errors
       };
+
+      forward-zone = [
+        {
+          name = ".";
+          forward-tls-upstream = true;
+          forward-addr = [
+            "2a01:4f8:1c0c:6c89::1#resolve.nyantec.com"
+            "2a01:4f9:c011:b2f4::1#resolve.nyantec.com"
+            "116.203.220.161#resolve.nyantec.com"
+            "95.216.222.55#resolve.nyantec.com"
+          ];
+        }
+      ];
     };
   };
 
