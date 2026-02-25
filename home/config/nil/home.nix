@@ -38,6 +38,7 @@ in {
     ./mpv.nix
     ./music.nix
     ./yazi.nix
+    ./retroarch.nix
   ];
 
   home.stateVersion = "26.05";
