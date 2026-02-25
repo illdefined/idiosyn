@@ -26,12 +26,18 @@ let
     "hmac-sha2-512-etm@openssh.com"
     "hmac-sha2-256-etm@openssh.com"
   ];
+
+  qos = [ "cs2" "le" ];
 in {
   programs.ssh = {
     inherit ciphers kexAlgorithms macs;
     hostKeyAlgorithms = sigAlgorithms;
     pubkeyAcceptedKeyTypes = sigAlgorithms;
     setXAuthLocation = false;
+
+    extraConfig = ''
+      IPQoS ${lib.concatStringsSep " " qos}
+    '';
   };
 
   services.openssh = {
@@ -61,6 +67,7 @@ in {
       StreamLocalBindUnlink = true;
 
       ClientAliveInterval = 900;
+      IPQoS = lib.concatStringsSep " " qos;
     };
   };
 }
