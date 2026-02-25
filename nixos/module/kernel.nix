@@ -99,7 +99,7 @@ in {
     "net.ipv6.conf.all.accept_redirects" = 0;
 
     # Set default Qdisc
-    "net.core.default_qdisc" = "fq";
+    "net.core.default_qdisc" = "fq_codel";
 
     # Increase minimum PMTU
     "net.ipv4.route.min_pmtu" = 1280;
