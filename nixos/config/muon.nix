@@ -253,7 +253,6 @@ imports = [
 
   programs.wireshark = {
     enable = true;
-    package = pkgs.wireshark-qt;
     dumpcap.enable = true;
     usbmon.enable = true;
   };
