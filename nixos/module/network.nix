@@ -67,34 +67,29 @@
     };
   };
 
-  systemd.network.networks."98-ethernet-default-dhcp" = {
-    matchConfig.Type = "ether";
-    matchConfig.Name = "en*";
+  systemd.network.networks =
+  let
+    networkConfig = metric: matchConfig: {
+      inherit matchConfig;
 
-    DHCP = lib.mkDefault "yes";
-    dhcpV4Config.UseDNS = false;
-    dhcpV6Config.UseDNS = false;
-    ipv6AcceptRAConfig.Token = "prefixstable";
+      DHCP = lib.mkDefault "yes";
 
-    fairQueueingConfig.Pacing = true;
-  };
+      dhcpV4Config.UseDNS = false;
+      dhcpV6Config.UseDNS = false;
+      ipv6AcceptRAConfig.Token = "prefixstable";
+    } // lib.optionalAttrs (metric != null) {
+      dhcpV4Config.RouteMetric = metric;
+      ipv6AcceptRAConfig.RouteMetric = metric;
+    };
+  in {
+    "99-ethernet-default-dhcp" = networkConfig null {
+      Type = "ether";
+      Kind = "!*";
+    };
 
-  systemd.network.networks."98-wireless-client-dhcp" = {
-    matchConfig.Type = "wlan";
-    matchConfig.WLANInterfaceType = "station";
-
-    DHCP = lib.mkDefault "yes";
-    dhcpV4Config.UseDNS = false;
-    dhcpV4Config.RouteMetric = 1025;
-    dhcpV6Config.UseDNS = false;
-    ipv6AcceptRAConfig.Token = "prefixstable";
-    ipv6AcceptRAConfig.RouteMetric = 1025;
-
-    cakeConfig = {
-      Bandwidth = lib.mkDefault "100M";
-      AutoRateIngress = true;
-      UseRawPacketSize = false;
-      PriorityQueueingPreset = "diffserv4";
+    "99-wireless-client-dhcp" = networkConfig 1025 {
+      Type = "wlan";
+      WLANInterfaceType = "station";
     };
   };
 }
