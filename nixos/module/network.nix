@@ -82,6 +82,10 @@
       ipv6AcceptRAConfig.RouteMetric = metric;
     };
   in {
+    "98-tethering" = networkConfig 1026 {
+      Driver = "ipeth";
+    };
+
     "99-ethernet-default-dhcp" = networkConfig null {
       Type = "ether";
       Kind = "!*";
