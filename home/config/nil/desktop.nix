@@ -334,6 +334,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     };
   };
 
+  programs.rbw.enable = true;
   programs.swaylock.enable = true;
 
   services.ausweisapp.enable = true;
