@@ -28,7 +28,7 @@
     dev.enable = true;
     doc.enable = false;
     info.enable = false;
-    man.generateCaches = false;
+    man.cache.enable = false;
   };
 
   environment = {
