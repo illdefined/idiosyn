@@ -20,6 +20,12 @@ let
   wpctl = osConfig.services.pipewire.wireplumber.package + /bin/wpctl;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 
+  pinentry = pkgs.linkFarm "pinentry" [
+    {
+      name = "bin/pinentry";
+      path = lib.getExe' pkgs.wayprompt "pinentry-wayprompt";
+    }
+  ];
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
   home.packages = with pkgs; [
     firefox.packages.${hostPlatform.system}.thunderbird
@@ -35,6 +41,7 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
     nixfmt
     nixpkgs-review
     openssl
+    pinentry
     qpdf
     restic
     signal-desktop
