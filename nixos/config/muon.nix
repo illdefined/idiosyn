@@ -23,7 +23,6 @@ imports = [
 
   boot.kernelParams = [
     "intel_iommu=on"
-    "nouveau.config=NvGspRm=1"
     "thinkpad_acpi.fan_control=1"
   ];
 
@@ -67,7 +66,6 @@ imports = [
 
       DRM_NOUVEAU = true;
       DRM_NOUVEAU_SVM = true;
-      DRM_NOUVEAU_GSP_DEFAULT = true;
 
       HID_LOGITECH = true;
 
