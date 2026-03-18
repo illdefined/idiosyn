@@ -273,7 +273,7 @@ in {
   };
 
   programs.man.generateCaches =
-    osConfig.documentation.man.generateCaches or false;
+    osConfig.documentation.man.cache.enable or false;
 
   programs.ripgrep = {
     enable = true;
