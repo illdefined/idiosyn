@@ -20,7 +20,7 @@
     };
   };
 
-  services.thermald.enable = lib.mkDefault true;
+  services.thermald.enable = lib.mkDefault pkgs.stdenv.hostPlatform.isx86;
   services.tlp.enable = false;
 
   services.udev.packages = [
