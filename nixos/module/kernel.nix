@@ -49,7 +49,7 @@ in {
       "vsyscall=none"
 
       # Enable transparent hugepages
-      "transparent_hugepage=always"
+      "transparent_hugepage=madvise"
       "transparent_hugepage_shmem=within_size"
       "transparent_hugepage_tmpfs=within_size"
 
@@ -158,14 +158,16 @@ in {
     "vm.dirty_ratio" = 6;
   };
 
+  boot.kernel.sysfs = {
+    kernel.mm.tranparent_hugepage = {
+      enabled = "always";
+      defrag = "defer";
+      shmem_enabled = "within_size";
+    };
+  };
+
   # Work around initrd generation bug
   environment.etc."modprobe.d/nixos.conf".text = "";
 
   hardware.firmwareCompression = lib.mkDefault "xz";
-
-  systemd.tmpfiles.rules = [
-    "w- /sys/kernel/mm/transparent_hugepage/enabled       - - - - always"
-    "w- /sys/kernel/mm/transparent_hugepage/defrag        - - - - defer"
-    "w- /sys/kernel/mm/transparent_hugepage/shmem_enabled - - - - within_size"
-  ];
 }
