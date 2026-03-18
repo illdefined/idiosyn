@@ -71,13 +71,6 @@ imports = [
 
       USB_SERIAL = true;
       USB_SERIAL_PL2303 = true;
-
-      BTRFS_FS = true;
-      BTRFS_FS_POSIX_ACL = true;
-      FUSE_FS = true;
-      EXFAT_FS = true;
-
-      CRYPTO_ZSTD = true;
     };
   });
 

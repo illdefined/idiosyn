@@ -27,13 +27,8 @@
       MLX4_EN = true;
       MLX4_CORE_GEN2 = false;
 
-      BTRFS_FS = true;
-      BTRFS_FS_POSIX_ACL = true;
-
       CEPH_FS = true;
       CEPH_FS_POSIX_ACL = true;
-
-      CRYPTO_ZSTD = true;
     };
   });
 
