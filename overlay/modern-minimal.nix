@@ -3,7 +3,7 @@
 let
   inherit (final.stdenv) hostPlatform;
   inherit (nixpkgs.lib.attrsets) genAttrs mapAttrsToList;
-  inherit (nixpkgs.lib.lists) remove subtractLists toList;
+  inherit (nixpkgs.lib.lists) optionals remove subtractLists toList;
   inherit (nixpkgs.lib.strings) mesonBool mesonEnable;
   inherit (nixpkgs.lib.trivial) concat;
   inherit (self.lib) substituteFlags removePackages;
@@ -119,6 +119,19 @@ in {
   pipewire = prev.pipewire.overrideAttrs(prevAttrs: {
     mesonFlags = prevAttrs.mesonFlags or [ ] ++ [ (mesonEnable "selinux" false) ];
   });
+
+  qemu-user =
+    let
+      targets = suffix: map (arch: "${arch}-${suffix}") [
+        "aarch64"
+        "riscv64"
+        "x86_64"
+        "i386"
+      ];
+    in prev.qemu-user.override {
+      hostCpuTargets = optionals hostPlatform.isLinux (targets "linux-user")
+        ++ optionals hostPlatform.isBSD (targets "bsd-user");
+    };
 
   systemd = prev.systemd.override {
     withApparmor = false;
