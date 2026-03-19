@@ -78,7 +78,7 @@ imports = with self.nixosModules; [
   ];
 
   ephemeral.enable = true;
-  ephemeral.device = "UUID=f20b114d-c519-4ded-b7db-a4641f948e9e";
+  ephemeral.device = "UUID=f1fc21ca-780c-4460-bc88-6eac00ba4665";
   ephemeral.boot.device = "PARTUUID=d1dab2f8-46d6-46af-a265-f94347be8d4c";
   ephemeral.boot.fsType = "vfat";
   ephemeral.subvolumes."/home" = {
