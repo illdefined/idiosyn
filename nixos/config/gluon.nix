@@ -24,6 +24,8 @@ imports = with self.nixosModules; [
     };
   };
 
+  boot.initrd.systemd.tpm2.enable = false;
+
   boot.kernelPackages = let
     inherit (linux-hardened.packages.aarch64-linux) thinkpad-t14s-gen6-x1e;
   in pkgs.linuxPackagesFor (thinkpad-t14s-gen6-x1e.override {
@@ -205,6 +207,8 @@ imports = with self.nixosModules; [
     dumpcap.enable = true;
     usbmon.enable = true;
   };
+
+  security.tpm2.enable = false;
 
   services.beesd.filesystems.root = {
     spec = "UUID=67615b00-106f-42ba-aa3b-84874157b975";

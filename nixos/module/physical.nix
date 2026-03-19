@@ -14,6 +14,6 @@
     };
   };
 
-  security.tpm2.enable = true;
-  services.fwupd.enable = true;
+  security.tpm2.enable = lib.mkDefault true;
+  services.fwupd.enable = lib.mkDefault true;
 }
