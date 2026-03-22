@@ -27,7 +27,7 @@
       flake = false;
     };
 
-    linux-hardened.url = "git+https://woof.rip/mikael/linux-hardened.git?ref=e9e813099440f186c40cf84ff76fef5323d7ed7d";
+    linux-hardened.url = "git+https://woof.rip/mikael/linux-hardened.git?ref=417768aaeb83bc4355148826912d377d2f10d85e";
     firefox.url = "git+https://woof.rip/mikael/firefox.git";
 
     nix-index-database = {
