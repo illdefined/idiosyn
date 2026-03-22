@@ -50,6 +50,11 @@ imports = with self.nixosModules; [
     };
   });
 
+  boot.kernelParams = [
+    "clk_ignore_unused"
+    "pd_ignore_unused"
+  ];
+
   hardware.deviceTree = {
     enable = true;
     name = "qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb";
