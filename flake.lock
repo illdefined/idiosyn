@@ -226,15 +226,16 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1774028274,
-        "narHash": "sha256-++njXnftdQBvod2T3bE2WPCgQUw8OAdjr+krVqz3hH0=",
-        "ref": "refs/heads/main",
-        "rev": "f7f87ac69cfacd98aac5a3130ee5628feae8e142",
-        "revCount": 260,
+        "lastModified": 1773946501,
+        "narHash": "sha256-/aWcYUz1kyYWg1R+37bFvgufyrTG2CsaRAGK1GFuGYE=",
+        "ref": "e9e813099440f186c40cf84ff76fef5323d7ed7d",
+        "rev": "e9e813099440f186c40cf84ff76fef5323d7ed7d",
+        "revCount": 219,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
       "original": {
+        "ref": "e9e813099440f186c40cf84ff76fef5323d7ed7d",
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       }
@@ -433,11 +434,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1773628058,
-        "narHash": "sha256-YgVQzPaKa5eVf/rGA5Rn7BWJcP0T98JkE+2KuKVTyzA=",
-        "rev": "f8573b9c935cfaa162dd62cc9e75ae2db86f85df",
+        "lastModified": 1773597492,
+        "narHash": "sha256-hfwXTZODckRv5CdezNotB9NgF/6y7j2K0DRoPwMXpFQ=",
+        "rev": "a07d4ce6bee67d7c838a8a5796e75dff9caa21ef",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre963857.f8573b9c935c/nixexprs.tar.xz?lastModified=1773628058&rev=f8573b9c935cfaa162dd62cc9e75ae2db86f85df"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre963717.a07d4ce6bee6/nixexprs.tar.xz?lastModified=1773597492&rev=a07d4ce6bee67d7c838a8a5796e75dff9caa21ef"
       },
       "original": {
         "type": "tarball",
