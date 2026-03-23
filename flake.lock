@@ -226,11 +226,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1774028274,
-        "narHash": "sha256-++njXnftdQBvod2T3bE2WPCgQUw8OAdjr+krVqz3hH0=",
+        "lastModified": 1774284811,
+        "narHash": "sha256-SHY10Su6CfC0gSUwYtRK0TpPbTCmFg84ETV06RLTSho=",
         "ref": "refs/heads/main",
-        "rev": "f7f87ac69cfacd98aac5a3130ee5628feae8e142",
-        "revCount": 260,
+        "rev": "f49b6c0f419fdaf39cc76f7070fa9a812dcfa29c",
+        "revCount": 271,
         "type": "git",
         "url": "https://woof.rip/mikael/linux-hardened.git"
       },
@@ -433,11 +433,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1773628058,
-        "narHash": "sha256-YgVQzPaKa5eVf/rGA5Rn7BWJcP0T98JkE+2KuKVTyzA=",
-        "rev": "f8573b9c935cfaa162dd62cc9e75ae2db86f85df",
+        "lastModified": 1773840656,
+        "narHash": "sha256-SpvueJPdKD+U/Q2btT3e3rAYgbPQP6nbcYYfK3BJQDA=",
+        "rev": "9cf7092bdd603554bd8b63c216e8943cf9b12512",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre963857.f8573b9c935c/nixexprs.tar.xz?lastModified=1773628058&rev=f8573b9c935cfaa162dd62cc9e75ae2db86f85df"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre964972.9cf7092bdd60/nixexprs.tar.xz?lastModified=1773840656&rev=9cf7092bdd603554bd8b63c216e8943cf9b12512"
       },
       "original": {
         "type": "tarball",
