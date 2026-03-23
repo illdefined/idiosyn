@@ -107,12 +107,10 @@ in {
   nix = final.lixPackageSets.stable.lix;
 
   opensc = prev.opensc.overrideAttrs (prevAttrs: {
-    version = "0.26.1-unstable-2025-09-15";
+    version = "0.27.0-rc2";
 
-    src = final.fetchFromGitHub {
-      inherit (prevAttrs.src) owner repo;
-      rev = "92fe011a9cc5e03a1c9a2127d33b603e6d24907e";
-      hash = "sha256-VWbpRmt3XYXsHyXbv1NIW+sMzevxtOPKmyv6DRuatGo=";
+    src = prevAttrs.src.overrideAttrs {
+      hash = "sha256-xcfsrG38GdQt/2EbU6rnvQGq6qx/K1SoHhY3yN5AFEc=";
     };
   });
 
