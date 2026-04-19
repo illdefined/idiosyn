@@ -37,7 +37,7 @@
 
     # imports
     reorder_imports = true;
-    group_imports = "StdExternalCrate";
+    group_imports = "Preserve";
     imports_layout = "Mixed";
     imports_granularity = "Module";
 
