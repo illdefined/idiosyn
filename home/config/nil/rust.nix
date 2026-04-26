@@ -43,8 +43,6 @@
 
     # functions
     fn_params_layout = "Tall";
-    fn_single_line = true;
-    where_single_line = true;
     reorder_impl_items = true;
 
     # literals
