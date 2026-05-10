@@ -112,7 +112,7 @@
 
     SpaceBeforeParens = "Custom";
     SpaceBeforeParensOptions = {
-      AfterControlStatement = true;
+      AfterControlStatements = true;
       AfterFunctionDeclarationName = false;
       AfterFunctionDefinitionName = false;
       AfterNot = true;
@@ -135,7 +135,7 @@
       ExponentLetter = "Lower";
     };
 
-    IntegerLiteralSeparotor = {
+    IntegerLiteralSeparator = {
       Binary = 4;
       Decimal = 3;
       DecimalMinDigits = 5;
