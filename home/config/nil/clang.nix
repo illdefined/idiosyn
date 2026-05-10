@@ -6,11 +6,16 @@
     lld
   ];
 
-  home.file.".clang-format".source = (pkgs.formats.yaml { }).generate "clang-format.yaml" {
+  home.file.".clang-format".source = let
+    tab = 4;
+  in (pkgs.formats.yaml { }).generate "clang-format.yaml" {
     Standard = "Latest";
 
     # indentation
     UseTab = "AlignWithSpaces";
+    TabWidth = tab;
+    IndentWidth = tab;
+    AccessModifierOffset = -tab;
     NamespaceIndentation = "Inner";
     IndentExternBlock = "NoIndent";
 
