@@ -250,7 +250,7 @@ imports = [
 
   services.beesd.filesystems.root = {
     spec = "UUID=039aa386-a39d-4329-bcf0-48936b938db1";
-    hashTableSizeMB = 2048;
+    hashTableSizeMB = 4096;
     verbosity = "crit";
     extraOptions = [ "--throttle-factor" "1.0" ];
   };
