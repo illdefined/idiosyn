@@ -285,22 +285,22 @@ in {
   programs.ssh = {
     enable = true;
 
-    matchBlocks = {
+    settings = {
       "*" = {
-        compression = true;
+        Compression = true;
 
-        controlMaster = "auto";
-        controlPath = "\${XDG_RUNTIME_DIR}/ssh/%r@%n:%p";
-        controlPersist = "10m";
+        ControlMaster = "auto";
+        ControlPath = "\${XDG_RUNTIME_DIR}/ssh/%r@%n:%p";
+        ControlPersist = "10m";
 
-        serverAliveInterval = 10;
-        serverAliveCountMax = 60;
+        ServerAliveInterval = 10;
+        ServerAliveCountMax = 60;
       };
 
-      "*.nyantec.com".user = "mvs";
+      "*.nyantec.com".User = "mvs";
       "solitary.social" = {
-        user = "nil";
-        forwardAgent = true;
+        User = "nil";
+        ForwardAgent = true;
       };
     };
   };
