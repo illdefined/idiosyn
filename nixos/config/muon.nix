@@ -252,7 +252,10 @@ imports = [
     spec = "UUID=039aa386-a39d-4329-bcf0-48936b938db1";
     hashTableSizeMB = 4096;
     verbosity = "crit";
-    extraOptions = [ "--throttle-factor" "1.0" ];
+    extraOptions = [
+      "--thread-count" (builtins.length config.hardware.cpu.clusters.efficiency |> toString)
+      "--throttle-factor" "1.0"
+    ];
   };
 
   services.fprintd.enable = true;
