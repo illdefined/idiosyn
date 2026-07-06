@@ -201,8 +201,10 @@ in {
       group = true;
       battery = true;
       mem_as_value = true;
-      network_use_binary_prefix = true;
-      network_use_bytes = true;
+      network = {
+        use_binary_prefix = true;
+        use_bytes = true;
+      };
     };
   };
 
