@@ -151,7 +151,7 @@ in {
     settings = {
       user-agent = userAgent;
       load-cookies = lib.mkIf config.programs.firefox.enable
-        "${config.home.homeDirectory}/.mozilla/firefox/default/cookies.sqlite";
+        "${config.xdg.configHome}/mozilla/firefox/default/cookies.sqlite";
 
       max-concurrent-downloads = 4;
       max-connection-per-server = 2;
