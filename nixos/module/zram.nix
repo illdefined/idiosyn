@@ -40,8 +40,10 @@
 
           echo lzo-rle >"/sys/block/zram$dev/comp_algorithm"
           echo "algo=zstd priority=1" >"/sys/block/zram$dev/recomp_algorithm"
-          echo type=huge_idle >"/sys/block/zram$dev/recompress"
           echo "$((pages * pagesize * 3 / 2))" >"/sys/block/zram$dev/disksize"
+          echo "type=huge_idle priority=1" >"/sys/block/zram$dev/recompress"
+          echo all >"/sys/block/zram$dev/idle"
+          echo 3600 >"/sys/block/zram$dev/idle"
 
           mkswap "/dev/zram$dev"
         '';
