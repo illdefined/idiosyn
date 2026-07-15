@@ -223,9 +223,9 @@ in {
 
     extraOptions = [
       "--binary"
-      "--colour=auto"
-      "--colour-scale=all"
-      "--colour-scale-mode=gradient"
+      "--color=auto"
+      "--color-scale=all"
+      "--color-scale-mode=gradient"
       "--group-directories-first"
     ];
   };
