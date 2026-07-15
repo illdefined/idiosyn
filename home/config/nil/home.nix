@@ -223,7 +223,7 @@ in {
 
     extraOptions = [
       "--binary"
-      "--colour=automatic"
+      "--colour=auto"
       "--colour-scale=all"
       "--colour-scale-mode=gradient"
       "--group-directories-first"
