@@ -68,6 +68,7 @@ imports = [
       DRM_NOUVEAU_SVM = true;
 
       HID_LOGITECH = true;
+      HID_LOGITECH_DJ = true;
 
       USB_SERIAL = true;
       USB_SERIAL_PL2303 = true;
