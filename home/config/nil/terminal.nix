@@ -6,7 +6,7 @@ let
   mpv = lib.getExe config.programs.mpv.package;
   xdg-open = pkgs.xdg-utils + /bin/xdg-open;
 in lib.mkIf (osConfig.hardware.graphics.enable or false) {
-  programs.eza.extraOptions = lib.mkAfter [ "--hyperlink" ];
+  programs.eza.extraOptions = lib.mkAfter [ "--hyperlink=auto" ];
 
   programs.kitty = {
     enable = true;
