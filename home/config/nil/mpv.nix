@@ -55,10 +55,30 @@ in lib.mkIf (osConfig.hardware.graphics.enable or false) {
       mpris
       autocrop
       autodeint
+      mpv-sub-select
     ];
 
     scriptOpts = {
       autocrop.auto = false;
     };
   };
+
+  xdg.configFile."mpv/script-opts/sub-select.json".text = builtins.toJSON [
+    {
+      alang = [ "jpn" "ja" ];
+      slang = [ "eng" "deu" ];
+    }
+    {
+      alang = [ "fra?" ];
+      slang = [ "fra?" "eng?" "deu?" ];
+    }
+    {
+      alang = [ "eng?" "deu?" ];
+      slang = [ "forced" "*" ];
+    }
+    {
+      alang = "*";
+      slang = [ "eng?" "deu?" "fra?" "spa" "es" "por" "pt" "forced" "default" ];
+    }
+  ];
 }
