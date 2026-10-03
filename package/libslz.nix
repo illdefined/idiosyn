@@ -24,7 +24,6 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     homepage = "http://www.libslz.org/";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ mvs ];
     platforms = lib.platforms.all;
   };
 })
