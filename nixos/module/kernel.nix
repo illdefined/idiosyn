@@ -7,7 +7,6 @@ in {
     checkJournalingFS = lib.mkDefault false;
     includeDefaultModules = lib.mkDefault false;
     luks.cryptoModules = lib.mkDefault [ ];
-    verbose = lib.mkDefault false;
 
     compressor = lib.mkDefault "xz";
     compressorArgs = [
