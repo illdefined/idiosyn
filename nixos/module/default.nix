@@ -85,7 +85,7 @@
     overlay.mutable = lib.mkDefault config.services.avahi.enable;
   };
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
   users.mutableUsers = false;
 }
