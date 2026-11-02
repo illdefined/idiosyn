@@ -3,7 +3,7 @@
   stdenvNoCC,
   fetchFromGitHub,
   poppler-utils,
-  libreoffice-fresh,
+  libreoffice,
   nix-update-script
 }:
 
@@ -18,7 +18,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     hash = "sha256-rZas/oMNI6H5lXOixDQcL/dQC+J9VCFrOOIIjjLDUc4=";
   };
 
-  buildInputs = [ poppler-utils libreoffice-fresh ];
+  buildInputs = [ poppler-utils libreoffice ];
 
   buildCommand = ''
     mkdir -p "$out"
