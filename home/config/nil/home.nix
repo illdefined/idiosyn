@@ -41,7 +41,7 @@ in {
     ./retroarch.nix
   ];
 
-  home.stateVersion = "26.05";
+  home.stateVersion = "26.11";
   home.enableNixpkgsReleaseCheck = false;
 
   catppuccin = {
