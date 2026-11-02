@@ -311,36 +311,41 @@ in {
     inherit (lib.hm.nushell) mkNushellInline;
   in {
     enable = true;
+    loadSessionVariables = true;
 
     shellAliases = {
       cp = "xcp --workers 0 --driver parblock --fsync";
     };
 
     environmentVariables = {
-      PROMPT_COMMAND = mkNushellInline ''{
-        let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
-          null => $env.PWD
-          "" => '~'
-          $relative_pwd => ([~ $relative_pwd] | path join)
+      PROMPT_COMMAND = mkNushellInline ''
+        {
+          let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
+            null => $env.PWD
+            "" => '~'
+            $relative_pwd => ([~ $relative_pwd] | path join)
+          }
+
+          [
+            (if (is-admin) { ansi red_bold } else { ansi green_bold })
+            (sys host | get hostname)
+            (char space)
+            (ansi blue_bold)
+            ($dir | path split | last)
+            (ansi reset)
+            (char space)
+          ] | str join
         }
+      '';
 
-        [
-          (if (is-admin) { ansi red_bold } else { ansi green_bold })
-          (sys host | get hostname)
-          (char space)
-          (ansi blue_bold)
-          ($dir | path split | last)
-          (ansi reset)
-          (char space)
-        ] | str join
-      }'';
-
-      PROMPT_COMMAND_RIGHT = mkNushellInline ''{
-        [
-          (ansi light_red)
-          ($env.CMD_DURATION_MS | into int | into duration --unit ms)
-        ] | str join
-      }'';
+      PROMPT_COMMAND_RIGHT = mkNushellInline ''
+        {
+          [
+            (ansi light_red)
+            ($env.CMD_DURATION_MS | into int | into duration --unit ms)
+          ] | str join
+        }
+      '';
 
       PROMPT_INDICATOR = mkNushellInline ''{ "› " }'';
     };
@@ -374,27 +379,29 @@ in {
       ];
 
       hooks = {
-        command_not_found = mkNushellInline ''{
-          |cmd_name| (
-            try {
-              let pkgs = (
-                `${nix-locate}`
-                --db `${nix-index-database.packages.${hostPlatform.system}.nix-index-database}`
-                --type x --type s --no-group --whole-name --at-root --minimal
-                $"/bin/($cmd_name)"
-              )
+        command_not_found = mkNushellInline ''
+          {
+            |cmd_name| (
+              try {
+                let pkgs = (
+                  `${nix-locate}`
+                  --db `${nix-index-database.packages.${hostPlatform.system}.nix-index-database}`
+                  --type x --type s --no-group --whole-name --at-root --minimal
+                  $"/bin/($cmd_name)"
+                )
 
-              if ($pkgs | is-empty) {
-                null
-              } else {
-                $pkgs | split row "\n"
-                | each {|pkg| $"  nixpkgs#($pkg)\n"}
-                | prepend $"($cmd_name) is provided by:\n"
-                | append "\n" | str join
+                if ($pkgs | is-empty) {
+                  null
+                } else {
+                  $pkgs | split row "\n"
+                  | each {|pkg| $"  nixpkgs#($pkg)\n"}
+                  | prepend $"($cmd_name) is provided by:\n"
+                  | append "\n" | str join
+                }
               }
-            }
-          )
-        }'';
+            )
+          }
+        '';
       };
     };
 
@@ -411,13 +418,6 @@ in {
         ^nixpkgs-review $cmd --run $run --systems $systems ...$args
       }
 
-      def --wrapped "nix build" [
-        --log-format: string = "multiline-with-logs",
-        ...args: string
-      ] {
-        ^nix build --log-format $log_format ...$args
-      }
-
       # View package in nixpkgs
       def np [
         pkg: string  # package name
@@ -426,24 +426,6 @@ in {
       }
 
       tabs -4
-    '';
-
-    extraLogin = let
-      source = pkgs.writeText "env.sh"
-      (lib.optionals (osConfig ? system.build.setEnvironment) [
-        osConfig.system.build.setEnvironment
-      ] ++ [
-        (config.home.sessionVariablesPackage + /etc/profile.d/hm-session-vars.sh)
-      ] |> map (src: "source ${lib.escapeShellArg src}")
-        |> lib.concatLines);
-    in ''
-      ${lib.getExe pkgs.bash-env-json} ${lib.escapeShellArg source}
-        | from json
-        | get env
-        | transpose name value
-        | where name !~ '^__'
-        | transpose --header-row --as-record
-        | load-env
     '';
   };
 
