@@ -93,6 +93,9 @@ in {
     ];
   }).overrideAttrs (prevAttrs: {
     outputs = remove "spirv2dxil" prevAttrs.outputs;
+    preConfigure = prevAttrs.preConfigure or "" + ''
+      spirv2dxil="$TMPDIR"
+    '';
   });
 
   mpv-unwrapped = prev.mpv-unwrapped.override {
