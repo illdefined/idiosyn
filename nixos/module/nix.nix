@@ -41,7 +41,6 @@ in {
         "https://colmena.cachix.org"
         "https://catppuccin.cachix.org"
         "https://nix-community.cachix.org"
-        "https://nixpkgs-update-cache.nix-community.org"
       ];
 
       trusted-public-keys = [
@@ -49,7 +48,6 @@ in {
         "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
         "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "nixpkgs-update-cache.nix-community.org-1:U8d6wiQecHUPJFSqHN9GSSmNkmdiFW7GW7WNAnHW0SM="
       ];
 
       # If free storage space drops below 1 GiB, collect garbage until 4 GiB are free
